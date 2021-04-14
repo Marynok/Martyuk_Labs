@@ -38,9 +38,9 @@ namespace lab_1
             _priceChecks.SetNextStreetDiscount(destinations, percentageDiscounts);
 
             var fPrice = new decimal[len];
-            _priceChecks.FinalPrice(currencies, prices, fPrice, percentageDiscounts, staticDiscounts);
+            _priceChecks.SetFinalPrice(currencies, prices, fPrice, percentageDiscounts, staticDiscounts);
 
-            fullPrice = _priceChecks.FinalSumPrice(currencies, fPrice);
+            fullPrice = _priceChecks.GetFinalSumPrice(currencies, fPrice);
 
                 return fullPrice;
         }

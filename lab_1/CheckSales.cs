@@ -76,7 +76,7 @@ namespace lab_1
             }
         }
 
-        public void FinalPrice(IEnumerable<string> currencies, IEnumerable<decimal> prices, decimal[] fPrice,
+        public void SetFinalPrice(IEnumerable<string> currencies, IEnumerable<decimal> prices, decimal[] fPrice,
                                      decimal[] percentageDiscounts, decimal[] staticDiscounts)
         {
             for (int i = 0; i < fPrice.Length; i++)
@@ -92,7 +92,7 @@ namespace lab_1
 
         }
 
-        public decimal FinalSumPrice(IEnumerable<string> currencies,  decimal[] fPrice)
+        public decimal GetFinalSumPrice(IEnumerable<string> currencies,  decimal[] fPrice)
         {
             decimal summ = default;
             for (int i = 0; i < currencies.Count(); i++)

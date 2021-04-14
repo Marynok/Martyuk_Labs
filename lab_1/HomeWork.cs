@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Text;
 
 namespace lab_1
@@ -22,30 +23,24 @@ namespace lab_1
                                     IEnumerable<string> currencies)
         {
             decimal fullPrice = default;
+  
+            _priceChecks.CheckCount(destinations.Count(), clients.Count(), 
+                 prices.Count(), currencies.Count());
 
-            //start
-      
-             int len = _priceChecks.CheckCount(destinations.GetEnumerator(), clients.GetEnumerator(), 
-                 prices.GetEnumerator(), currencies.GetEnumerator());
+            var len = prices.Count();
 
+            var staticDiscounts = new decimal[len];
+            var percentageDiscounts = new decimal[len];
 
-            decimal[] staticSale = new decimal[len];
-            decimal[] perCentSale = new decimal[len];
+            _priceChecks.SetStreetDiscount(destinations, staticDiscounts);
+            _priceChecks.SetAgeDiscount(infantsIds, percentageDiscounts, CheckSales.AgeDiscounts.Infants);
+            _priceChecks.SetAgeDiscount(childrenIds, percentageDiscounts, CheckSales.AgeDiscounts.Children);
+            _priceChecks.SetNextStreetDiscount(destinations, percentageDiscounts);
 
-            _priceChecks.StreetChecks(destinations, staticSale);
-            _priceChecks.ChildrensChecks(infantsIds, perCentSale, CheckSales.PerCentSales.Infants);
-            _priceChecks.ChildrensChecks(childrenIds, perCentSale, CheckSales.PerCentSales.Children);
-            _priceChecks.NextStreetChecks(destinations, perCentSale);
+            var fPrice = new decimal[len];
+            _priceChecks.FinalPrice(currencies, prices, fPrice, percentageDiscounts, staticDiscounts);
 
-         
-            decimal[] fPrice = new decimal[len];
-            _priceChecks.finalPrice(currencies, prices, fPrice, perCentSale, staticSale);
-
-           
-
-            fullPrice = _priceChecks.finalSumPrice(currencies, fPrice, perCentSale, staticSale);
-
-                //
+            fullPrice = _priceChecks.FinalSumPrice(currencies, fPrice);
 
                 return fullPrice;
         }
@@ -56,7 +51,7 @@ namespace lab_1
             {
                 "949 Fairfield Court, Madison Heights, MI 48071",
                 "367 Wayne Street, Hendersonville, NC 28792",
-                "910 North Heather Street, Cocoa, FL RP 32927",
+                "910  Wayne Street North Heather Street, Cocoa, FL RP 32927",
                 "911 North Heather Street, Cocoa, FL  RP 32927",
                 "706 Tarkiln Hill Ave, Middleburg, F L R P 32068",
             };
@@ -79,8 +74,5 @@ namespace lab_1
             return GetFullPrice(destinations, clients, infantsIds, childrenIds, prices, currencies);
         }
        
-
-
-
     }
 }

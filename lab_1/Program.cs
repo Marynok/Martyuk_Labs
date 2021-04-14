@@ -10,13 +10,12 @@ namespace lab_1
             try
             {
                 var sum = homeWork.InvokePriceCalculatiion();
-                Console.WriteLine(Math.Round(sum,4));
+                Console.WriteLine(Math.Round(sum, 4));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            
         }
     }
 }

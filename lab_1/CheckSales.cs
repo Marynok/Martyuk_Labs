@@ -35,9 +35,9 @@ namespace lab_1
         {
             for(int i = 0;i< streets.Count(); i++)
             {
-                sales.Where(sale => streets.ElementAt(i).Contains(sale.Key))
-                     .Select(sale => sale.Value)
-                     .Sum();
+                staticDiscounts[i] += sales.Where(sale => streets.ElementAt(i).Contains(sale.Key))
+                                           .Select(sale => sale.Value)
+                                           .Sum();
             }
         }
         

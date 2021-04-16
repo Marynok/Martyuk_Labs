@@ -35,12 +35,9 @@ namespace lab_1
         {
             for(int i = 0;i< streets.Count(); i++)
             {
-                staticDiscounts[i] +=
-                    sales.Where(
-                        sale => streets.ElementAt(i).Contains(sale.Key)
-                        ).Select(
-                        sale => sale.Value)
-                        .Sum();
+                sales.Where(sale => streets.ElementAt(i).Contains(sale.Key))
+                     .Select(sale => sale.Value)
+                     .Sum();
             }
         }
         
@@ -55,54 +52,40 @@ namespace lab_1
         
         public void SetNextStreetDiscount(IEnumerable<string> streets, decimal[] percentageDiscounts)
         {
-            Regex symbol = new Regex(@"(\D*)");
-            Regex space = new Regex(@"(\S*)");
-            string lastStreet = default;
+            string lastStreet = String.Empty;
             string currentStr;
-            int i = 0;
-
-            foreach (var s in streets)
+  
+            foreach (var s in streets.Select((value, index) => new { value, index }))
             {
-                var str = s.Split(',');
-                var m = symbol.Matches(str[str.Length - 1]);
-                m = space.Matches(m[0].Value);
-                currentStr = String.Concat(m);
+                var str = s.value.Split(' ');
+                str[0] = String.Empty;
+                currentStr = String.Concat(str);
 
                 if (lastStreet == currentStr)
-                    percentageDiscounts[i] += saleForSimmilarStreet;
-
-                i++;
+                    percentageDiscounts[s.index] += saleForSimmilarStreet;
+ 
                 lastStreet = currentStr;
             }
         }
 
-        public void SetFinalPrice(IEnumerable<string> currencies, IEnumerable<decimal> prices, decimal[] fPrice,
+        public decimal SetFinalPrice(IEnumerable<string> currencies, IEnumerable<decimal> prices,
                                      decimal[] percentageDiscounts, decimal[] staticDiscounts)
         {
-            for (int i = 0; i < fPrice.Length; i++)
+            decimal summ = default;
+            for (int i = 0; i < prices.Count(); i++)
             {
+                decimal lastPrice = 0;
                 decimal p = prices.ElementAt(i);
                 if (currencies.ElementAt(i) != CurrencyExchangeConvertation.Value)
-                    fPrice[i] += p + CurrencyExchangeConvertation.FromUSD(currencies.ElementAt(i), staticDiscounts[i]);
-                else
-                    fPrice[i] += p + staticDiscounts[i];
+                    p = CurrencyExchangeConvertation.ToUSD(currencies.ElementAt(i), p);
 
-                fPrice[i] *= (100 - percentageDiscounts[i]) / 100;
-            }
-
-        }
-
-        public decimal GetFinalSumPrice(IEnumerable<string> currencies,  decimal[] fPrice)
-        {
-            decimal summ = default;
-            for (int i = 0; i < currencies.Count(); i++)
-            {
-                if (currencies.ElementAt(i) != CurrencyExchangeConvertation.Value)
-                    summ += CurrencyExchangeConvertation.ToUSD(currencies.ElementAt(i), fPrice[i]);
-                else
-                    summ += fPrice[i];
+                lastPrice += p + staticDiscounts[i];
+                lastPrice *= (100 - percentageDiscounts[i]) / 100;
+               
+                summ += lastPrice;
             }
             return summ;
+
         }
 
     }

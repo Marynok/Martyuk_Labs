@@ -37,10 +37,7 @@ namespace lab_1
             _priceChecks.SetAgeDiscount(childrenIds, percentageDiscounts, CheckSales.AgeDiscounts.Children);
             _priceChecks.SetNextStreetDiscount(destinations, percentageDiscounts);
 
-            var fPrice = new decimal[len];
-            _priceChecks.SetFinalPrice(currencies, prices, fPrice, percentageDiscounts, staticDiscounts);
-
-            fullPrice = _priceChecks.GetFinalSumPrice(currencies, fPrice);
+            fullPrice =  _priceChecks.SetFinalPrice(currencies, prices, percentageDiscounts, staticDiscounts);
 
                 return fullPrice;
         }
@@ -51,9 +48,9 @@ namespace lab_1
             {
                 "949 Fairfield Court, Madison Heights, MI 48071",
                 "367 Wayne Street, Hendersonville, NC 28792",
-                "910  Wayne Street North Heather Street, Cocoa, FL RP 32927",
-                "911 North Heather Street, Cocoa, FL  RP 32927",
-                "706 Tarkiln Hill Ave, Middleburg, F L R P 32068",
+                "910 North Heather Street, Cocoa, FLRP 32927",
+                "911 North Heather Street, Cocoa, FLRP 32927",
+                "706 Tarkiln Hill Ave, Middleburg, FLRP 32068",
             };
 
             var clients = new[]

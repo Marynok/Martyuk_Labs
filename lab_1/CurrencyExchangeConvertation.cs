@@ -4,7 +4,7 @@ using System.Text;
 
 namespace lab_1
 {
-    static class CurrencyExchangeConvertation
+    class CurrencyExchangeConvertation
     {
         static public string  Value  { get; private set;} = "USD";
         static Dictionary<String, decimal> exchangeRate = new Dictionary<String, decimal> { { "EUR", 1.19m } };

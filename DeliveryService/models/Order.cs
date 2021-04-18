@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DeliveryService.models.baseModel;
+using DeliveryService.Models.BaseModel;
 
-namespace DeliveryService.models
+namespace DeliveryService.Models
 {
     public class Order: Model
     {
-        public decimal Price { get; set; }
-        public int CountItems { get; set; }
+        public decimal TotalPrice { get; set; }
         public OrderStatus Status { get; set; }
         public DateTime Date { get; set; }
         public Client Client { get; set; }
-        public Address OrderAddress { get; set; }
-        public List<Food> Foods { get; set; }
+        public Address Address { get; set; }
+        public IList<OrderFoodData> Foods { get; set; }
     }
 }

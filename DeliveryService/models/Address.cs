@@ -1,15 +1,15 @@
-﻿using DeliveryService.models.baseModel;
+﻿using DeliveryService.Models.BaseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.models
+namespace DeliveryService.Models
 {
      public class Address: Model
     {
-        public Street StreetName { get; set; }
-        public HouseNumber HouseNumberName { get; set; }
+        public string StreetName { get; set; }
+        public string HouseNumberName { get; set; }
     }
 }

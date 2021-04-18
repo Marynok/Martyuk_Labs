@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.models.baseModel
+namespace DeliveryService.Models.BaseModel
 {
      public abstract class Model
      { 
         public int Id { get; private set; }
-
     }
 }
 

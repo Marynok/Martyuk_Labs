@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.models
+namespace DeliveryService.Models
 {
     public class Client: Person
     {
-        public List<Order> Orders { get; set; }
+        public IList<Order> Orders { get; set; }
     }
 }

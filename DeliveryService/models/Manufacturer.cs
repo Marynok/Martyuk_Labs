@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using DeliveryService.models.baseModel;
+using DeliveryService.Models.BaseModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.models
+namespace DeliveryService.Models
 {
-    public class Company: Model
+    public class Manufacturer : Model
     {
         public string Name { get; set; }
-        public Address CompanyAddress { get; set; }
+        public Address Address { get; set; }
         public string Description { get; set; }
-        public List<Food> Foods { get; set; }
+        public IList<Food> Foods { get; set; }
 
     }
 }

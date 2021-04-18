@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DeliveryService.models.baseModel;
+using DeliveryService.Models.BaseModel;
 
-namespace DeliveryService.models
+namespace DeliveryService.Models
 {
      public class Person: Model
     {

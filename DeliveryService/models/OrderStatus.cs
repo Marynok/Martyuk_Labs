@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.models
+namespace DeliveryService.Models
 {
     public enum OrderStatus
     {

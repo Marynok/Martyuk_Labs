@@ -9,6 +9,10 @@ namespace DeliveryService.Models.BaseModel
      public abstract class Model
      { 
         public int Id { get; private set; }
+        public Model(int id)
+        {
+            Id = id;
+        }
     }
 }
 

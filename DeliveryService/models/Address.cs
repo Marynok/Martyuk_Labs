@@ -11,5 +11,10 @@ namespace DeliveryService.Models
     {
         public string StreetName { get; set; }
         public string HouseNumberName { get; set; }
+        public Address(int id, string streetName, string houseNumber) : base(id)
+        {
+            StreetName = streetName;
+            HouseNumberName = houseNumber;
+        }
     }
 }

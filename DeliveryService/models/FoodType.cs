@@ -9,6 +9,10 @@ namespace DeliveryService.Models
 {
     public class FoodType:Model
     {
-      public string Name { get; set; }
+        public string Name { get; set; }
+        public FoodType(int id, string name) : base(id)
+        {
+            Name = name;
+        }
     }
 }

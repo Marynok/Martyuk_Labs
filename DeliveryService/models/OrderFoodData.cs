@@ -11,6 +11,12 @@ namespace DeliveryService.Models
     {
         public decimal TotalPrice { get; set; }
         public int Count { get; set; }
-        public Food Foods { get; set; }
+        public Food Food { get; set; }
+        public OrderFoodData(int count, Food food)
+        {
+            Count = count;
+            Food = food;
+            TotalPrice = food.Price;
+        }
     }
 }

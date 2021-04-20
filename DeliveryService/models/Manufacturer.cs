@@ -13,6 +13,13 @@ namespace DeliveryService.Models
         public Address Address { get; set; }
         public string Description { get; set; }
         public IList<Food> Foods { get; set; }
+        public Manufacturer(int id, string name, Address address, string description) : base(id)
+        {
+            Name = name;
+            Address = address;
+            Description = description;
+            Foods = new List<Food>();
+        }
 
     }
 }

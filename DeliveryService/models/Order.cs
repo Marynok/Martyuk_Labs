@@ -15,5 +15,12 @@ namespace DeliveryService.Models
         public Client Client { get; set; }
         public Address Address { get; set; }
         public IList<OrderFoodData> Foods { get; set; }
+        public Order(int id, Address address) : base(id)
+        {
+            Address = address;
+            Date = DateTime.Now;
+            Foods = new List<OrderFoodData>();
+        }
+
     }
 }

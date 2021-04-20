@@ -10,5 +10,9 @@ namespace DeliveryService.Models
     {
         public Order CurrentOrder { get; set; }
         public IList<Order> Orders { get; set; }
+        public DeliveryMan(int id, string firstName, string lastName, int phoneNumber) : base(id, firstName, lastName, phoneNumber)
+        {
+            Orders = new List<Order>();
+        }
     }
 }

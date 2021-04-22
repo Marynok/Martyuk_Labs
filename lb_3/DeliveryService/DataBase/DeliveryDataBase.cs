@@ -10,7 +10,7 @@ namespace DeliveryService.DataBase
 {
     public class DeliveryDataBase
     {
-        public IList<Manufacturer> Manufacturers {get; private set; }
+        public IList<Manufacturer> Manufacturers { get ; private set ; }
         public IList<Client> Clients { get; private set; }
         public IList<Food> Foods { get; private set; }
         public IList<Order> Orders { get; private set; }
@@ -25,26 +25,21 @@ namespace DeliveryService.DataBase
             FoodTypes = new List<FoodType>();
             Orders = new List<Order>();
         }
-
         public Manufacturer SearchManufacturer(string name)
         {
-            var manufacturer = Manufacturers.Where(m => m.Name == name);
-            return (manufacturer.Count() == 0 ? null : manufacturer.First());
+            return Manufacturers.FirstOrDefault(m => m.Name == name);
         }
         public Client SearchClient(int phone)
         {
-            var clients = Clients.Where(c => c.PhoneNumber == phone);
-            return (clients.Count() == 0 ? null : clients.First());
+            return Clients.FirstOrDefault(c => c.PhoneNumber == phone);
         }
         public Address SearcAddress(string street, string houseNumber)
         {
-            var address = Addresses.Where(a => a.StreetName == street && a.HouseNumberName == houseNumber);
-            return (address.Count() == 0 ? null : address.First());
+            return Addresses.FirstOrDefault(a => a.StreetName == street && a.HouseNumberName == houseNumber);
         }
         public FoodType SearcFoodType(string name)
         {
-            var type = FoodTypes.Where(a => a.Name == name);
-            return (type.Count() == 0 ? null : type.First());
+            return FoodTypes.FirstOrDefault(f => f.Name == name);
         }
         public Manufacturer SearchManufacturerById(int id)
         {
@@ -52,8 +47,7 @@ namespace DeliveryService.DataBase
         }
         public Model SearchModelById(Model[] models, int id)
         {
-            var model = models.Where(f => f.Id == id);
-            return (model.Count() == 0 ? null : model.First());
+            return models.FirstOrDefault(m => m.Id == id);
         }
 
         public Address CreateAddress(string street, string houseNumber)
@@ -119,9 +113,6 @@ namespace DeliveryService.DataBase
                 return 1;
             else
                 return list.Last().Id + 1;
-        }
-
-
-        
+        } 
     }
 }

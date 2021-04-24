@@ -1,4 +1,5 @@
 ﻿using DeliveryService.DataBase;
+using DeliveryService.DataController;
 using DeliveryService.Models;
 using DeliveryService.UserInterface;
 using System;
@@ -11,18 +12,13 @@ namespace DeliveryService
         {
             var mainMenu = new MainMenu();
             var deliveryDataBase = new DeliveryDataBase();
+            deliveryDataBase.InitializeData();
+            var dbController = new DataBaseController(deliveryDataBase);
 
-            deliveryDataBase.CreateClient("Alla", "Dernova", 503252114);
-            deliveryDataBase.CreateManufacturer("MacMod", "Hopkin 34", "234A", "We are cool");
+            dbController.CreateClient("Alla", "Dernova", 503252114);
+            dbController.CreateManufacturer("MacMod", "Hopkin 34", "234A", "We are cool");
 
-            try
-            {
-                mainMenu.Start(deliveryDataBase);
-            } 
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-}
+            mainMenu.Start(dbController);
+        }
     }
 }

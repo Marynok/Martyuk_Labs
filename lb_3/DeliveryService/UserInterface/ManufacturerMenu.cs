@@ -1,4 +1,6 @@
-﻿using DeliveryService.DataBase;
+﻿using DeliveryService.Abstracts;
+using DeliveryService.DataBase;
+using DeliveryService.DataController;
 using DeliveryService.Models;
 using DeliveryService.UserInterface.Check;
 using System;
@@ -13,9 +15,9 @@ namespace DeliveryService.UserInterface
     {
         readonly string[] cabinetMenuItems = new string[] { "Show products", "Create new product", "Exit" };
         private Manufacturer _manufacturer;
-        public ManufacturerMenu(MainMenu mainMenu, DeliveryDataBase deliveryDataBase) : base(mainMenu, deliveryDataBase) 
+        public ManufacturerMenu(MainMenu mainMenu, DataBaseController dataBaseController) : base(mainMenu, dataBaseController) 
         {
-            _manufacturer = deliveryDataBase.SearchManufacturer("MacMod");
+            _manufacturer = dataBaseController.SearchManufacturer("MacMod");
         }
         public override void SignIn()
         { }
@@ -60,7 +62,7 @@ namespace DeliveryService.UserInterface
 
             if (BaseConsoleFunction.CheckAreae("Want to confirm your actions? y/n", "y"))
             {
-                var food = base.DeliveryDataBase.CreateFood(name, price, weight, type, _manufacturer);
+                var food = base.DataBaseController.CreateFood(name, price, weight, type, _manufacturer);
                 Console.WriteLine($"{food} was created!");
                 Console.ReadLine();
             }

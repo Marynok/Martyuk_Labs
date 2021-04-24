@@ -1,4 +1,6 @@
-﻿using DeliveryService.DataBase;
+﻿using DeliveryService.Abstracts;
+using DeliveryService.DataBase;
+using DeliveryService.DataController;
 using DeliveryService.UserInterface.Check;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,7 @@ namespace DeliveryService.UserInterface
     {
         private string[] menuItems = new string[] { "I am manufacturer", "I am client" };
         private ServiceMenu _serviceMenu;
-        public void Start(DeliveryDataBase deliveryDataBase)
+        public void Start(DataBaseController dataBaseController)
         {
             _serviceMenu = null;
             Console.WriteLine("Press Number");
@@ -22,8 +24,8 @@ namespace DeliveryService.UserInterface
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());
                 _serviceMenu = checkItem switch
                 {
-                    1 => new ManufacturerMenu(this, deliveryDataBase),
-                    2 => new ClientMenu(this, deliveryDataBase),
+                    1 => new ManufacturerMenu(this, dataBaseController),
+                    2 => new ClientMenu(this, dataBaseController),
                     _ => null
                 };
                 if (_serviceMenu is null)

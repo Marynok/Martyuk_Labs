@@ -1,4 +1,6 @@
-﻿using DeliveryService.DataBase;
+﻿using DeliveryService.Abstracts;
+using DeliveryService.DataBase;
+using DeliveryService.DataController;
 using DeliveryService.Models;
 using DeliveryService.UserInterface.Check;
 using System;
@@ -13,12 +15,10 @@ namespace DeliveryService.UserInterface
     {
         readonly string[] cabinetMenuItems = new string[] { "Show orders", "Create new order", "Exit" };
         readonly string[] orderMenuItems = new string[] { "Add product", "Create order", "Exit" };
-        private IList<OrderFoodData> orderFoodDatas { get; set; }
         private Client _client;
-        public ClientMenu(MainMenu mainMenu, DeliveryDataBase deliveryDataBase) : base(mainMenu, deliveryDataBase)
+        public ClientMenu(MainMenu mainMenu, DataBaseController dataBaseController) : base(mainMenu, dataBaseController)
         {
-            _client = deliveryDataBase.SearchClient(503252114); 
-            orderFoodDatas = new List<OrderFoodData>();
+            _client = dataBaseController.SearchClient(503252114); 
         }
         public override void PersonalArea()
         {
@@ -87,15 +87,16 @@ namespace DeliveryService.UserInterface
         }
         private void CreateOrder()
         {
-            if (orderFoodDatas.Count != 0)
+            var items = DataBaseController.GetBasketItems(_client);
+            if (items.Count != 0)
             {
-                BaseConsoleFunction.WithdrawList(orderFoodDatas.ToArray());
+                BaseConsoleFunction.WithdrawList(items.ToArray());
                 if (BaseConsoleFunction.CheckAreae("Want to issue a order ? y/n", "y"))
                 {
                     var street = BaseConsoleFunction.GetProperty("Enter street");
                     var houseNumber = BaseConsoleFunction.GetProperty("Enter house number");
-                    base.DeliveryDataBase.CreateOrder(street, houseNumber, _client, orderFoodDatas);
-                    orderFoodDatas.Clear();
+                    base.DataBaseController.CreateOrder(street, houseNumber, _client, items);
+                    DataBaseController.ClearBasket(_client);
                     Console.WriteLine("Order was created!");
                     Console.ReadLine();
                 }
@@ -112,16 +113,16 @@ namespace DeliveryService.UserInterface
         }
         public void ShowMenu(int manufacturerId)
         {
-            var foods  = (base.DeliveryDataBase.SearchManufacturerById(manufacturerId).Foods).ToArray();
+            var foods  = (base.DataBaseController.SearchManufacturerById(manufacturerId).Foods).ToArray();
             if (foods.Length != 0)
-                BaseConsoleFunction.WithdrawList((base.DeliveryDataBase.SearchManufacturerById(manufacturerId).Foods).ToArray());
+                BaseConsoleFunction.WithdrawList((base.DataBaseController.SearchManufacturerById(manufacturerId).Foods).ToArray());
             else
                 Console.WriteLine("This manufacturer have not foods yet");
         }
 
         public int SelectManufacturer()
         {
-            BaseConsoleFunction.WithdrawList(base.DeliveryDataBase.Manufacturers.ToArray());
+            BaseConsoleFunction.WithdrawList(base.DataBaseController.GetManufacturers().ToArray());
             Console.WriteLine("Select number of manufacturer");
             return Convert.ToInt32(Console.ReadLine());
         }
@@ -130,12 +131,12 @@ namespace DeliveryService.UserInterface
         {
             var id = Checker.GetPropertyInt(BaseConsoleFunction.GetProperty("Enter product number"));
             var count = Checker.GetPropertyInt(BaseConsoleFunction.GetProperty("Enter count"));
-            var itemFood = base.DeliveryDataBase.CreateFoodItem(id, count);
+            var itemFood = base.DataBaseController.CreateFoodItem(id, count);
             if (itemFood is null)
                 BaseConsoleFunction.GetProperty("This product does not exist");
 
             else {
-                orderFoodDatas.Add(itemFood);
+                DataBaseController.AddToBasket(_client, itemFood);
                 BaseConsoleFunction.GetProperty($"{itemFood} was add to basket");
             }
                 

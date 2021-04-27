@@ -3,31 +3,32 @@ using DeliveryService.Models;
 
 namespace DeliveryService.Controllers
 {
-    public class ClientController
+    public class ClientController: IClientController
     {
-        public Client Client;
-        public readonly IDatabaseController<Client> Clients;
-        public readonly IDatabaseController<Order> Orders;
+        private Client _client;
+        public Client Client { get => _client; }
+        private readonly IDatabaseController<Client> _clients;
+        private readonly IDatabaseController<Order> _orders;
         public ClientController(IDatabaseController<Client> clients, IDatabaseController<Order> orders)
         {
-            Clients = clients;
-            Orders = orders;
+            _clients = clients;
+            _orders = orders;
         }
         public Client CreateClient(string name, string lastName, string phoneNumber)
         {
-            Client = Clients.Search(c => c.PhoneNumber == phoneNumber);
-            if (Client is null)
+            _client = _clients.Search(c => c.PhoneNumber == phoneNumber);
+            if (_client is null)
             {
-                Client = new Client(name, lastName, phoneNumber);
-                Clients.AddModel(Client);
+                _client = new Client(name, lastName, phoneNumber);
+                _clients.AddModel(Client);
             }
             else
-                Client = null;
+                _client = null;
             return Client;
         }
         public Client SearchClient(string phoneNumber)
         {
-            Client = Clients.Search(c => c.PhoneNumber == phoneNumber);
+            _client = _clients.Search(c => c.PhoneNumber == phoneNumber);
             return Client;
         }
         public bool CreateOrder(Address address, Basket basket)
@@ -37,8 +38,8 @@ namespace DeliveryService.Controllers
                 var order = new Order(address);
                 foreach (var i in basket.SelectedItems)
                     order.Foods.Add(i);
-                Orders.AddModel(order);
-                Client.Orders.Add(order);
+                _orders.AddModel(order);
+                _client.Orders.Add(order);
                 return true;
             }
             else

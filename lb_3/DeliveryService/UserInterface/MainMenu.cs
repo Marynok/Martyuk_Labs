@@ -9,13 +9,13 @@ namespace DeliveryService.UserInterface
     {
         private readonly string[] _menuItems = new string[] { "I am manufacturer", "I am client" };
         private IMenu _serviceMenu;
-        private ManufacturerController _manufacturerController;
-        private ClientController _clientController;
-        private AddressController _addressController;
-        private FoodController _foodontroller;
-        private BasketController _basketController;
-        public MainMenu(ManufacturerController manufacturerController, ClientController clientController, AddressController addressController,
-           FoodController foodontroller, BasketController basketController )
+        private IManufacturerController _manufacturerController;
+        private IClientController _clientController;
+        private IAddressController _addressController;
+        private IFoodController _foodontroller;
+        private IBasketController _basketController;
+        public MainMenu(IManufacturerController manufacturerController, IClientController clientController, IAddressController addressController,
+           IFoodController foodontroller, IBasketController basketController )
         {
             _clientController = clientController;
             _manufacturerController = manufacturerController;

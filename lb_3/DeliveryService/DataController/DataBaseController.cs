@@ -9,38 +9,39 @@ namespace DeliveryService.DataController
     public class DatabaseController<TModel> : IDatabaseController<TModel>
         where TModel : Model
     {
-        private IDataBase _database;
-        private IList<TModel> _models;
+        private readonly IDataBase _database;
         public DatabaseController(IDataBase database)
         {
             _database = database;
-            _models = (IList<TModel>)_database.Database[typeof(TModel)];
         }
 
         public void AddModel(TModel model)
         {
+            var models = (IList<TModel>)_database.Database[typeof(TModel)];
             if (model != null)
             {
                 model.Id = GetId();
-                _models.Add(model);
+                models.Add(model);
             }
         }
 
         public TModel Search(Func<TModel, bool> func)
         {
-            return _models.SingleOrDefault(func);
+            var models = (IList<TModel>)_database.Database[typeof(TModel)];
+            return models.SingleOrDefault(func);
         }
         
         public IEnumerable<TModel> GetAll()
         {
-            return _models;
+            return (IList<TModel>)_database.Database[typeof(TModel)];
         }
         private int GetId()
         {
-            if (_models.Count == 0)
+            var models = (IList<TModel>)_database.Database[typeof(TModel)];
+            if (models.Count == 0)
                 return 1;
             else
-                return _models.Last().Id + 1;
+                return models.Last().Id + 1;
         }
     }
 }

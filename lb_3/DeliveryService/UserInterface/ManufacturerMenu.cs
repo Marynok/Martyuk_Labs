@@ -10,16 +10,15 @@ namespace DeliveryService.UserInterface
     public class ManufacturerMenu : ServiceMenu
     {
         private readonly string[] _cabinetMenuItems = new string[] { "Show products", "Create new product", "Exit" };
-        private FoodController _foodController;
-        public ManufacturerMenu(IMenu mainMenu, ManufacturerController manufacturerController,
-            FoodController foodController, AddressController addressController) : base(mainMenu, addressController, manufacturerController)
+        private IFoodController _foodController;
+        public ManufacturerMenu(IMenu mainMenu, IManufacturerController manufacturerController,
+            IFoodController foodController, IAddressController addressController) : base(mainMenu, addressController, manufacturerController)
         {
-            _manufacturerController = manufacturerController;
             _foodController = foodController;
         }
         public override void SignIn()
         {
-            _manufacturerController.SearchManufacturer("MacMod");
+            ManufacturerController.SearchManufacturer("MacMod");
             PersonalArea();
         }
         public override void Registrate()
@@ -30,7 +29,7 @@ namespace DeliveryService.UserInterface
             while (checkMenu)
             {
                 Console.Clear();
-                Console.WriteLine(_manufacturerController.Manufacturer.Name);
+                Console.WriteLine(ManufacturerController.Manufacturer.Name);
 
                 BaseConsoleFunction.WithdrawList(_cabinetMenuItems);
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());
@@ -64,7 +63,7 @@ namespace DeliveryService.UserInterface
             if (BaseConsoleFunction.CheckArea("Want to confirm your actions? y/n", "y"))
             {
                 var food = _foodController.CreateFood(name, price, weight, type);
-                _manufacturerController.AddFood(food);
+                ManufacturerController.AddFood(food);
                 Console.WriteLine($"{food} was created!");
                 Console.ReadLine();
             }
@@ -72,7 +71,7 @@ namespace DeliveryService.UserInterface
         public void ShowProducts()
         {
             Console.Clear();
-            BaseConsoleFunction.WithdrawList(_manufacturerController.Manufacturer.Foods.ToArray());
+            BaseConsoleFunction.WithdrawList(ManufacturerController.Manufacturer.Foods.ToArray());
             Console.ReadLine();
         }
     }

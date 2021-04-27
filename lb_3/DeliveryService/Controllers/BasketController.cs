@@ -4,45 +4,46 @@ using System.Collections.Generic;
 
 namespace DeliveryService.Controllers
 {
-    public class BasketController
+    public class BasketController: IBasketController
     {
-        public Basket Basket;
-        public readonly IDatabaseController<Basket> Baskets;
-        public readonly IDatabaseController<Food> Food;
+        private Basket _basket;
+        public Basket Basket { get => _basket; }
+        private readonly IDatabaseController<Basket> _baskets;
+        private readonly IDatabaseController<Food> _food;
         public BasketController(IDatabaseController<Basket> baskets, IDatabaseController<Food> food)
         {
-            Baskets = baskets;
-            Food = food;
+            _baskets = baskets;
+            _food = food;
         }
         public void SetBasket(Client client)
         {
-            Basket = Baskets.Search(b => b.Client == client);
-            if (Basket is null)
+            _basket = _baskets.Search(b => b.Client == client);
+            if (_basket is null)
                 CreateBasket(client);
         }
         public IEnumerable<OrderFoodData> GetBasketItems()
         {
-            return Basket.SelectedItems;
+            return _basket.SelectedItems;
         }
-        private void CreateBasket(Client client)
+        public void CreateBasket(Client client)
         {
-            Basket = new Basket(client);
-            Baskets.AddModel(Basket);
+            _basket = new Basket(client);
+            _baskets.AddModel(Basket);
         }
         public void ClearBasket()
         {
             if (Basket != null)
-                Basket.SelectedItems.Clear();
+                _basket.SelectedItems.Clear();
         }
         public OrderFoodData AddToBasket(int id, int count)
         {
-            var food = Food.Search(f => f.Id == id);
+            var food = _food.Search(f => f.Id == id);
             if (food is null)
                 return null;
             else
             {
                 var foodData = new OrderFoodData(count, food);
-                Basket.SelectedItems.Add(foodData);
+                _basket.SelectedItems.Add(foodData);
                 return foodData;
             }
         }

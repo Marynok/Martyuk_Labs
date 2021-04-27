@@ -3,19 +3,19 @@ using DeliveryService.Models;
 
 namespace DeliveryService.Controllers
 {
-    public class FoodController
+    public class FoodController: IFoodController
     {
-        public readonly IDatabaseController<Food> Food;
-        public readonly IDatabaseController<FoodType> FoodTypes;
+        private readonly IDatabaseController<Food> _food;
+        private readonly IDatabaseController<FoodType> _foodTypes;
         public FoodController(IDatabaseController<Food> food, IDatabaseController<FoodType> foodTypes)
         {
-            Food = food;
-            FoodTypes = foodTypes;
+            _food = food;
+            _foodTypes = foodTypes;
         }
 
         public FoodType SearchFoodType(string name)
         {
-            return FoodTypes.Search(f => f.Name == name);
+            return _foodTypes.Search(f => f.Name == name);
         }
         public FoodType CreateFoodType(string name)
         {
@@ -23,7 +23,7 @@ namespace DeliveryService.Controllers
             if (foodType is null)
             {
                 foodType = new FoodType(name);
-                FoodTypes.AddModel(foodType);
+                _foodTypes.AddModel(foodType);
             }
             return foodType;
         }
@@ -31,7 +31,7 @@ namespace DeliveryService.Controllers
         {
             var foodType = CreateFoodType(type);
             var food = new Food(name, price, weight, foodType);
-            Food.AddModel(food);
+            _food.AddModel(food);
             return food;
         }
     }

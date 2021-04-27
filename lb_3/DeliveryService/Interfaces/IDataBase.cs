@@ -6,7 +6,7 @@ namespace DeliveryService.Interfaces
 {
     public interface  IDataBase
     {
-        public Dictionary<Type, IList> Database { get; set; }
+        Dictionary<Type, IList> Database { get; set; }
         void InitializeData();
     }
 }

@@ -3,16 +3,16 @@ using DeliveryService.Models;
 
 namespace DeliveryService.Controllers
 {
-    public class AddressController
+    public class AddressController: IAddressController
     {
-        public readonly IDatabaseController<Address> Addresses;
+        private readonly IDatabaseController<Address> _addresses;
         public AddressController(IDatabaseController<Address> addresses)
         {
-            Addresses = addresses;
+            _addresses = addresses;
         }
         public Address SearchAddress(string street, string houseNumber)
         {
-            return Addresses.Search(a => a.StreetName == street && a.HouseNumberName == houseNumber);
+            return _addresses.Search(a => a.StreetName == street && a.HouseNumberName == houseNumber);
         }
 
         public Address CreateAddress(string street, string houseNumber)
@@ -21,7 +21,7 @@ namespace DeliveryService.Controllers
             if (address is null)
             {
                 address = new Address(street, houseNumber);
-                Addresses.AddModel(address);
+                _addresses.AddModel(address);
             }
             return address;
         }

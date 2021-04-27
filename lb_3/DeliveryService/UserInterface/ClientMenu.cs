@@ -11,10 +11,10 @@ namespace DeliveryService.UserInterface
     {
         private readonly string[] _cabinetMenuItems = new string[] { "Show orders", "Create new order", "Exit" };
         private readonly string[] _orderMenuItems = new string[] { "Add product", "Create order", "Exit" };
-        private ClientController _clientController;
-        private BasketController _basketController;
-        public ClientMenu(IMenu mainMenu, ClientController clientController, BasketController basketController,
-            AddressController addressController, ManufacturerController manufacturerController) 
+        private IClientController _clientController;
+        private IBasketController _basketController;
+        public ClientMenu(IMenu mainMenu, IClientController clientController, IBasketController basketController,
+            IAddressController addressController, IManufacturerController manufacturerController) 
             : base(mainMenu, addressController, manufacturerController)
         {
             _clientController = clientController;
@@ -99,7 +99,7 @@ namespace DeliveryService.UserInterface
                 {
                     var street = BaseConsoleFunction.GetProperty("Enter street");
                     var houseNumber = BaseConsoleFunction.GetProperty("Enter house number");
-                    var address =_addressController.CreateAddress(street, houseNumber);
+                    var address =AddressController.CreateAddress(street, houseNumber);
                     _clientController.CreateOrder(address,_basketController.Basket);
                     _basketController.ClearBasket();
                     Console.WriteLine("Order was created!");
@@ -118,7 +118,7 @@ namespace DeliveryService.UserInterface
         }
         public void ShowMenu()
         {
-            var foods  = (_manufacturerController.GetFoods());
+            var foods  = (ManufacturerController.GetFoods());
             if (foods.Any())
                 BaseConsoleFunction.WithdrawList(foods.ToArray());
             else
@@ -127,12 +127,12 @@ namespace DeliveryService.UserInterface
 
         public void SelectManufacturer()
         {
-            BaseConsoleFunction.WithdrawList(_manufacturerController.Manufacturers.GetAll().ToArray());
+            BaseConsoleFunction.WithdrawList(ManufacturerController.GetAll().ToArray());
             Console.WriteLine("Select number of manufacturer");
             while (true)
             {
                 var id = Checker.GetPropertyInt(Console.ReadLine());
-                if (_manufacturerController.SearchManufacturer(id) != null)
+                if (ManufacturerController.SearchManufacturer(id) != null)
                     break;
                 else
                     Console.WriteLine($"{id} manufacturer does not exist");

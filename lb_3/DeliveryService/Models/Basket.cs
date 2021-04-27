@@ -1,9 +1,5 @@
 ﻿using DeliveryService.Models.BaseModel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeliveryService.Models
 {
@@ -11,18 +7,15 @@ namespace DeliveryService.Models
     {
         public Client Client { get; set; }
         public IList<OrderFoodData> SelectedItems { get; set; }
-        public Basket(int id, Client client) : base(id)
+        public Basket(Client client) 
         {
             Client = client;
             SelectedItems = new List<OrderFoodData>();
         }
-        public void AddItem(OrderFoodData orderFoodData)
+        public Basket(int id, Client client) : base(id)
         {
-            SelectedItems.Add(orderFoodData);
-        }
-        public void ClearItems()
-        {
-            SelectedItems.Clear();
+            Client = client;
+            SelectedItems = new List<OrderFoodData>();
         }
         public override string ToString()
         {

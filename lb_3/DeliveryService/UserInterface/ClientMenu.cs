@@ -1,24 +1,24 @@
 ﻿using DeliveryService.Abstracts;
-using DeliveryService.DataBase;
-using DeliveryService.DataController;
-using DeliveryService.Models;
+using DeliveryService.Controllers;
+using DeliveryService.Interfaces;
 using DeliveryService.UserInterface.Check;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeliveryService.UserInterface
 {
     public class ClientMenu : ServiceMenu
     {
-        readonly string[] cabinetMenuItems = new string[] { "Show orders", "Create new order", "Exit" };
-        readonly string[] orderMenuItems = new string[] { "Add product", "Create order", "Exit" };
-        private Client _client;
-        public ClientMenu(MainMenu mainMenu, DataBaseController dataBaseController) : base(mainMenu, dataBaseController)
+        private readonly string[] _cabinetMenuItems = new string[] { "Show orders", "Create new order", "Exit" };
+        private readonly string[] _orderMenuItems = new string[] { "Add product", "Create order", "Exit" };
+        private ClientController _clientController;
+        private BasketController _basketController;
+        public ClientMenu(IMenu mainMenu, ClientController clientController, BasketController basketController,
+            AddressController addressController, ManufacturerController manufacturerController) 
+            : base(mainMenu, addressController, manufacturerController)
         {
-            _client = dataBaseController.SearchClient(503252114); 
+            _clientController = clientController;
+            _basketController = basketController;
         }
         public override void PersonalArea()
         {
@@ -26,9 +26,9 @@ namespace DeliveryService.UserInterface
             while (checkMenu)
             {
                 Console.Clear();
-                Console.WriteLine($"{_client.FirstName} {_client.LastName}");
+                Console.WriteLine($"{_clientController.Client.FirstName} {_clientController.Client.LastName}");
 
-                BaseConsoleFunction.WithdrawList(cabinetMenuItems);
+                BaseConsoleFunction.WithdrawList(_cabinetMenuItems);
 
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());
                 switch (checkItem)
@@ -50,28 +50,32 @@ namespace DeliveryService.UserInterface
             }
             Exit();
         }
-        public override void Registr()
+        public override void Registrate()
         {}
         public override void SignIn()
-        {}
+        {
+            _clientController.SearchClient("099502352114");
+            _basketController.SetBasket(_clientController.Client);
+            PersonalArea();
+        }
         public void CreateNewOrder()
         {
             Console.Clear();
-            var manufacturerId = SelectManufacturer();
+             SelectManufacturer();
 
             var continueCheck = true;
             while (continueCheck)
             {
                 Console.Clear();
-                BaseConsoleFunction.WithdrawList(orderMenuItems);
+                BaseConsoleFunction.WithdrawList(_orderMenuItems);
                 BaseConsoleFunction.ConsoleDelimiter();
-                ShowMenu(manufacturerId);
+                ShowMenu();
 
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());
                 switch (checkItem)
                 {
                     case 1:
-                        addProduct();
+                        AddProduct();
                         break;
                     case 2:
                         CreateOrder();
@@ -87,16 +91,17 @@ namespace DeliveryService.UserInterface
         }
         private void CreateOrder()
         {
-            var items = DataBaseController.GetBasketItems(_client);
-            if (items.Count != 0)
+            var items = _basketController.GetBasketItems();
+            if (items.Any())
             {
                 BaseConsoleFunction.WithdrawList(items.ToArray());
-                if (BaseConsoleFunction.CheckAreae("Want to issue a order ? y/n", "y"))
+                if (BaseConsoleFunction.CheckArea("Want to issue a order ? y/n", "y"))
                 {
                     var street = BaseConsoleFunction.GetProperty("Enter street");
                     var houseNumber = BaseConsoleFunction.GetProperty("Enter house number");
-                    base.DataBaseController.CreateOrder(street, houseNumber, _client, items);
-                    DataBaseController.ClearBasket(_client);
+                    var address =_addressController.CreateAddress(street, houseNumber);
+                    _clientController.CreateOrder(address,_basketController.Basket);
+                    _basketController.ClearBasket();
                     Console.WriteLine("Order was created!");
                     Console.ReadLine();
                 }
@@ -108,39 +113,41 @@ namespace DeliveryService.UserInterface
         public void ShowOrders()
         {
             Console.Clear();
-            BaseConsoleFunction.WithdrawList(_client.Orders.ToArray());
+            BaseConsoleFunction.WithdrawList(_clientController.Client.Orders.ToArray());
             Console.ReadLine();
         }
-        public void ShowMenu(int manufacturerId)
+        public void ShowMenu()
         {
-            var foods  = (base.DataBaseController.SearchManufacturerById(manufacturerId).Foods).ToArray();
-            if (foods.Length != 0)
-                BaseConsoleFunction.WithdrawList((base.DataBaseController.SearchManufacturerById(manufacturerId).Foods).ToArray());
+            var foods  = (_manufacturerController.GetFoods());
+            if (foods.Any())
+                BaseConsoleFunction.WithdrawList(foods.ToArray());
             else
                 Console.WriteLine("This manufacturer have not foods yet");
         }
 
-        public int SelectManufacturer()
+        public void SelectManufacturer()
         {
-            BaseConsoleFunction.WithdrawList(base.DataBaseController.GetManufacturers().ToArray());
+            BaseConsoleFunction.WithdrawList(_manufacturerController.Manufacturers.GetAll().ToArray());
             Console.WriteLine("Select number of manufacturer");
-            return Convert.ToInt32(Console.ReadLine());
+            while (true)
+            {
+                var id = Checker.GetPropertyInt(Console.ReadLine());
+                if (_manufacturerController.SearchManufacturer(id) != null)
+                    break;
+                else
+                    Console.WriteLine($"{id} manufacturer does not exist");
+            }
         }
 
-        private void addProduct()
+        private void AddProduct()
         {
             var id = Checker.GetPropertyInt(BaseConsoleFunction.GetProperty("Enter product number"));
             var count = Checker.GetPropertyInt(BaseConsoleFunction.GetProperty("Enter count"));
-            var itemFood = base.DataBaseController.CreateFoodItem(id, count);
+            var itemFood = _basketController.AddToBasket(id, count);
             if (itemFood is null)
                 BaseConsoleFunction.GetProperty("This product does not exist");
-
-            else {
-                DataBaseController.AddToBasket(_client, itemFood);
+            else 
                 BaseConsoleFunction.GetProperty($"{itemFood} was add to basket");
-            }
-                
         }
-
     }
 }

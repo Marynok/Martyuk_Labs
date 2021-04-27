@@ -1,37 +1,38 @@
 ﻿using DeliveryService.Abstracts;
-using DeliveryService.DataBase;
-using DeliveryService.DataController;
-using DeliveryService.Models;
+using DeliveryService.Controllers;
+using DeliveryService.Interfaces;
 using DeliveryService.UserInterface.Check;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeliveryService.UserInterface
 {
     public class ManufacturerMenu : ServiceMenu
     {
-        readonly string[] cabinetMenuItems = new string[] { "Show products", "Create new product", "Exit" };
-        private Manufacturer _manufacturer;
-        public ManufacturerMenu(MainMenu mainMenu, DataBaseController dataBaseController) : base(mainMenu, dataBaseController) 
+        private readonly string[] _cabinetMenuItems = new string[] { "Show products", "Create new product", "Exit" };
+        private FoodController _foodController;
+        public ManufacturerMenu(IMenu mainMenu, ManufacturerController manufacturerController,
+            FoodController foodController, AddressController addressController) : base(mainMenu, addressController, manufacturerController)
         {
-            _manufacturer = dataBaseController.SearchManufacturer("MacMod");
+            _manufacturerController = manufacturerController;
+            _foodController = foodController;
         }
         public override void SignIn()
-        { }
-        public override void Registr()
+        {
+            _manufacturerController.SearchManufacturer("MacMod");
+            PersonalArea();
+        }
+        public override void Registrate()
         { }
         public override void PersonalArea()
         {
             var checkMenu = true;
-            while (checkMenu) 
+            while (checkMenu)
             {
                 Console.Clear();
-                Console.WriteLine(_manufacturer.Name);
+                Console.WriteLine(_manufacturerController.Manufacturer.Name);
 
-                BaseConsoleFunction.WithdrawList(cabinetMenuItems);
+                BaseConsoleFunction.WithdrawList(_cabinetMenuItems);
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());
                 switch (checkItem)
                 {
@@ -60,9 +61,10 @@ namespace DeliveryService.UserInterface
             var weight = Checker.GetPropertyFloat(BaseConsoleFunction.GetProperty("Enter weight"));
             var type = BaseConsoleFunction.GetProperty("Enter type");
 
-            if (BaseConsoleFunction.CheckAreae("Want to confirm your actions? y/n", "y"))
+            if (BaseConsoleFunction.CheckArea("Want to confirm your actions? y/n", "y"))
             {
-                var food = base.DataBaseController.CreateFood(name, price, weight, type, _manufacturer);
+                var food = _foodController.CreateFood(name, price, weight, type);
+                _manufacturerController.AddFood(food);
                 Console.WriteLine($"{food} was created!");
                 Console.ReadLine();
             }
@@ -70,7 +72,7 @@ namespace DeliveryService.UserInterface
         public void ShowProducts()
         {
             Console.Clear();
-            BaseConsoleFunction.WithdrawList(_manufacturer.Foods.ToArray());
+            BaseConsoleFunction.WithdrawList(_manufacturerController.Manufacturer.Foods.ToArray());
             Console.ReadLine();
         }
     }

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DeliveryService.Models
 {
-    class DeliveryMan: Person
+    class DeliveryMan : Person
     {
         public Order CurrentOrder { get; set; }
         public IList<Order> Orders { get; set; }
-        public DeliveryMan(int id, string firstName, string lastName, int phoneNumber) : base(id, firstName, lastName, phoneNumber)
+        public DeliveryMan(int id, string firstName, string lastName, string phoneNumber) : base(id, firstName, lastName, phoneNumber)
         {
             Orders = new List<Order>();
         }

@@ -1,4 +1,6 @@
-﻿using DeliveryService.DataController;
+﻿using DeliveryService.Controllers;
+using DeliveryService.DataController;
+using DeliveryService.Interfaces;
 using DeliveryService.UserInterface;
 using System;
 using System.Collections.Generic;
@@ -8,23 +10,28 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Abstracts
 {
-   public abstract class ServiceMenu
-   {
-        public DataBaseController DataBaseController { get; private set; }
-        public MainMenu MainMenu { get; private set; }
-        public ServiceMenu(MainMenu mainMenu, DataBaseController dataBaseController)
+   public abstract class ServiceMenu: IMenu
+    {
+        private IMenu _mainMenu;
+        protected AddressController _addressController;
+        protected ManufacturerController _manufacturerController;
+        public ServiceMenu(IMenu mainMenu,AddressController addressController, ManufacturerController manufacturerController)
         {
-            DataBaseController = dataBaseController;
-            MainMenu = mainMenu;
+            _addressController = addressController;
+            _mainMenu = mainMenu;
+            _manufacturerController = manufacturerController;
         }
-        public void Start(){}
+        public void Start()
+        {
+            SignIn();
+        }
         public void Exit()
         {
             Console.Clear();
-            MainMenu.Start(DataBaseController);
+            _mainMenu.Start();
         }
         public abstract void SignIn();
-        public abstract void Registr();
+        public abstract void Registrate();
         public abstract void PersonalArea();
 
     }

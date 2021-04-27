@@ -8,7 +8,8 @@ namespace DeliveryService.Models.BaseModel
 {
      public abstract class Model
      { 
-        public int Id { get; private set; }
+        public int Id { get; set; }
+        public Model(){}
         public Model(int id)
         {
             Id = id;

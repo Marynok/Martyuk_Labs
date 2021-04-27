@@ -1,34 +1,29 @@
-﻿using DeliveryService.Models;
-using DeliveryService.Models.BaseModel;
+﻿using DeliveryService.Interfaces;
+using DeliveryService.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DeliveryService.DataBase
+
+namespace DeliveryService.Database
 {
-    public class DeliveryDataBase
+    public class DeliveryDatabase: IDataBase
     {
-        public IList<Manufacturer> Manufacturers { get ; private set ; }
-        public IList<Client> Clients { get; private set; }
-        public IList<Food> Foods { get; private set; }
-        public IList<Order> Orders { get; private set; }
-        public IList<FoodType> FoodTypes { get; private set; }
-        public IList<Address> Addresses { get; private set; }
-        public IList<Basket> Baskets { get; private set; }
-        
-        public DeliveryDataBase()
-        { }
+        public Dictionary<Type, IList> Database { get; set; }
+
+        public DeliveryDatabase()
+        {
+            Database = new Dictionary<Type, IList>();
+        }
         public void InitializeData()
         {
-            Manufacturers = new List<Manufacturer>();
-            Clients = new List<Client>();
-            Addresses = new List<Address>();
-            Foods = new List<Food>();
-            FoodTypes = new List<FoodType>();
-            Orders = new List<Order>();
-            Baskets = new List<Basket>();
+            Database.Add(typeof(Manufacturer), new List<Manufacturer>());
+            Database.Add(typeof(Client), new List<Client>());
+            Database.Add(typeof(Address), new List<Address>());
+            Database.Add(typeof(Food), new List<Food>());
+            Database.Add(typeof(FoodType), new List<FoodType>());
+            Database.Add(typeof(Order), new List<Order>());
+            Database.Add(typeof(Basket), new List<Basket>());
         }
     }
 }

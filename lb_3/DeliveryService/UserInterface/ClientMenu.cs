@@ -61,31 +61,32 @@ namespace DeliveryService.UserInterface
         public void CreateNewOrder()
         {
             Console.Clear();
-             SelectManufacturer();
-
-            var continueCheck = true;
-            while (continueCheck)
+            if (SelectManufacturer())
             {
-                Console.Clear();
-                BaseConsoleFunction.WithdrawList(_orderMenuItems);
-                BaseConsoleFunction.ConsoleDelimiter();
-                ShowMenu();
-
-                var checkItem = Checker.GetPropertyInt(Console.ReadLine());
-                switch (checkItem)
+                var continueCheck = true;
+                while (continueCheck)
                 {
-                    case 1:
-                        AddProduct();
-                        break;
-                    case 2:
-                        CreateOrder();
-                        break;
-                    case 3:
-                        continueCheck = false;
-                        break;
-                    default:
-                        Console.WriteLine("Incorrect data");
-                        break;
+                    Console.Clear();
+                    BaseConsoleFunction.WithdrawList(_orderMenuItems);
+                    BaseConsoleFunction.ConsoleDelimiter();
+                    ShowMenu();
+
+                    var checkItem = Checker.GetPropertyInt(Console.ReadLine());
+                    switch (checkItem)
+                    {
+                        case 1:
+                            AddProduct();
+                            break;
+                        case 2:
+                            CreateOrder();
+                            break;
+                        case 3:
+                            continueCheck = false;
+                            break;
+                        default:
+                            Console.WriteLine("Incorrect data");
+                            break;
+                    }
                 }
             }
         }
@@ -125,17 +126,26 @@ namespace DeliveryService.UserInterface
                 Console.WriteLine("This manufacturer have not foods yet");
         }
 
-        public void SelectManufacturer()
+        public bool SelectManufacturer()
         {
-            BaseConsoleFunction.WithdrawList(ManufacturerController.GetAll().ToArray());
-            Console.WriteLine("Select number of manufacturer");
-            while (true)
+            if (ManufacturerController.GetAll().Any())
             {
-                var id = Checker.GetPropertyInt(Console.ReadLine());
-                if (ManufacturerController.SearchManufacturer(id) != null)
-                    break;
-                else
-                    Console.WriteLine($"{id} manufacturer does not exist");
+                BaseConsoleFunction.WithdrawList(ManufacturerController.GetAll().ToArray());
+                Console.WriteLine("Select number of manufacturer");
+                while (true)
+                {
+                    var id = Checker.GetPropertyInt(Console.ReadLine());
+                    if (ManufacturerController.SearchManufacturer(id) != null)
+                        break;
+                    else
+                        Console.WriteLine($"{id} manufacturer does not exist");
+                }
+                return true;
+            }
+            else
+            {
+                BaseConsoleFunction.GetProperty("Manufacturers not yet established");
+                return false;
             }
         }
 

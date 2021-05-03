@@ -13,16 +13,19 @@ namespace DeliveryService.Models
         public OrderStatus Status { get; set; }
         public DateTime Date { get; set; }
         public Client Client { get; set; }
+        public string ClientNumber { get; set; }
         public Address Address { get; set; }
         public IList<OrderFoodData> Foods { get; set; }
-        public Order(Address address) 
+        public Order(String phone,Address address) 
         {
+            ClientNumber = phone;
             Address = address;
             Date = DateTime.Now;
             Foods = new List<OrderFoodData>();
         }
-        public Order(int id, Address address) : base(id)
+        public Order(int id, String phone, Address address) : base(id)
         {
+            ClientNumber = phone;
             Address = address;
             Date = DateTime.Now;
             Foods = new List<OrderFoodData>();
@@ -33,7 +36,7 @@ namespace DeliveryService.Models
         }
         public override string ToString()
         {
-            return $"{Date} {TotalPrice}$";
+            return $"data:{Date} number:{ClientNumber} price:{TotalPrice}$";
         }
 
     }

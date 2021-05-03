@@ -98,10 +98,11 @@ namespace DeliveryService.UserInterface
                 BaseConsoleFunction.WithdrawList(items.ToArray());
                 if (BaseConsoleFunction.CheckArea("Want to issue a order ? y/n", "y"))
                 {
-                    var street = BaseConsoleFunction.GetProperty("Enter street");
-                    var houseNumber = BaseConsoleFunction.GetProperty("Enter house number");
+                    var phoneNumber = Checker.GetPropertyPhoneNumber(BaseConsoleFunction.GetProperty("Enter phone"));
+                    var street = Checker.GetPropertyStreet(BaseConsoleFunction.GetProperty("Enter street"));
+                    var houseNumber = Checker.GetPropertyHome(BaseConsoleFunction.GetProperty("Enter house number"));
                     var address =AddressController.CreateAddress(street, houseNumber);
-                    _clientController.CreateOrder(address,_basketController.Basket);
+                    _clientController.CreateOrder(phoneNumber,address, _basketController.Basket);
                     _basketController.ClearBasket();
                     Console.WriteLine("Order was created!");
                     Console.ReadLine();

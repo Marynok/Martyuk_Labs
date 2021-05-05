@@ -12,6 +12,6 @@ namespace DeliveryService.Interfaces
         Client Client { get; }
         Client CreateClient(string name, string lastName, string phoneNumber);
         Client SearchClient(string phoneNumber);
-        bool CreateOrder(Address address, Basket basket);
+        bool CreateOrder(string phone,Address address, Basket basket);
     }
 }

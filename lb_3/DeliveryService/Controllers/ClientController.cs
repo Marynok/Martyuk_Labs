@@ -31,11 +31,11 @@ namespace DeliveryService.Controllers
             _client = _clients.Search(c => c.PhoneNumber == phoneNumber);
             return Client;
         }
-        public bool CreateOrder(Address address, Basket basket)
+        public bool CreateOrder(string phone,Address address, Basket basket)
         {
             if (basket.SelectedItems.Count != 0)
             {
-                var order = new Order(address);
+                var order = new Order(phone,address);
                 foreach (var i in basket.SelectedItems)
                     order.Foods.Add(i);
                 _orders.AddModel(order);

@@ -43,14 +43,14 @@ namespace DeliveryService.UserInterface.Check
         }
         public static string GetPropertyStreet(string value)
         {
-            var streetPattern = new Regex(@"ул((\.)|(ица))\s?[А-Я][а-я]*(\.)?");
+            var streetPattern = new Regex(@"ул((\.\s?)|(ица\s))[А-Я][а-я]*(\.)?");
 
             return ConsoleCheck<string>.CheckProperty(value, streetPattern, CheckByPattern);
         }
         public static string GetPropertyHome(string value)
         {
             var homePattern = @"д((\.)|(ом))\s?\d+";
-            var flatPattern = @"кв((\.)|(артира))\s?\d+?";
+            var flatPattern = @"кв((\.)|(артира))\s?\d+";
 
             var fullPattern = new Regex(homePattern + @"(\,\s?" + flatPattern + @")?(\.)?");
 

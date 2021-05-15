@@ -23,6 +23,18 @@ namespace DeliveryService.Controllers
         }
         public IEnumerable<OrderFoodData> GetBasketItems()
         {
+            for(var i =0; i<_basket.SelectedItems.Count; i++)
+            {
+                var item = _food.Search(f => f.Id == _basket.SelectedItems[i].Food.Id);
+                if (item is null)
+                {
+                    _basket.SelectedItems.RemoveAt(i);
+                    i--;
+                }
+                else
+                if (item != _basket.SelectedItems[i].Food)
+                    _basket.SelectedItems[i].Food = item;
+            }
             return _basket.SelectedItems;
         }
         public void CreateBasket(Client client)

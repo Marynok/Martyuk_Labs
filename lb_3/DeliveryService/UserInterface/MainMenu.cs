@@ -33,7 +33,7 @@ namespace DeliveryService.UserInterface
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());
                 _serviceMenu = checkItem switch
                 {
-                    1 => new ManufacturerMenu(this, _manufacturerController, _foodontroller, _addressController),
+                    1 => new ManufacturerMenu(this, new FoodMenu(_foodontroller, _manufacturerController), _manufacturerController, _addressController),
                     2 => new ClientMenu(this, _clientController, _basketController, _addressController, _manufacturerController),
                     _ => null
                 };

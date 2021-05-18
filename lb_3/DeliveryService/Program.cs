@@ -13,15 +13,15 @@ namespace DeliveryService
         {
             var db = new DeliveryDatabase();
             db.InitializeData();
-            var log = new DataLogger("log","txt");
+            var logger = new DataLogger("log","txt");
 
-            var clients = new DatabaseController<Client>(db, log);
-            var manufacturers = new DatabaseController<Manufacturer>(db, log);
-            var addresses = new DatabaseController<Address>(db, log);
-            var foods = new DatabaseController<Food>(db, log);
-            var foodTypes = new DatabaseController<FoodType>(db, log);
-            var baskets = new DatabaseController<Basket>(db, log);
-            var orders = new DatabaseController<Order>(db, log);
+            var clients = new DatabaseController<Client>(db, logger);
+            var manufacturers = new DatabaseController<Manufacturer>(db, logger);
+            var addresses = new DatabaseController<Address>(db, logger);
+            var foods = new DatabaseController<Food>(db, logger);
+            var foodTypes = new DatabaseController<FoodType>(db, logger);
+            var baskets = new DatabaseController<Basket>(db, logger);
+            var orders = new DatabaseController<Order>(db, logger);
 
             var clientController = new ClientController(clients, orders);
             var manufacturerController = new ManufacturerController(manufacturers);

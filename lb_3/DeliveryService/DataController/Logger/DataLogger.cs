@@ -12,7 +12,7 @@ namespace DeliveryService.DataController.Logger
     {
         private static string _folder;
         private static string _fileType ;
-        public DataLogger(String folder, String fileType)
+        public DataLogger(string folder, string fileType)
         {
             _folder = $"/{folder}";
             _fileType = $".{fileType}";
@@ -31,7 +31,7 @@ namespace DeliveryService.DataController.Logger
             return "ChangesOn" + todayFile;
         }
 
-        public void SaveChanges(String content)
+        public void SaveChanges(string content)
         {
             var pathParts = new[]
             {

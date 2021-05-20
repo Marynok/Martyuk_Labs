@@ -40,6 +40,7 @@ namespace DeliveryService.Controllers
                     order.Foods.Add(i);
                 _orders.AddModel(order);
                 _client.Orders.Add(order);
+                _clients.Update(_client);
                 return true;
             }
             else

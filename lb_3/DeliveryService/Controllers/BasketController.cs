@@ -17,7 +17,7 @@ namespace DeliveryService.Controllers
         }
         public void SetBasket(Client client)
         {
-            _basket = _baskets.Search(b => b.Client == client);
+            _basket = _baskets.Search(b => b.Client.Id == client.Id);
             if (_basket is null)
                 CreateBasket(client);
         }
@@ -45,7 +45,10 @@ namespace DeliveryService.Controllers
         public void ClearBasket()
         {
             if (Basket != null)
+            {
                 _basket.SelectedItems.Clear();
+                _baskets.Update(_basket);
+            }
         }
         public OrderFoodData AddToBasket(int id, int count)
         {
@@ -56,6 +59,7 @@ namespace DeliveryService.Controllers
             {
                 var foodData = new OrderFoodData(count, food);
                 _basket.SelectedItems.Add(foodData);
+                _baskets.Update(_basket);
                 return foodData;
             }
         }

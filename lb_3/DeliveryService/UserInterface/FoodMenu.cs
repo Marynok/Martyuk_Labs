@@ -14,8 +14,8 @@ namespace DeliveryService.UserInterface
         public enum Action { DELETE, UPDATE };
         private readonly string[] _foodMenuItems = new string[] { "Show products", "Create new product", "Update product", "Delete product", "Exit" };
         private readonly string[] _chengeMenuItems = new string[] { "Select product", "Exit" };
-        IFoodController _foodController;
-        IManufacturerController _manufacturerController;
+        private readonly IFoodController _foodController;
+        private readonly IManufacturerController _manufacturerController;
         private delegate void ChangeFood(Food food);
         public FoodMenu(IFoodController foodController, IManufacturerController manufacturerController)
         {
@@ -114,8 +114,8 @@ namespace DeliveryService.UserInterface
         {
             if (BaseConsoleFunction.CheckArea($"You want delete {food} ? y/n", "y"))
             {
-                _foodController.DeleteFood(food);
                 _manufacturerController.RemoveFood(food);
+                _foodController.DeleteFood(food);
                 BaseConsoleFunction.GetProperty($"This product: {food} was deleted");
             }
         }
@@ -137,8 +137,8 @@ namespace DeliveryService.UserInterface
             if (BaseConsoleFunction.CheckArea($"You want update {food} ? y/n", "y"))
             {
                var newFood = _foodController.UpdateFood(food, name, price, weight, type);
-                _manufacturerController.AddFood(newFood);
                 _manufacturerController.RemoveFood(food);
+                _manufacturerController.AddFood(newFood);
                 BaseConsoleFunction.GetProperty($"This product: {newFood} was updated");
             }
         }

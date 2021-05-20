@@ -1,4 +1,5 @@
 ﻿using DeliveryService.Models.BaseModel;
+using System.Text.Json.Serialization;
 
 namespace DeliveryService.Models
 {
@@ -6,10 +7,11 @@ namespace DeliveryService.Models
     {
         public string StreetName { get; set; }
         public string HouseNumberName { get; set; }
-        public Address(string streetName, string houseNumber)
+        [JsonConstructor]
+        public Address(string streetName, string houseNumberName)
         {
             StreetName = streetName;
-            HouseNumberName = houseNumber;
+            HouseNumberName = houseNumberName;
         }
 
         public Address(int id, string streetName, string houseNumber) : base(id)

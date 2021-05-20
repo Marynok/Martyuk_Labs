@@ -1,5 +1,6 @@
 ﻿using DeliveryService.Models.BaseModel;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace DeliveryService.Models
 {
@@ -7,6 +8,7 @@ namespace DeliveryService.Models
     {
         public Client Client { get; set; }
         public IList<OrderFoodData> SelectedItems { get; set; }
+        [JsonConstructor]
         public Basket(Client client) 
         {
             Client = client;

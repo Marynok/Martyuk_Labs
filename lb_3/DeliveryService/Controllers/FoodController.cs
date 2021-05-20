@@ -42,9 +42,11 @@ namespace DeliveryService.Controllers
         public Food UpdateFood(Food food, string name, decimal price, float weight, string type)
         {
             var foodType = CreateFoodType(type);
-            var updatedFood = new Food(name, price, weight, foodType);
-            updatedFood.Id = food.Id;
-            _food.Update(food, updatedFood);
+            var updatedFood = new Food(name, price, weight, foodType)
+            {
+                Id = food.Id
+            };
+            _food.Update(updatedFood);
             return updatedFood;
         }
         public void DeleteFood(Food food)

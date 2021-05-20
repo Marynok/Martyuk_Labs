@@ -1,4 +1,5 @@
-﻿using DeliveryService.Interfaces;
+﻿using DeliveryService.Abstracts;
+using DeliveryService.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,38 +9,32 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.DataController.Logger
 {
-    public class DataLogger: IDataLogger
+    public class DataLogger: DirectoryMaker, IDataLogger
     {
-        private static string _folder;
-        private static string _fileType ;
+        private string _fileType ;
         public DataLogger(string folder, string fileType)
         {
-            _folder = $"/{folder}";
+            Folder = $"/{folder}";
             _fileType = $".{fileType}";
         }
-        private string GetPath()
-        {
-            var newPath = AppDomain.CurrentDomain.BaseDirectory + _folder;
-            if (!Directory.Exists(newPath))
-                Directory.CreateDirectory(newPath);
-            return newPath;
-        }
-
-        private string GetFileName()
+        private string GetFileName(String fileName)
         {
             var todayFile = DateTime.Now.ToShortDateString();
-            return "ChangesOn" + todayFile;
+            return fileName + todayFile;
         }
-
-        public void SaveChanges(string content)
+        public override string GetFullPath(String fileName)
         {
             var pathParts = new[]
             {
-               GetPath(),
-               GetFileName()+_fileType
+               GetPathToDirectory(),
+               GetFileName(fileName)+_fileType
             };
 
-            using var stream = new StreamWriter(Path.Combine(pathParts),true, Encoding.UTF8);
+            return Path.Combine(pathParts);
+        }
+        public void SaveChanges(string content)
+        {
+            using var stream = new StreamWriter(GetFullPath("ChangesOn"), true, Encoding.UTF8);
             stream.AutoFlush = true;
             stream.Write(content + '\n');
         }

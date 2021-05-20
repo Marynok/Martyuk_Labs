@@ -3,6 +3,7 @@ using DeliveryService.Database;
 using DeliveryService.DataController;
 using DeliveryService.DataController.Logger;
 using DeliveryService.Models;
+using DeliveryService.Serializer;
 using DeliveryService.UserInterface;
 
 namespace DeliveryService
@@ -11,8 +12,11 @@ namespace DeliveryService
     {
         static void Main(string[] args)
         {
-            var db = new DeliveryDatabase();
+            var serializer = new DeliveryJsonSerializer("datas");
+            var db = new DeliveryDatabase(serializer);
             db.InitializeData();
+            db.ReadData();
+
             var logger = new DataLogger("log","txt");
 
             var clients = new DatabaseController<Client>(db, logger);

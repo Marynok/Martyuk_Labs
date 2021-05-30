@@ -1,6 +1,7 @@
 ﻿using DeliveryService.Controllers;
 using DeliveryService.Database;
 using DeliveryService.DataController;
+using DeliveryService.DataController.Cashe;
 using DeliveryService.DataController.Logger;
 using DeliveryService.Models;
 using DeliveryService.Serializer;
@@ -14,18 +15,21 @@ namespace DeliveryService
         {
             var serializer = new DeliveryJsonSerializer("datas");
             var db = new DeliveryDatabase(serializer);
+            var cashe = new ThreadSafeDataCashe();
             db.InitializeData();
             db.ReadData();
+            
+            var cashController = new CasheController(cashe);
 
             var logger = new DataLogger("log","txt");
 
-            var clients = new DatabaseController<Client>(db, logger);
-            var manufacturers = new DatabaseController<Manufacturer>(db, logger);
-            var addresses = new DatabaseController<Address>(db, logger);
-            var foods = new DatabaseController<Food>(db, logger);
-            var foodTypes = new DatabaseController<FoodType>(db, logger);
-            var baskets = new DatabaseController<Basket>(db, logger);
-            var orders = new DatabaseController<Order>(db, logger);
+            var clients = new DatabaseController<Client>(db, logger, cashController);
+            var manufacturers = new DatabaseController<Manufacturer>(db, logger, cashController);
+            var addresses = new DatabaseController<Address>(db, logger, cashController);
+            var foods = new DatabaseController<Food>(db, logger, cashController);
+            var foodTypes = new DatabaseController<FoodType>(db, logger, cashController);
+            var baskets = new DatabaseController<Basket>(db, logger, cashController);
+            var orders = new DatabaseController<Order>(db, logger, cashController);
 
             var clientController = new ClientController(clients, orders);
             var manufacturerController = new ManufacturerController(manufacturers);

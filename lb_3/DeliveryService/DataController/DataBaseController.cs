@@ -1,4 +1,5 @@
-﻿using DeliveryService.Interfaces;
+﻿using DeliveryService.DataController.Cashe;
+using DeliveryService.Interfaces;
 using DeliveryService.Models.BaseModel;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace DeliveryService.DataController
     {
         private readonly IDataBase _database;
         private readonly IDataLogger _logger;
-        public DatabaseController(IDataBase database, IDataLogger logger)
+        private readonly ICasheController _cashe;
+        public DatabaseController(IDataBase database, IDataLogger logger, ICasheController cashe)
         {
             _database = database;
             _logger = logger;
+            _cashe = cashe;
         }
 
         public void AddModel(TModel model)
@@ -28,17 +31,22 @@ namespace DeliveryService.DataController
                 _database.SaveData<TModel>();
             }
         }
+
         public void Delete(TModel model)
         {
             var models = (IList<TModel>)_database.Database[typeof(TModel)];
             if (model != null)
             {
                var deletedModel = Search(m => m.Id == model.Id);
-                if (models.Remove(deletedModel)) 
+                if (models.Remove(deletedModel))
+                {
                     _logger.SaveChanges(DataMessage.Delete(model));
+                    _cashe.SetToCasheInThread(_cashe.RemoveFromCashe, null, model);
+                }
                 _database.SaveData<TModel>();
             }
         }
+
         public void Update(TModel newModel)
         {
             var models = (IList<TModel>)_database.Database[typeof(TModel)];
@@ -52,19 +60,30 @@ namespace DeliveryService.DataController
                     models.Insert(index, newModel);
                     _logger.SaveChanges(DataMessage.Update(updatedModel, newModel));
                     _database.SaveData<TModel>();
+                    _cashe.SetToCasheInThread(_cashe.RemoveFromCashe, _cashe.SetToCashe, newModel);
                 }
             }
         }
+
         public TModel Search(Func<TModel, bool> func)
         {
-            var models = (IList<TModel>)_database.Database[typeof(TModel)];
-            return models.SingleOrDefault(func);
+            var model = _cashe.Search(func);
+            if(model is null) 
+            {
+                var models = (IList<TModel>)_database.Database[typeof(TModel)];
+                model = models.SingleOrDefault(func);
+                if (!(model is null))
+                    _cashe.SetToCasheInThread(_cashe.RemoveFromCashe, _cashe.SetToCashe, model);
+            }
+           
+            return model;
         }
         
         public IEnumerable<TModel> GetAll()
         {
             return (IList<TModel>)_database.Database[typeof(TModel)];
         }
+
         private int GetId()
         {
             var models = (IList<TModel>)_database.Database[typeof(TModel)];

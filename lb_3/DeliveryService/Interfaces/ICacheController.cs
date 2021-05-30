@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Interfaces
 {
-    public interface ICasheController
+    public interface ICacheController
     {
         TModel Search<TModel>(Func<TModel, bool> func);
 

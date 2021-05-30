@@ -15,11 +15,11 @@ namespace DeliveryService
         {
             var serializer = new DeliveryJsonSerializer("datas");
             var db = new DeliveryDatabase(serializer);
-            var cashe = new ThreadSafeDataCashe();
+            var cashe = new ThreadSafeDataCache();
             db.InitializeData();
             db.ReadData();
             
-            var cashController = new CasheController(cashe);
+            var cashController = new CacheController(cashe);
 
             var logger = new DataLogger("log","txt");
 

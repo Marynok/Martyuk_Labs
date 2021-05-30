@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.DataController.Cashe
 {
-    public class CasheController: ICasheController
+    public class CacheController: ICacheController
     {
         private const int MAX_SIZE = 5;
-        private ICashe _cashe;
-        public CasheController(ICashe cashe)
+        private ICache _cache;
+        public CacheController(ICache cache)
         {
-            _cashe = cashe;
+            _cache = cache;
         }
 
         public TModel Search<TModel>(Func<TModel, bool> func)
         {
-            var models = _cashe.GetList<TModel>();
+            var models = _cache.GetList<TModel>();
             return models.SingleOrDefault(func);
         }
 
@@ -33,8 +33,8 @@ namespace DeliveryService.DataController.Cashe
         }
         public void RemoveFromCashe<TModel>(Action<TModel, IList<TModel>> action,TModel model) where TModel : Model
         {
-            var models = _cashe.GetList<TModel>();
-            var locker = _cashe.Locks[typeof(TModel)];
+            var models = _cache.GetList<TModel>();
+            var locker = _cache.Locks[typeof(TModel)];
             lock (locker)
             {
                 var sameModel = Search<TModel>(m => m.Id == model.Id);

@@ -12,12 +12,12 @@ namespace DeliveryService.DataController
     {
         private readonly IDataBase _database;
         private readonly IDataLogger _logger;
-        private readonly ICasheController _cashe;
-        public DatabaseController(IDataBase database, IDataLogger logger, ICasheController cashe)
+        private readonly ICacheController _cache;
+        public DatabaseController(IDataBase database, IDataLogger logger, ICacheController cache)
         {
             _database = database;
             _logger = logger;
-            _cashe = cashe;
+            _cache = cache;
         }
 
         public void AddModel(TModel model)
@@ -41,7 +41,7 @@ namespace DeliveryService.DataController
                 if (models.Remove(deletedModel))
                 {
                     _logger.SaveChanges(DataMessage.Delete(model));
-                    _cashe.SetToCasheInThread(_cashe.RemoveFromCashe, null, model);
+                    _cache.SetToCasheInThread(_cache.RemoveFromCashe, null, model);
                 }
                 _database.SaveData<TModel>();
             }
@@ -60,20 +60,20 @@ namespace DeliveryService.DataController
                     models.Insert(index, newModel);
                     _logger.SaveChanges(DataMessage.Update(updatedModel, newModel));
                     _database.SaveData<TModel>();
-                    _cashe.SetToCasheInThread(_cashe.RemoveFromCashe, _cashe.SetToCashe, newModel);
+                    _cache.SetToCasheInThread(_cache.RemoveFromCashe, _cache.SetToCashe, newModel);
                 }
             }
         }
 
         public TModel Search(Func<TModel, bool> func)
         {
-            var model = _cashe.Search(func);
+            var model = _cache.Search(func);
             if(model is null) 
             {
                 var models = (IList<TModel>)_database.Database[typeof(TModel)];
                 model = models.SingleOrDefault(func);
                 if (!(model is null))
-                    _cashe.SetToCasheInThread(_cashe.RemoveFromCashe, _cashe.SetToCashe, model);
+                    _cache.SetToCasheInThread(_cache.RemoveFromCashe, _cache.SetToCashe, model);
             }
            
             return model;

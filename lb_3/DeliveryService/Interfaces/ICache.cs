@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Interfaces
 {
-    public interface ICashe
+    public interface ICache
     {
         Dictionary<Type, IList> Database { get; set; }
         Dictionary<Type, Object> Locks { get; set; }

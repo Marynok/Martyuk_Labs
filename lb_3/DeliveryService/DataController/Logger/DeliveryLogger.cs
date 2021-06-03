@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.DataController.Logger
 {
-    public class DataLogger: IDataLogger
+    public class DeliveryLogger: ILogger
     {
         private static string _folder;
         private static string _fileType ;
-        public DataLogger(string folder, string fileType)
+        public DeliveryLogger(string folder, string fileType)
         {
             _folder = $"/{folder}";
             _fileType = $".{fileType}";
@@ -31,7 +31,7 @@ namespace DeliveryService.DataController.Logger
             return "ChangesOn" + todayFile;
         }
 
-        public void SaveChanges(string content)
+        public void Log(string message)
         {
             var pathParts = new[]
             {
@@ -41,7 +41,7 @@ namespace DeliveryService.DataController.Logger
 
             using var stream = new StreamWriter(Path.Combine(pathParts),true, Encoding.UTF8);
             stream.AutoFlush = true;
-            stream.Write(content + '\n');
+            stream.Write(message + '\n');
         }
 
     }

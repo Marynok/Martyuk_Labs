@@ -13,7 +13,7 @@ namespace DeliveryService
         {
             var db = new DeliveryDatabase();
             db.InitializeData();
-            var logger = new DataLogger("log","txt");
+            var logger = new DeliveryLogger("log","txt");
 
             var clients = new DatabaseController<Client>(db, logger);
             var manufacturers = new DatabaseController<Manufacturer>(db, logger);

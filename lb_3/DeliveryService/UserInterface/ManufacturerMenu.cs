@@ -10,8 +10,8 @@ namespace DeliveryService.UserInterface
 {
     public class ManufacturerMenu : ServiceMenu
     {
-        private readonly string[] _cabinetMenuItems = new string[] { "Reduct products", "Exit" };
-        private IMenu _foodMenu;
+        private readonly string[] _cabinetMenuItems = new string[] { "Edit products", "Exit" };
+        private readonly IMenu _foodMenu;
         public ManufacturerMenu(IMenu mainMenu, IMenu foodMenu, IManufacturerController manufacturerController,
              IAddressController addressController) : base(mainMenu, addressController, manufacturerController)
         {

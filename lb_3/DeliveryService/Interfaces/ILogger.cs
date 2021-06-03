@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Interfaces
 {
-    public interface IDataLogger
+    public interface ILogger
     {
-        void SaveChanges(String content);
+        void Log(string message);
     }
 }

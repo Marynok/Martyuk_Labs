@@ -40,6 +40,7 @@ namespace DeliveryService.Database
             ((List<Order>)Database[typeof(Order)]).AddRange(_serializer.DeserializeFromFile<Order>(typeof(Order).Name));
             ((List<Basket>)Database[typeof(Basket)]).AddRange(_serializer.DeserializeFromFile<Basket>(typeof(Basket).Name));
         }
+
         public void SaveData<TModel>() where TModel:Model
         {
             _serializer.SerializeToFile((IList<TModel>)Database[typeof(TModel)], typeof(TModel).Name);

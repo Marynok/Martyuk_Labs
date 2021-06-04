@@ -17,7 +17,7 @@ namespace DeliveryService
             db.InitializeData();
             db.ReadData();
 
-            var logger = new DataLogger("log","txt");
+            var logger = new DeliveryLogger("log","txt");
 
             var clients = new DatabaseController<Client>(db, logger);
             var manufacturers = new DatabaseController<Manufacturer>(db, logger);

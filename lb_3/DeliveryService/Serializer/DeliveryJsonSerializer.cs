@@ -14,20 +14,18 @@ namespace DeliveryService.Serializer
     public class DeliveryJsonSerializer: DirectoryMaker, ISerializer
     {
         private const string type = ".json";
-        public DeliveryJsonSerializer(string folder)
-        {
-            Folder = folder;
-        }
-        public override string GetFullPath(String fileName)
-        {
-            var pathParts = new[]
-           {
-               GetPathToDirectory(),
-              fileName + type
-            };
+        public DeliveryJsonSerializer(string folder):base(folder)
+        {}
 
-            return Path.Combine(pathParts);
+        public override string GetFullPath(string fileName)
+        {
+            return Path.Combine(new[]
+            {
+                GetPathToDirectory(),
+                fileName + type
+            });
         }
+
         public void SerializeToFile<TModel>(IList<TModel> modelsList, string fileName) where TModel : Model
         {
             var serialized = JsonSerializer.Serialize(modelsList);
@@ -37,6 +35,7 @@ namespace DeliveryService.Serializer
 
             stream.Write(serialized);
         }
+
         public IList<TModel> DeserializeFromFile<TModel>(string fileName) where TModel : Model
         {
             if (File.Exists(GetFullPath(fileName)))

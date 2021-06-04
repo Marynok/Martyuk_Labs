@@ -10,8 +10,8 @@ namespace DeliveryService.DataController
         where TModel : Model
     {
         private readonly IDataBase _database;
-        private readonly IDataLogger _logger;
-        public DatabaseController(IDataBase database, IDataLogger logger)
+        private readonly ILogger _logger;
+        public DatabaseController(IDataBase database, ILogger logger)
         {
             _database = database;
             _logger = logger;
@@ -24,7 +24,7 @@ namespace DeliveryService.DataController
             {
                 model.Id = GetId();
                 models.Add(model);
-                _logger.SaveChanges(DataMessage.Create(model));
+                _logger.Log(DataMessage.Create(model));
                 _database.SaveData<TModel>();
             }
         }
@@ -35,7 +35,7 @@ namespace DeliveryService.DataController
             {
                var deletedModel = Search(m => m.Id == model.Id);
                 if (models.Remove(deletedModel)) 
-                    _logger.SaveChanges(DataMessage.Delete(model));
+                    _logger.Log(DataMessage.Delete(model));
                 _database.SaveData<TModel>();
             }
         }
@@ -50,7 +50,7 @@ namespace DeliveryService.DataController
                 {
                     models.RemoveAt(index);
                     models.Insert(index, newModel);
-                    _logger.SaveChanges(DataMessage.Update(updatedModel, newModel));
+                    _logger.Log(DataMessage.Update(updatedModel, newModel));
                     _database.SaveData<TModel>();
                 }
             }

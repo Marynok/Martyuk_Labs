@@ -10,11 +10,11 @@ namespace DeliveryService.DataController.Logger
 {
     public class DeliveryLogger: ILogger
     {
-        private static string _folder;
-        private static string _fileType ;
+        private readonly string _folder;
+        private readonly string _fileType ;
         public DeliveryLogger(string folder, string fileType)
         {
-            _folder = $"/{folder}";
+            _folder = $"{folder}";
             _fileType = $".{fileType}";
         }
         private string GetPath()
@@ -22,6 +22,7 @@ namespace DeliveryService.DataController.Logger
             var newPath = AppDomain.CurrentDomain.BaseDirectory + _folder;
             if (!Directory.Exists(newPath))
                 Directory.CreateDirectory(newPath);
+            
             return newPath;
         }
 
@@ -36,12 +37,13 @@ namespace DeliveryService.DataController.Logger
             var pathParts = new[]
             {
                GetPath(),
-               GetFileName()+_fileType
+               GetFileName()+
+                _fileType
             };
 
             using var stream = new StreamWriter(Path.Combine(pathParts),true, Encoding.UTF8);
             stream.AutoFlush = true;
-            stream.Write(message + '\n');
+            stream.WriteLine(message);
         }
 
     }

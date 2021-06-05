@@ -11,9 +11,8 @@ namespace DeliveryService.UserInterface
 {
     public class FoodMenu : IMenu
     {
-        public enum Action { DELETE, UPDATE };
         private readonly string[] _foodMenuItems = new string[] { "Show products", "Create new product", "Update product", "Delete product", "Exit" };
-        private readonly string[] _chengeMenuItems = new string[] { "Select product", "Exit" };
+        private readonly string[] _changeMenuItems = new string[] { "Select product", "Exit" };
         private readonly IFoodController _foodController;
         private readonly IManufacturerController _manufacturerController;
         private delegate void ChangeFood(Food food);
@@ -76,7 +75,7 @@ namespace DeliveryService.UserInterface
             while (checkMenu)
             {
                 Console.Clear();
-                BaseConsoleFunction.WithdrawList(_chengeMenuItems);
+                BaseConsoleFunction.WithdrawList(_changeMenuItems);
                 BaseConsoleFunction.ConsoleDelimiter();
                 BaseConsoleFunction.WithdrawList(_manufacturerController.Manufacturer.Foods.ToArray());
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());

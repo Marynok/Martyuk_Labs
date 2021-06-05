@@ -9,26 +9,25 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.DataController.Logger
 {
-    public class DeliveryLogger: DirectoryMaker, ILogger
+    public class DeliveryLogger: DirectoryMaker ,ILogger
     {
         private readonly string _fileType ;
         public DeliveryLogger(string folder, string fileType):base(folder)
         {
             _fileType = $".{fileType}";
         }
-
+       
         private string GetFileName(string fileName)
         {
             var todayFile = DateTime.Now.ToShortDateString();
             return fileName + todayFile;
         }
-
         public override string GetFullPath(string fileName)
         {
             return Path.Combine(new[]
             {
-               GetPathToDirectory(),
-               GetFileName(fileName)+_fileType
+                GetPathToDirectory(),
+                GetFileName(fileName) + _fileType
             });
         }
 
@@ -38,6 +37,6 @@ namespace DeliveryService.DataController.Logger
             stream.AutoFlush = true;
             stream.WriteLine(message);
         }
-
+        
     }
 }

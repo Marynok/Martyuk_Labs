@@ -19,8 +19,7 @@ namespace DeliveryService.Controllers
         }
         public Food SearchFood(int id)
         {
-            var food = _food.Search(f => f.Id == id);
-            return food;
+            return _food.Search(f => f.Id == id); ;
         }
         public FoodType CreateFoodType(string name)
         {

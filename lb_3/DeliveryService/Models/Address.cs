@@ -17,6 +17,10 @@ namespace DeliveryService.Models
             StreetName = streetName;
             HouseNumberName = houseNumber;
         }
+        public override string ToString()
+        {
+            return $"Street: {StreetName}, House number: {HouseNumberName}";
+        }
     }
 }
 

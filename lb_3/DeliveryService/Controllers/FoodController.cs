@@ -17,6 +17,10 @@ namespace DeliveryService.Controllers
         {
             return _foodTypes.Search(f => f.Name == name);
         }
+        public Food SearchFood(int id)
+        {
+            return _food.Search(f => f.Id == id); ;
+        }
         public FoodType CreateFoodType(string name)
         {
             var foodType = SearchFoodType(name);
@@ -33,6 +37,18 @@ namespace DeliveryService.Controllers
             var food = new Food(name, price, weight, foodType);
             _food.AddModel(food);
             return food;
+        }
+        public Food UpdateFood(Food food, string name, decimal price, float weight, string type)
+        {
+            var foodType = CreateFoodType(type);
+            var updatedFood = new Food(name, price, weight, foodType);
+            updatedFood.Id = food.Id;
+            _food.Update(food, updatedFood);
+            return updatedFood;
+        }
+        public void DeleteFood(Food food)
+        {
+            _food.Delete(food);
         }
     }
 }

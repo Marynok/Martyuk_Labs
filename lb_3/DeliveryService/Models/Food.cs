@@ -1,4 +1,5 @@
 ﻿using DeliveryService.Models.BaseModel;
+using System;
 
 namespace DeliveryService.Models
 {
@@ -24,7 +25,7 @@ namespace DeliveryService.Models
         }
         public override string ToString()
         {
-            return $"{base.Id} {Name} {Weight} {Price}$";
+            return $"{base.Id} {Name} {Weight} {Price} {Type.Name}$";
         }
     }
 }

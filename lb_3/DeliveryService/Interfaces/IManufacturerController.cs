@@ -16,5 +16,6 @@ namespace DeliveryService.Interfaces
         IEnumerable<Manufacturer> GetAll();
         void AddFood(Food food);
         IEnumerable<Food> GetFoods();
+        void RemoveFood(Food food);
     }
 }

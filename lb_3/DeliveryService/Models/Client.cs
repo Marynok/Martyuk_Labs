@@ -13,6 +13,10 @@ namespace DeliveryService.Models
         {
             Orders = new List<Order>();
         }
-        
+        public override string ToString()
+        {
+            return $"Name: {FirstName}, Last name: {LastName}, Phone: {PhoneNumber}";
+        }
+
     }
 }

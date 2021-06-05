@@ -1,6 +1,7 @@
 ﻿using DeliveryService.Controllers;
 using DeliveryService.Database;
 using DeliveryService.DataController;
+using DeliveryService.DataController.Logger;
 using DeliveryService.Models;
 using DeliveryService.UserInterface;
 
@@ -12,14 +13,15 @@ namespace DeliveryService
         {
             var db = new DeliveryDatabase();
             db.InitializeData();
+            var logger = new DeliveryLogger("log","txt");
 
-            var clients = new DatabaseController<Client>(db);
-            var manufacturers = new DatabaseController<Manufacturer>(db);
-            var addresses = new DatabaseController<Address>(db);
-            var foods = new DatabaseController<Food>(db);
-            var foodTypes = new DatabaseController<FoodType>(db);
-            var baskets = new DatabaseController<Basket>(db);
-            var orders = new DatabaseController<Order>(db);
+            var clients = new DatabaseController<Client>(db, logger);
+            var manufacturers = new DatabaseController<Manufacturer>(db, logger);
+            var addresses = new DatabaseController<Address>(db, logger);
+            var foods = new DatabaseController<Food>(db, logger);
+            var foodTypes = new DatabaseController<FoodType>(db, logger);
+            var baskets = new DatabaseController<Basket>(db, logger);
+            var orders = new DatabaseController<Order>(db, logger);
 
             var clientController = new ClientController(clients, orders);
             var manufacturerController = new ManufacturerController(manufacturers);

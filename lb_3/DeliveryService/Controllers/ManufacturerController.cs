@@ -43,6 +43,10 @@ namespace DeliveryService.Controllers
         { 
             return _manufacturer.Foods;
         }
+        public void RemoveFood(Food food)
+        {
+            _manufacturer.Foods.Remove(food);
+        }
         public IEnumerable<Manufacturer> GetAll()
         {
             return _manufacturers.GetAll();

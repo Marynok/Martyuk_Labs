@@ -10,10 +10,12 @@ namespace DeliveryService.Abstracts
     public abstract class DirectoryMaker
     {
         private readonly string _folder;
+
         public DirectoryMaker(string folder)
         {
             _folder = folder;
         }
+
         public string GetPathToDirectory()
         {
             var newPath = AppDomain.CurrentDomain.BaseDirectory + _folder;
@@ -21,6 +23,7 @@ namespace DeliveryService.Abstracts
                 Directory.CreateDirectory(newPath);
             return newPath;
         }
+
         public abstract string GetFullPath(string fileName);
     }
 }

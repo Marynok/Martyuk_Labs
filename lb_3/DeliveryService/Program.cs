@@ -12,7 +12,7 @@ namespace DeliveryService
     {
         static void Main(string[] args)
         {
-            var serializer = new DeliveryJsonSerializer("datas");
+            var serializer = new DataSaver("datas");
             var db = new DeliveryDatabase(serializer);
             db.InitializeData();
             db.ReadData();

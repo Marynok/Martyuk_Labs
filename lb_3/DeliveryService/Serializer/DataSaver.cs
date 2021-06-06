@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Serializer
 {
-    public class DeliveryJsonSerializer: DirectoryMaker, ISerializer
+    public class DataSaver: DirectoryMaker, IDataSaver
     {
-        private const string type = ".json";
-        public DeliveryJsonSerializer(string folder):base(folder)
+        private const string _type = ".json";
+        public DataSaver(string folder):base(folder)
         {}
 
         public override string GetFullPath(string fileName)
@@ -22,11 +22,11 @@ namespace DeliveryService.Serializer
             return Path.Combine(new[]
             {
                 GetPathToDirectory(),
-                fileName + type
+                fileName + _type
             });
         }
 
-        public void SerializeToFile<TModel>(IList<TModel> modelsList, string fileName) where TModel : Model
+        public void SaveToFile<TModel>(IList<TModel> modelsList, string fileName) where TModel : Model
         {
             var serialized = JsonSerializer.Serialize(modelsList);
 
@@ -36,7 +36,7 @@ namespace DeliveryService.Serializer
             stream.Write(serialized);
         }
 
-        public IList<TModel> DeserializeFromFile<TModel>(string fileName) where TModel : Model
+        public IList<TModel> ReadFromFile<TModel>(string fileName) where TModel : Model
         {
             if (File.Exists(GetFullPath(fileName)))
             {

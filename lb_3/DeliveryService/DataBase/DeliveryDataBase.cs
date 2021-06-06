@@ -10,28 +10,28 @@ using DeliveryService.Abstracts;
 
 namespace DeliveryService.Database
 {
-    public class DeliveryDatabase:Repository, IDataBase
+    public class DeliveryDatabase: Repository, IDataBase
     {
-        private ISerializer _serializer;
-        public DeliveryDatabase(ISerializer serializer)
+        private IDataSaver _dataSaver;
+        public DeliveryDatabase(IDataSaver dataSaver)
         {
-            _serializer = serializer;
+            _dataSaver = dataSaver;
         }
 
         public void ReadData()
         {
-            ((List<Manufacturer>)Database[typeof(Manufacturer)]).AddRange(_serializer.DeserializeFromFile<Manufacturer>(typeof(Manufacturer).Name));
-            ((List<Client>)Database[typeof(Client)]).AddRange(_serializer.DeserializeFromFile<Client>(typeof(Client).Name));
-            ((List<Address>)Database[typeof(Address)]).AddRange(_serializer.DeserializeFromFile<Address>(typeof(Address).Name));
-            ((List<Food>)Database[typeof(Food)]).AddRange(_serializer.DeserializeFromFile<Food>(typeof(Food).Name));
-            ((List<FoodType>)Database[typeof(FoodType)]).AddRange(_serializer.DeserializeFromFile<FoodType>(typeof(FoodType).Name));
-            ((List<Order>)Database[typeof(Order)]).AddRange(_serializer.DeserializeFromFile<Order>(typeof(Order).Name));
-            ((List<Basket>)Database[typeof(Basket)]).AddRange(_serializer.DeserializeFromFile<Basket>(typeof(Basket).Name));
+            ((List<Manufacturer>)Database[typeof(Manufacturer)]).AddRange(_dataSaver.ReadFromFile<Manufacturer>(typeof(Manufacturer).Name));
+            ((List<Client>)Database[typeof(Client)]).AddRange(_dataSaver.ReadFromFile<Client>(typeof(Client).Name));
+            ((List<Address>)Database[typeof(Address)]).AddRange(_dataSaver.ReadFromFile<Address>(typeof(Address).Name));
+            ((List<Food>)Database[typeof(Food)]).AddRange(_dataSaver.ReadFromFile<Food>(typeof(Food).Name));
+            ((List<FoodType>)Database[typeof(FoodType)]).AddRange(_dataSaver.ReadFromFile<FoodType>(typeof(FoodType).Name));
+            ((List<Order>)Database[typeof(Order)]).AddRange(_dataSaver.ReadFromFile<Order>(typeof(Order).Name));
+            ((List<Basket>)Database[typeof(Basket)]).AddRange(_dataSaver.ReadFromFile<Basket>(typeof(Basket).Name));
         }
 
         public void SaveData<TModel>() where TModel:Model
         {
-            _serializer.SerializeToFile((IList<TModel>)Database[typeof(TModel)], typeof(TModel).Name);
+            _dataSaver.SaveToFile((IList<TModel>)Database[typeof(TModel)], typeof(TModel).Name);
         }
     }
 }

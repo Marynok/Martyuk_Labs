@@ -9,35 +9,34 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.DataController.Logger
 {
-    public class DataLogger: DirectoryMaker, IDataLogger
+    public class DeliveryLogger: DirectoryMaker ,ILogger
     {
-        private string _fileType ;
-        public DataLogger(string folder, string fileType)
+        private readonly string _fileType ;
+        public DeliveryLogger(string folder, string fileType):base(folder)
         {
-            Folder = $"/{folder}";
             _fileType = $".{fileType}";
         }
-        private string GetFileName(String fileName)
+       
+        private string GetFileName(string fileName)
         {
             var todayFile = DateTime.Now.ToShortDateString();
             return fileName + todayFile;
         }
-        public override string GetFullPath(String fileName)
+        public override string GetFullPath(string fileName)
         {
-            var pathParts = new[]
+            return Path.Combine(new[]
             {
-               GetPathToDirectory(),
-               GetFileName(fileName)+_fileType
-            };
-
-            return Path.Combine(pathParts);
+                GetPathToDirectory(),
+                GetFileName(fileName) + _fileType
+            });
         }
-        public void SaveChanges(string content)
+
+        public void Log(string message)
         {
             using var stream = new StreamWriter(GetFullPath("ChangesOn"), true, Encoding.UTF8);
             stream.AutoFlush = true;
-            stream.Write(content + '\n');
+            stream.WriteLine(message);
         }
-
+        
     }
 }

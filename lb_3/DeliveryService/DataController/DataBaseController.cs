@@ -11,9 +11,9 @@ namespace DeliveryService.DataController
         where TModel : Model
     {
         private readonly IDataBase _database;
-        private readonly IDataLogger _logger;
+        private readonly ILogger _logger;
         private readonly ICacheController _cache;
-        public DatabaseController(IDataBase database, IDataLogger logger, ICacheController cache)
+        public DatabaseController(IDataBase database, ILogger logger, ICacheController cache)
         {
             _database = database;
             _logger = logger;
@@ -27,7 +27,7 @@ namespace DeliveryService.DataController
             {
                 model.Id = GetId();
                 models.Add(model);
-                _logger.SaveChanges(DataMessage.Create(model));
+                _logger.Log(DataMessage.Create(model));
                 _database.SaveData<TModel>();
             }
         }
@@ -38,12 +38,10 @@ namespace DeliveryService.DataController
             if (model != null)
             {
                var deletedModel = Search(m => m.Id == model.Id);
-                if (models.Remove(deletedModel))
-                {
-                    _logger.SaveChanges(DataMessage.Delete(model));
-                    _cache.SetToCasheInThread(_cache.RemoveFromCashe, null, model);
-                }
+                if (models.Remove(deletedModel)) 
+                    _logger.Log(DataMessage.Delete(model));
                 _database.SaveData<TModel>();
+                _cache.RemoveFromCashe(null, model);
             }
         }
 
@@ -58,9 +56,9 @@ namespace DeliveryService.DataController
                 {
                     models.RemoveAt(index);
                     models.Insert(index, newModel);
-                    _logger.SaveChanges(DataMessage.Update(updatedModel, newModel));
+                    _logger.Log(DataMessage.Update(updatedModel, newModel));
                     _database.SaveData<TModel>();
-                    _cache.SetToCasheInThread(_cache.RemoveFromCashe, _cache.SetToCashe, newModel);
+                    _cache.RemoveFromCashe(_cache.SetToCashe, newModel);
                 }
             }
         }
@@ -73,7 +71,7 @@ namespace DeliveryService.DataController
                 var models = (IList<TModel>)_database.Database[typeof(TModel)];
                 model = models.SingleOrDefault(func);
                 if (!(model is null))
-                    _cache.SetToCasheInThread(_cache.RemoveFromCashe, _cache.SetToCashe, model);
+                    _cache.RemoveFromCashe( _cache.SetToCashe, model);
             }
            
             return model;

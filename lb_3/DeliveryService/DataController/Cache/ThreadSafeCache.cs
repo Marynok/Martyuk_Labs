@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.DataController.Cashe
 {
-    class ThreadSafeDataCache : Repository, ICache
+    class ThreadSafeCache : Repository, ICache
     {
         public Dictionary<Type, Object> Locks { get; set; }
-        public ThreadSafeDataCache()
+        public ThreadSafeCache()
         {
             Locks = new Dictionary<Type, Object>();
             InitializeData();

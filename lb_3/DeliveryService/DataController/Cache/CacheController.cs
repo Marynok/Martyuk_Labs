@@ -11,14 +11,14 @@ namespace DeliveryService.DataController.Cashe
 {
     public class CacheController: ICacheController
     {
-        private const int MAX_SIZE = 5;
+        private const int MaxSize = 5;
         private ICache _cache;
         public CacheController(ICache cache)
         {
             _cache = cache;
         }
 
-        public TModel Search<TModel>(Func<TModel, bool> func)
+        public TModel Search<TModel>(Func<TModel, bool> func) where TModel : Model
         {
             var models = _cache.GetList<TModel>();
             return models.SingleOrDefault(func);
@@ -26,11 +26,12 @@ namespace DeliveryService.DataController.Cashe
 
         public void SetToCashe<TModel>(TModel model,IList<TModel> models) where TModel : Model
         {
-            if (models.Count > MAX_SIZE)
-                models.RemoveAt(MAX_SIZE - 1);
+            if (models.Count > MaxSize)
+                models.RemoveAt(MaxSize - 1);
 
             models.Insert(0,model);
         }
+
         public void RemoveFromCashe<TModel>(Action<TModel, IList<TModel>> action,TModel model) where TModel : Model
         {
             var models = _cache.GetList<TModel>();
@@ -43,13 +44,6 @@ namespace DeliveryService.DataController.Cashe
                 action?.Invoke(model, models);
             }
         }
-        public void SetToCasheInThread<TModel>(Action<Action<TModel, IList<TModel>>, TModel> action,
-                                                            Action<TModel, IList<TModel>> secAction, 
-                                                            TModel model) where TModel : Model
-        {
-            var thread = new Thread(() => action(secAction, model));
-            thread.Start();
-        }
-
+      
     }
 }

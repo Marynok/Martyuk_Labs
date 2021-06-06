@@ -4,7 +4,7 @@ using DeliveryService.DataController;
 using DeliveryService.DataController.Cashe;
 using DeliveryService.DataController.Logger;
 using DeliveryService.Models;
-using DeliveryService.Serializer;
+using DeliveryService.DataSaver;
 using DeliveryService.UserInterface;
 
 namespace DeliveryService
@@ -13,15 +13,15 @@ namespace DeliveryService
     {
         static void Main(string[] args)
         {
-            var serializer = new DeliveryJsonSerializer("datas");
-            var db = new DeliveryDatabase(serializer);
-            var cashe = new ThreadSafeDataCache();
+            var dataSaver = new DeliveryDataSaver("datas");
+            var db = new DeliveryDatabase(dataSaver);
             db.InitializeData();
             db.ReadData();
-            
+
+            var cashe = new ThreadSafeCache();
             var cashController = new CacheController(cashe);
 
-            var logger = new DataLogger("log","txt");
+            var logger = new DeliveryLogger("log","txt");
 
             var clients = new DatabaseController<Client>(db, logger, cashController);
             var manufacturers = new DatabaseController<Manufacturer>(db, logger, cashController);

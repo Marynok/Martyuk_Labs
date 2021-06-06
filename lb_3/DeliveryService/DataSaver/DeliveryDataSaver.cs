@@ -9,26 +9,24 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DeliveryService.Serializer
+namespace DeliveryService.DataSaver
 {
-    public class DeliveryJsonSerializer: DirectoryMaker, ISerializer
+    public class DeliveryDataSaver: DirectoryMaker, IDataSaver
     {
-        private const string type = ".json";
-        public DeliveryJsonSerializer(string folder)
-        {
-            Folder = folder;
-        }
-        public override string GetFullPath(String fileName)
-        {
-            var pathParts = new[]
-           {
-               GetPathToDirectory(),
-              fileName + type
-            };
+        private const string _type = ".json";
+        public DeliveryDataSaver(string folder):base(folder)
+        {}
 
-            return Path.Combine(pathParts);
+        public override string GetFullPath(string fileName)
+        {
+            return Path.Combine(new[]
+            {
+                GetPathToDirectory(),
+                fileName + _type
+            });
         }
-        public void SerializeToFile<TModel>(IList<TModel> modelsList, string fileName) where TModel : Model
+
+        public void SaveToFile<TModel>(IList<TModel> modelsList, string fileName) where TModel : Model
         {
             var serialized = JsonSerializer.Serialize(modelsList);
 
@@ -37,7 +35,8 @@ namespace DeliveryService.Serializer
 
             stream.Write(serialized);
         }
-        public IList<TModel> DeserializeFromFile<TModel>(string fileName) where TModel : Model
+
+        public IList<TModel> ReadFromFile<TModel>(string fileName) where TModel : Model
         {
             if (File.Exists(GetFullPath(fileName)))
             {

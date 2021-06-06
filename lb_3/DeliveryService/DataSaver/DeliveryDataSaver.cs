@@ -9,12 +9,12 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DeliveryService.Serializer
+namespace DeliveryService.DataSaver
 {
-    public class DataSaver: DirectoryMaker, IDataSaver
+    public class DeliveryDataSaver: DirectoryMaker, IDataSaver
     {
         private const string _type = ".json";
-        public DataSaver(string folder):base(folder)
+        public DeliveryDataSaver(string folder):base(folder)
         {}
 
         public override string GetFullPath(string fileName)

@@ -3,7 +3,7 @@ using DeliveryService.Database;
 using DeliveryService.DataController;
 using DeliveryService.DataController.Logger;
 using DeliveryService.Models;
-using DeliveryService.Serializer;
+using DeliveryService.DataSaver;
 using DeliveryService.UserInterface;
 
 namespace DeliveryService
@@ -12,8 +12,8 @@ namespace DeliveryService
     {
         static void Main(string[] args)
         {
-            var serializer = new DataSaver("datas");
-            var db = new DeliveryDatabase(serializer);
+            var dataSaver = new DeliveryDataSaver("datas");
+            var db = new DeliveryDatabase(dataSaver);
             db.InitializeData();
             db.ReadData();
 

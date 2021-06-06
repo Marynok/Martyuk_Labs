@@ -8,7 +8,7 @@ namespace DeliveryService.Interfaces
     {
         void AddModel(TModel model);
         void Delete(TModel model);
-        void Update(TModel model, TModel newModel);
+        void Update(TModel newModel);
         TModel Search(Func<TModel, bool> func);
         IEnumerable<TModel> GetAll();
        

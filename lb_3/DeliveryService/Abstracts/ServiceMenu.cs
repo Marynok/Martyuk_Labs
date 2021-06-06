@@ -13,8 +13,8 @@ namespace DeliveryService.Abstracts
    public abstract class ServiceMenu: IMenu
     {
         private readonly IMenu _mainMenu;
-        private IAddressController _addressController;
-        private IManufacturerController _manufacturerController;
+        private readonly IAddressController _addressController;
+        private readonly IManufacturerController _manufacturerController;
         protected IAddressController AddressController { get => _addressController; }
         protected IManufacturerController ManufacturerController { get => _manufacturerController; }
 

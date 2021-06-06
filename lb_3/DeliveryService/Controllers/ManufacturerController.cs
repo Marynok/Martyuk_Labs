@@ -1,6 +1,7 @@
 ﻿using DeliveryService.Interfaces;
 using DeliveryService.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DeliveryService.Controllers
 {
@@ -38,6 +39,7 @@ namespace DeliveryService.Controllers
         public void AddFood(Food food)
         {
             _manufacturer.Foods.Add(food);
+            _manufacturers.Update(_manufacturer);
         }
         public IEnumerable<Food> GetFoods()
         { 
@@ -45,13 +47,14 @@ namespace DeliveryService.Controllers
         }
         public void RemoveFood(Food food)
         {
-            _manufacturer.Foods.Remove(food);
+            var removeFood = _manufacturer.Foods.FirstOrDefault(f => f.Id == food.Id);
+            _manufacturer.Foods.Remove(removeFood);
+            _manufacturers.Update(_manufacturer);
         }
         public IEnumerable<Manufacturer> GetAll()
         {
             return _manufacturers.GetAll();
         }
-
     }
 }
 

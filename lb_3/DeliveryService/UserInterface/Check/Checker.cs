@@ -27,26 +27,31 @@ namespace DeliveryService.UserInterface.Check
         {
             return ConsoleCheck<int>.CheckProperty(value,int.Parse);
         }
+
         public static float GetPropertyFloat(string value)
         {
             return ConsoleCheck<float>.CheckProperty(value, float.Parse);
         }
+
         public static decimal GetPropertyDecimal(string value)
         {
             return ConsoleCheck<decimal>.CheckProperty(value,decimal.Parse);
         }
+
         public static string GetPropertyPhoneNumber(string value)
         {
             var phonePattern = new Regex(@"(\+38)?0((\(\d{2}\))|(\d{2}))\s?\d{3}\s?\d{2}\s?\d{2}");
 
             return ConsoleCheck<string>.CheckProperty(value, phonePattern, CheckByPattern);
         }
+
         public static string GetPropertyStreet(string value)
         {
             var streetPattern = new Regex(@"ул((\.\s?)|(ица\s))[А-Я][а-я]*(\.)?");
 
             return ConsoleCheck<string>.CheckProperty(value, streetPattern, CheckByPattern);
         }
+
         public static string GetPropertyHome(string value)
         {
             var homePattern = @"д((\.)|(ом))\s?\d+";

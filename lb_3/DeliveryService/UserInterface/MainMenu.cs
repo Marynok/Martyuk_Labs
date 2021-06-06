@@ -9,11 +9,11 @@ namespace DeliveryService.UserInterface
     {
         private readonly string[] _menuItems = new string[] { "I am manufacturer", "I am client" };
         private IMenu _serviceMenu;
-        private IManufacturerController _manufacturerController;
-        private IClientController _clientController;
-        private IAddressController _addressController;
-        private IFoodController _foodontroller;
-        private IBasketController _basketController;
+        private readonly IManufacturerController _manufacturerController;
+        private readonly IClientController _clientController;
+        private readonly IAddressController _addressController;
+        private readonly IFoodController _foodontroller;
+        private readonly IBasketController _basketController;
         public MainMenu(IManufacturerController manufacturerController, IClientController clientController, IAddressController addressController,
            IFoodController foodontroller, IBasketController basketController )
         {

@@ -11,8 +11,8 @@ namespace DeliveryService.UserInterface
     {
         private readonly string[] _cabinetMenuItems = new string[] { "Show orders", "Create new order", "Exit" };
         private readonly string[] _orderMenuItems = new string[] { "Add product", "Create order", "Exit" };
-        private IClientController _clientController;
-        private IBasketController _basketController;
+        private readonly IClientController _clientController;
+        private readonly IBasketController _basketController;
         public ClientMenu(IMenu mainMenu, IClientController clientController, IBasketController basketController,
             IAddressController addressController, IManufacturerController manufacturerController) 
             : base(mainMenu, addressController, manufacturerController)

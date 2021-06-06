@@ -1,5 +1,6 @@
 ﻿using DeliveryService.Models.BaseModel;
 using System;
+using System.Text.Json.Serialization;
 
 namespace DeliveryService.Models
 {
@@ -9,6 +10,7 @@ namespace DeliveryService.Models
         public decimal Price { get; set; }
         public float Weight { get; set; }
         public FoodType Type { get; set; }
+        [JsonConstructor]
         public Food(string name, decimal price, float weight, FoodType type)
         {
             Name = name;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using DeliveryService.Models.BaseModel;
 
@@ -12,6 +13,7 @@ namespace DeliveryService.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
+        [JsonConstructor]
         public Person(string firstName, string lastName, string phoneNumber) 
         {
             FirstName = firstName;

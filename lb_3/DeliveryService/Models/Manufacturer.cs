@@ -4,6 +4,7 @@ using DeliveryService.Models.BaseModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace DeliveryService.Models
 {
@@ -13,6 +14,7 @@ namespace DeliveryService.Models
         public Address Address { get; set; }
         public string Description { get; set; }
         public IList<Food> Foods { get; set; }
+        [JsonConstructor]
         public Manufacturer(string name, Address address, string description)
         {
             Name = name;

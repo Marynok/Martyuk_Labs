@@ -25,6 +25,7 @@ namespace DeliveryService.DataController
                 model.Id = GetId();
                 models.Add(model);
                 _logger.Log(DataMessage.Create(model));
+                _database.SaveData<TModel>();
             }
         }
         public void Delete(TModel model)
@@ -32,25 +33,28 @@ namespace DeliveryService.DataController
             var models = (IList<TModel>)_database.Database[typeof(TModel)];
             if (model != null)
             {
-                if (models.Remove(model)) 
+               var deletedModel = Search(m => m.Id == model.Id);
+                if (models.Remove(deletedModel)) 
                     _logger.Log(DataMessage.Delete(model));
+                _database.SaveData<TModel>();
             }
         }
-        public void Update(TModel model, TModel newModel)
+        public void Update(TModel newModel)
         {
             var models = (IList<TModel>)_database.Database[typeof(TModel)];
             if (newModel != null)
             {
-                var index = models.IndexOf(model);
+                var updatedModel = Search(m => m.Id == newModel.Id);
+                var index = models.IndexOf(updatedModel);
                 if (index > -1)
                 {
                     models.RemoveAt(index);
                     models.Insert(index, newModel);
-                    _logger.Log(DataMessage.Update(model, newModel));
+                    _logger.Log(DataMessage.Update(updatedModel, newModel));
+                    _database.SaveData<TModel>();
                 }
             }
         }
-
         public TModel Search(Func<TModel, bool> func)
         {
             var models = (IList<TModel>)_database.Database[typeof(TModel)];

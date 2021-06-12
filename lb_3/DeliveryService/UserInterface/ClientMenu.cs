@@ -70,6 +70,8 @@ namespace DeliveryService.UserInterface
                 while (continueCheck)
                 {
                     Console.Clear();
+                    ShowOrderPrice();
+                    BaseConsoleFunction.ConsoleDelimiter();
                     BaseConsoleFunction.WithdrawList(_orderMenuItems);
                     BaseConsoleFunction.ConsoleDelimiter();
                     ShowMenu();
@@ -101,7 +103,6 @@ namespace DeliveryService.UserInterface
                 BaseConsoleFunction.WithdrawList(items.ToArray());
                 if (BaseConsoleFunction.CheckArea("Want to issue a order ? y/n", "y"))
                 {
-                    ShowOrderPrice();
                     var phoneNumber = Checker.GetPropertyPhoneNumber(BaseConsoleFunction.GetProperty("Enter phone"));
                     var street = Checker.GetPropertyStreet(BaseConsoleFunction.GetProperty("Enter street"));
                     var houseNumber = Checker.GetPropertyHome(BaseConsoleFunction.GetProperty("Enter house number"));
@@ -121,10 +122,11 @@ namespace DeliveryService.UserInterface
             var searchCurrency = "EUR";
             var baseCurrency = "UAH";
             var totalPrice = _basketController.GetTotalPrice();
-            var currency = await _currencyController.GetExchangeRate(searchCurrency);
             Console.WriteLine($"Finaly price in {baseCurrency} {totalPrice}");
+            Console.WriteLine();
+            var currency = await _currencyController.GetExchangeRate(searchCurrency);
             if (currency != 0)
-                Console.WriteLine($"Finaly price in {searchCurrency} {totalPrice/ currency}");
+                BaseConsoleFunction.ConsoleWriteOnPosition(0, 1, $"Finaly price in {searchCurrency} {totalPrice / currency}");
         }
 
         public void ShowOrders()

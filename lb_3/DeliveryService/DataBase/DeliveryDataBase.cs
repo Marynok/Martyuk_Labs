@@ -10,14 +10,28 @@ using DeliveryService.Abstracts;
 
 namespace DeliveryService.Database
 {
-    public class DeliveryDatabase: Repository, IDataBase
+    public class DeliveryDatabase: IDataBase
     {
         private IDataSaver _dataSaver;
+        public Dictionary<Type, IList> Database { get; set; }
+
         public DeliveryDatabase(IDataSaver dataSaver)
         {
             _dataSaver = dataSaver;
+            Database = new Dictionary<Type, IList>();
         }
 
+        public void InitializeData()
+        {
+            Database.Add(typeof(Manufacturer), new List<Manufacturer>());
+            Database.Add(typeof(Client), new List<Client>());
+            Database.Add(typeof(Address), new List<Address>());
+            Database.Add(typeof(Food), new List<Food>());
+            Database.Add(typeof(FoodType), new List<FoodType>());
+            Database.Add(typeof(Order), new List<Order>());
+            Database.Add(typeof(Basket), new List<Basket>());
+        }
+       
         public void ReadData()
         {
             ((List<Manufacturer>)Database[typeof(Manufacturer)]).AddRange(_dataSaver.ReadFromFile<Manufacturer>(typeof(Manufacturer).Name));

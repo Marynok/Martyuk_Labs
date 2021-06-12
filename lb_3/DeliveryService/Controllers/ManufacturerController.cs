@@ -50,7 +50,7 @@ namespace DeliveryService.Controllers
         {
             var removeFood = _manufacturer.Foods.FirstOrDefault(f => f.Id == food.Id);
             _manufacturer.Foods.Remove(removeFood);
-             _manufacturers.Update(_manufacturer);
+            _manufacturers.Update(_manufacturer);
         }
         public IEnumerable<Manufacturer> GetAll()
         {

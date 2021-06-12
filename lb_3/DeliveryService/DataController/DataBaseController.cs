@@ -41,7 +41,7 @@ namespace DeliveryService.DataController
                 if (models.Remove(deletedModel)) 
                     _logger.Log(DataMessage.Delete(model));
                 _database.SaveData<TModel>();
-                _cache.RemoveFromCashe(null, model);
+                _cache.RemoveFromCache(null, model);
             }
         }
 
@@ -58,20 +58,20 @@ namespace DeliveryService.DataController
                     models.Insert(index, newModel);
                     _logger.Log(DataMessage.Update(updatedModel, newModel));
                     _database.SaveData<TModel>();
-                    _cache.RemoveFromCashe(_cache.SetToCashe, newModel);
+                    _cache.RemoveFromCache(_cache.SetToCache, newModel);
                 }
             }
         }
 
         public TModel Search(Func<TModel, bool> func)
         {
-            var model = _cache.Search(func);
+            var model = _cache.GetFromCache(func);
             if(model is null) 
             {
                 var models = (IList<TModel>)_database.Database[typeof(TModel)];
                 model = models.SingleOrDefault(func);
                 if (!(model is null))
-                    _cache.RemoveFromCashe( _cache.SetToCashe, model);
+                    _cache.RemoveFromCache( _cache.SetToCache, model);
             }
            
             return model;

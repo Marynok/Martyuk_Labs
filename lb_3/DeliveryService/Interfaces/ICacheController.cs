@@ -9,10 +9,10 @@ namespace DeliveryService.Interfaces
 {
     public interface ICacheController
     {
-        TModel Search<TModel>(Func<TModel, bool> func) where TModel : Model;
+        TModel GetFromCache<TModel>(Func<TModel, bool> filter) where TModel : Model;
 
-         void SetToCashe<TModel>(TModel model, IList<TModel> models) where TModel : Model;
+         void SetToCache<TModel>(TModel model, IList<TModel> models) where TModel : Model;
 
-        void RemoveFromCashe<TModel>(Action<TModel, IList<TModel>> action, TModel model) where TModel : Model;
+        void RemoveFromCache<TModel>(Action<TModel, IList<TModel>> action, TModel model) where TModel : Model;
     }
 }

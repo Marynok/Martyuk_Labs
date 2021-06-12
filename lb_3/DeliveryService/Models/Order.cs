@@ -16,6 +16,11 @@ namespace DeliveryService.Models
         public string ClientNumber { get; set; }
         public Address Address { get; set; }
         public IList<OrderFoodData> Foods { get; set; }
+        public Order()
+        {
+            Date = DateTime.Now;
+            Foods = new List<OrderFoodData>();
+        }
         [JsonConstructor]
         public Order(String clientNumber,Address address) 
         {

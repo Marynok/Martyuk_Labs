@@ -1,6 +1,7 @@
 ﻿using DeliveryService.Abstracts;
 using DeliveryService.Controllers;
 using DeliveryService.Interfaces;
+using DeliveryService.Models;
 using DeliveryService.UserInterface.Check;
 using System;
 using System.Linq;
@@ -13,12 +14,14 @@ namespace DeliveryService.UserInterface
         private readonly string[] _orderMenuItems = new string[] { "Add product", "Create order", "Exit" };
         private readonly IClientController _clientController;
         private readonly IBasketController _basketController;
+        private readonly ICurrencyController _currencyController;
         public ClientMenu(IMenu mainMenu, IClientController clientController, IBasketController basketController,
-            IAddressController addressController, IManufacturerController manufacturerController) 
+            IAddressController addressController, IManufacturerController manufacturerController, ICurrencyController currencyController) 
             : base(mainMenu, addressController, manufacturerController)
         {
             _clientController = clientController;
             _basketController = basketController;
+            _currencyController = currencyController;
         }
         public override void PersonalArea()
         {
@@ -98,11 +101,12 @@ namespace DeliveryService.UserInterface
                 BaseConsoleFunction.WithdrawList(items.ToArray());
                 if (BaseConsoleFunction.CheckArea("Want to issue a order ? y/n", "y"))
                 {
+                    ShowOrderPrice();
                     var phoneNumber = Checker.GetPropertyPhoneNumber(BaseConsoleFunction.GetProperty("Enter phone"));
                     var street = Checker.GetPropertyStreet(BaseConsoleFunction.GetProperty("Enter street"));
                     var houseNumber = Checker.GetPropertyHome(BaseConsoleFunction.GetProperty("Enter house number"));
                     var address =AddressController.CreateAddress(street, houseNumber);
-                    _clientController.CreateOrder(phoneNumber,address, _basketController.Basket);
+                    _clientController.CreateOrder(phoneNumber, address, _basketController.Basket);
                     _basketController.ClearBasket();
                     Console.WriteLine("Order was created!");
                     Console.ReadLine();
@@ -110,6 +114,17 @@ namespace DeliveryService.UserInterface
             }
             else
                 BaseConsoleFunction.GetProperty("Your basket is empty. Press enter to continue ");
+        }
+
+        public async void ShowOrderPrice()
+        {
+            var searchCurrency = "EUR";
+            var baseCurrency = "UAH";
+            var totalPrice = _basketController.GetTotalPrice();
+            var currency = await _currencyController.GetExchangeRate(searchCurrency);
+            Console.WriteLine($"Finaly price in {baseCurrency} {totalPrice}");
+            if (currency != 0)
+                Console.WriteLine($"Finaly price in {searchCurrency} {totalPrice/ currency}");
         }
 
         public void ShowOrders()

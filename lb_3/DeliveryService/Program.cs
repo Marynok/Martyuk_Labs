@@ -26,6 +26,7 @@ namespace DeliveryService
             var foodTypes = new DatabaseController<FoodType>(db, logger);
             var baskets = new DatabaseController<Basket>(db, logger);
             var orders = new DatabaseController<Order>(db, logger);
+            var currencyController = new CurrencyController();
 
             var clientController = new ClientController(clients, orders);
             var manufacturerController = new ManufacturerController(manufacturers);
@@ -36,7 +37,7 @@ namespace DeliveryService
             clientController.CreateClient("Alla", "Dernova", "099502352114");
             manufacturerController.CreateManufacturer("MacMod", addressController.CreateAddress("Streey45", "45A"), "");
 
-            var mainMenu = new MainMenu(manufacturerController, clientController, addressController, foodController, basketController);
+            var mainMenu = new MainMenu(manufacturerController, clientController, addressController, foodController, basketController, currencyController);
 
             mainMenu.Start();
         }

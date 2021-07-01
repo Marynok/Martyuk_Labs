@@ -23,19 +23,20 @@ ON r.RegionID = t.RegionID
 
 
 
-SELECT t.TerritoryDescription,r.RegionDescription
+SELECT r.RegionDescription
+FROM EmployeeTerritories as et 
+JOIN Territories as t
+ON t.TerritoryID = et.TerritoryID 
+FULL JOIN Region as r
+ON r.RegionID = t.RegionID
+WHERE et.EmployeeID IS NULL
+
+
+SELECT r.RegionDescription
 FROM Region as r
 LEFT JOIN Territories as t
 ON r.RegionID = t.RegionID
 LEFT JOIN EmployeeTerritories as et
 ON t.TerritoryID = et.TerritoryID
-WHERE et.EmployeeID IS NULL
-
-
-
-
-
-
-
-
-
+GROUP BY r.RegionDescription
+Having COUNT(et.EmployeeID) = 0

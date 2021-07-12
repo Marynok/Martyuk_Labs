@@ -1,7 +1,7 @@
 ﻿using DeliveryService.Controllers;
 using DeliveryService.Database;
 using DeliveryService.DataController;
-using DeliveryService.DataController.Cashe;
+using DeliveryService.DataController.Cache;
 using DeliveryService.DataController.Logger;
 using DeliveryService.Models;
 using DeliveryService.DataSaver;
@@ -18,7 +18,7 @@ namespace DeliveryService
             db.InitializeData();
             db.ReadData();
 
-            var cashe = new ThreadSafeCache();
+            var cashe = new DeliveryCache();
             var cashController = new CacheController(cashe);
 
             var logger = new DeliveryLogger("log","txt");

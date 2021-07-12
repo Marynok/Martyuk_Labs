@@ -10,9 +10,6 @@ namespace DeliveryService.Interfaces
     public interface ICache
     {
         Dictionary<Type, IList> Cache { get; set; }
-        Dictionary<Type, Object> Locks { get;}
         void InitializeData();
-        void InitializeLock();
-        IList<TModel> GetList<TModel>();
     }
 }

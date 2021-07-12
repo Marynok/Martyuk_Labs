@@ -1,4 +1,4 @@
-﻿using DeliveryService.DataController.Cashe;
+﻿using DeliveryService.DataController.Cache;
 using DeliveryService.Interfaces;
 using DeliveryService.Models.BaseModel;
 using System;
@@ -41,7 +41,7 @@ namespace DeliveryService.DataController
                 if (models.Remove(deletedModel)) 
                     _logger.Log(DataMessage.Delete(model));
                 _database.SaveData<TModel>();
-                _cache.RemoveFromCache(null, model);
+                _cache.TredSafeWorkWithCache(_cache.RemoveFromCache, model);
             }
         }
 
@@ -58,7 +58,7 @@ namespace DeliveryService.DataController
                     models.Insert(index, newModel);
                     _logger.Log(DataMessage.Update(updatedModel, newModel));
                     _database.SaveData<TModel>();
-                    _cache.RemoveFromCache(_cache.SetToCache, newModel);
+                    _cache.TredSafeWorkWithCache(_cache.SetToCache, newModel);
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace DeliveryService.DataController
                 var models = (IList<TModel>)_database.Database[typeof(TModel)];
                 model = models.SingleOrDefault(func);
                 if (!(model is null))
-                    _cache.RemoveFromCache( _cache.SetToCache, model);
+                    _cache.TredSafeWorkWithCache(_cache.SetToCache, model);
             }
            
             return model;

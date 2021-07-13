@@ -42,7 +42,7 @@ namespace DeliveryService.DataController.Cache
             }
         }
 
-        public void TredSafeWorkWithCache<TModel>(Action<TModel, IList<TModel>> action, TModel model) where TModel : Model
+        public void ThredSafeWorkWithCache<TModel>(Action<TModel, IList<TModel>> action, TModel model) where TModel : Model
         {
             var locker = GetLock<TModel>();
             lock (locker)
@@ -56,7 +56,7 @@ namespace DeliveryService.DataController.Cache
         {
             RemoveFromCache(model, models);
 
-            if (models.Count > MaxSize)
+            if (models.Count == MaxSize)
                 models.RemoveAt(MaxSize - 1);
 
             models.Insert(0, model);

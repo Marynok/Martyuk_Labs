@@ -10,7 +10,7 @@ namespace DeliveryService.Interfaces
     public interface ICacheController
     {
         TModel GetFromCache<TModel>(Func<TModel, bool> filter) where TModel : Model;
-        public void TredSafeWorkWithCache<TModel>(Action<TModel, IList<TModel>> action, TModel model) where TModel : Model;
+        void ThredSafeWorkWithCache<TModel>(Action<TModel, IList<TModel>> action, TModel model) where TModel : Model;
         void SetToCache<TModel>(TModel model, IList<TModel> models) where TModel : Model;
         void RemoveFromCache<TModel>(TModel model, IList<TModel> models) where TModel : Model;
     }

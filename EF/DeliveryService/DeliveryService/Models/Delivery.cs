@@ -9,11 +9,11 @@ namespace DeliveryService.Models
 {
     class Delivery: Model
     {
-        Order Order { get; set; }
-        DeliveryMan DeliveryMan { get; set; }
-        DateTime TimeStart { get; set; }
-        DateTime TimeEnd { get; set; }
-        decimal Price { get; set; }
+        public Order Order { get; set; }
+        public DeliveryMan DeliveryMan { get; set; }
+        public DateTime TimeStart { get; set; }
+        public DateTime TimeEnd { get; set; }
+        public decimal Price { get; set; }
         public Delivery(Order order, decimal price) 
         {
             Order = order;

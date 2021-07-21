@@ -29,7 +29,7 @@ namespace DeliveryService.Models
 
         public override string ToString()
         {
-            return $"{base.Id} {Name} {Weight} {Price} {Type.Name}$";
+            return $"{base.Id} {Name} {Weight} {Price}$ {Type.Name}";
         }
     }
 }

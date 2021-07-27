@@ -1,7 +1,12 @@
-﻿using DeliveryService.LinqTask;
+﻿using DeliveryService.Settings;
+using DeliveryService.LinqTask;
 using DeliveryService.Models;
+using DeliveryService.Repo;
+using Microsoft.Extensions.Configuration;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DeliveryService
 {
@@ -9,44 +14,22 @@ namespace DeliveryService
     {
         static void Main(string[] args)
         {
-            var types = new List<FoodType> { 
-                new FoodType("Drink"), 
-                new FoodType("Roll"), 
-                new FoodType("Pizza") }
-            ;
+            var connectionString = new SettingDb("appsettings.json").ConnectionString;
+            var foodrepo = new FoodRepo(connectionString);
+            var foodrepoContrib = new FoodRepoContrib(connectionString);
 
-            var foods = new List<Food> { 
-                new Food("Cola", 50, 100, types[0]), 
-                new Food("Albin Pizza", 200, 100, types[0]), 
-                new Food("Bol", 50, 100, types[1]) 
-            };
-            var foods2 = new List<Food> { 
-                new Food("Coca", 50, 100, types[0]), 
-                new Food("Havai Pizza ", 200, 100, types[2]), 
-                new Food("Bol", 50, 100, types[1]) 
-            };
+            var food = foodrepoContrib.GetFoodByIdWithObjects(9);
+            food.FoodId = 18;
+            foodrepoContrib.AddFood(food);
+            food.Price = 6770;
+            foodrepoContrib.UpdateFoodWithObjects(food);
+            foodrepoContrib.DeleteFoodWithObjects(3);
+            foodrepoContrib.DeleteFood(18);
 
-            var manuf = new List<Manufacturer> { 
-                new Manufacturer("Mascon", null, default) { Foods = new List<Food>(foods) },
-                new Manufacturer("Sanson", null, default) { Foods = new List<Food>(foods2) },
-                new Manufacturer("Purpone", null, default)
-            };
+            var foods = foodrepoContrib.GetFoodsWithObjects();
 
-            foods.AddRange(foods2);
-
-            var linq = new LINQuery(manuf, types, foods);
-
-            linq.PrintList(linq.GetSortFoods());
-
-            linq.PrintList(linq.GetFoodsManufacturersName());
-
-            linq.PrintList(linq.GetCountFoodInTypes());
-
-            linq.PrintList(linq.GetCountFoodInManufacturers());
-
-            linq.PrintList(linq.GetCommonFoodForTwoManufacturers(manuf[0], manuf[1]));
-         
-            linq.PrintList(linq.GetUniqueFood(manuf[0], manuf[2]));
+            foreach (var fc in foods)
+                Console.WriteLine(fc);
         }
     }
 }

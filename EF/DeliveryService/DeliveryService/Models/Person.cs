@@ -4,24 +4,26 @@ using DeliveryService.Models.BaseModel;
 
 namespace DeliveryService.Models
 {
-     public class Person: Model
+     public class Person
      {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
+        public string Name { get; set; }
+        public string SecondName { get; set; }
+        public string Phone { get; set; }
+        public Person()
+        {}
 
-        public Person(string firstName, string lastName, string phoneNumber) 
+        public Person(string name, string secondName, string phone) 
         {
-            FirstName = firstName;
-            LastName = lastName;
-            PhoneNumber = phoneNumber;
+            Name = name;
+            SecondName = secondName;
+            Phone = phone;
         }
 
-        public Person(int id, string firstName, string lastName, string phoneNumber) : base(id)
+        public Person(int id, string name, string secondName, string phone) 
         {
-            FirstName = firstName;
-            LastName = lastName;
-            PhoneNumber = phoneNumber;
+            Name = name;
+            SecondName = secondName;
+            Phone = phone;
         }
      }
 }

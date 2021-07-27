@@ -1,24 +1,24 @@
-﻿using DeliveryService.Models.BaseModel;
+﻿using Dapper.Contrib.Extensions;
+using DeliveryService.Models.BaseModel;
 
 namespace DeliveryService.Models
 {
-    public class FoodType:Model
+    public class FoodType 
     {
+        [Key]
+        public int FoodTypeId { get;set;}
         public string Name { get; set; }
+
+        public FoodType() { }
 
         public FoodType( string name) 
         {
             Name = name;
         }
 
-        public FoodType(int id, string name) : base(id)
-        {
-            Name = name;
-        }
-
         public override string ToString()
         {
-            return $"Name: {Name}";
+            return $" { FoodTypeId} Name: {Name}";
         }
     }
 }

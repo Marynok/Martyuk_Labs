@@ -1,4 +1,4 @@
-﻿using DeliveryService.Models.BaseModel;
+﻿using DeliveryService.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,24 +7,13 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Models
 {
-    class Delivery: Model
+    public class Delivery: BaseModel
     {
-        Order Order { get; set; }
-        DeliveryMan DeliveryMan { get; set; }
-        DateTime TimeStart { get; set; }
-        DateTime TimeEnd { get; set; }
-        decimal Price { get; set; }
-        public Delivery(Order order, decimal price) 
-        {
-            Order = order;
-            Price = price;
-        }
-
-        public Delivery(Order order, decimal price, int id):base(id)
-        {
-            Order = order;
-            Price = price;
-        }
+        public Order Order { get; set; }
+        public DeliveryMan DeliveryMan { get; set; }
+        public DateTime TimeStart { get; set; }
+        public DateTime TimeEnd { get; set; }
+        public decimal Price { get; set; }
 
         public override string ToString()
         {

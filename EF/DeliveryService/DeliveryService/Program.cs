@@ -34,19 +34,19 @@ namespace DeliveryService
 
             foods.AddRange(foods2);
 
-            var linq = new LINQuery(manuf, types, foods);
+            var manager = new FoodManager(manuf, types, foods);
 
-            linq.PrintList(linq.GetSortFoods());
+            manager.PrintList(manager.GetSortFoods());
 
-            linq.PrintList(linq.GetFoodsManufacturersName());
+            manager.PrintList(manager.GetFoodsManufacturersName());
 
-            linq.PrintList(linq.GetCountFoodInTypes());
+            manager.PrintList(manager.GetCountFoodInTypes());
 
-            linq.PrintList(linq.GetCountFoodInManufacturers());
+            manager.PrintList(manager.GetCountFoodInManufacturers());
 
-            linq.PrintList(linq.GetCommonFoodForTwoManufacturers(manuf[0], manuf[1]));
-         
-            linq.PrintList(linq.GetUniqueFood(manuf[0], manuf[2]));
+            manager.PrintList(manager.GetCommonFoodForTwoManufacturers(manuf[0], manuf[1]));
+
+            manager.PrintList(manager.GetUniqueFood(manuf[0], manuf[2]));
         }
     }
 }

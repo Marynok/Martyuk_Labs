@@ -10,26 +10,26 @@ namespace DeliveryService
         static void Main(string[] args)
         {
             var types = new List<FoodType> { 
-                new FoodType("Drink"), 
-                new FoodType("Roll"), 
-                new FoodType("Pizza") }
+                new FoodType(){Name ="Drink" }, 
+                new FoodType(){Name ="Roll" }, 
+                new FoodType(){Name ="Pizza" } }
             ;
 
             var foods = new List<Food> { 
-                new Food("Cola", 50, 100, types[0]), 
-                new Food("Albin Pizza", 200, 100, types[0]), 
-                new Food("Bol", 50, 100, types[1]) 
+                new Food(){Name="Cola", Price = 50, Weight = 100, Type = types[0] }, 
+                new Food(){Name="Albin Pizza", Price = 200, Weight = 100, Type = types[0] }, 
+                new Food() {Name="Bol", Price = 50, Weight = 100, Type = types[1] }
             };
             var foods2 = new List<Food> { 
-                new Food("Coca", 50, 100, types[0]), 
-                new Food("Havai Pizza ", 200, 100, types[2]), 
-                new Food("Bol", 50, 100, types[1]) 
+                new Food(){Name="Coca", Price = 50, Weight = 100, Type = types[0] }, 
+                new Food(){Name="Havai Pizza", Price = 200, Weight = 100, Type = types[2] }, 
+                new Food(){Name="Bol", Price = 50, Weight = 100, Type = types[1] }
             };
 
             var manuf = new List<Manufacturer> { 
-                new Manufacturer("Mascon", null, default) { Foods = new List<Food>(foods) },
-                new Manufacturer("Sanson", null, default) { Foods = new List<Food>(foods2) },
-                new Manufacturer("Purpone", null, default)
+                new Manufacturer() {Name ="Mascon", Foods = new List<Food>(foods) },
+                new Manufacturer() {Name ="Sanson", Foods = new List<Food>(foods2) },
+                new Manufacturer(){Name = "Purpone" }
             };
 
             foods.AddRange(foods2);
@@ -46,7 +46,7 @@ namespace DeliveryService
 
             manager.PrintList(manager.GetCommonFoodForTwoManufacturers(manuf[0], manuf[1]));
 
-            manager.PrintList(manager.GetUniqueFood(manuf[0], manuf[2]));
+            manager.PrintList(manager.GetUniqueFood(manuf[0], manuf[1]));
         }
     }
 }

@@ -1,20 +1,10 @@
-﻿using DeliveryService.Models.BaseModel;
+﻿using DeliveryService.Models.Base;
 
 namespace DeliveryService.Models
 {
-    public class FoodType:Model
+    public class FoodType: BaseModel
     {
         public string Name { get; set; }
-
-        public FoodType( string name) 
-        {
-            Name = name;
-        }
-
-        public FoodType(int id, string name) : base(id)
-        {
-            Name = name;
-        }
 
         public override string ToString()
         {

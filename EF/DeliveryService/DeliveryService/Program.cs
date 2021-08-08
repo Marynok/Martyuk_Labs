@@ -1,7 +1,7 @@
 ﻿using DeliveryService.Settings;
 using DeliveryService.LinqTask;
 using DeliveryService.Models;
-using DeliveryService.Repo;
+using DeliveryService.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using System;
@@ -15,8 +15,8 @@ namespace DeliveryService
         static void Main(string[] args)
         {
             var connectionString = new SettingDb("appsettings.json").ConnectionString;
-            var foodrepo = new FoodRepo(connectionString);
-            var foodrepoContrib = new FoodRepoContrib(connectionString);
+            var foodrepo = new FoodRepository(connectionString);
+            var foodrepoContrib = new FoodRepositoryContrib(connectionString);
 
             var food = foodrepoContrib.GetFoodByIdWithObjects(9);
             food.FoodId = 18;

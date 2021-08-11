@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryServiceEF.Domain.BaseModel
+namespace DeliveryServiceEF.Domain.Base
 {
-     public abstract class Model
+     public abstract class BaseModel
      { 
         public int Id { get; set; }
-        public Model(){}
+        public BaseModel(){}
 
-        public Model(int id)
+        public BaseModel(int id)
         {
             Id = id;
         }

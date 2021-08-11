@@ -1,10 +1,10 @@
-﻿using DeliveryServiceEF.Domain.BaseModel;
+﻿using DeliveryServiceEF.Domain.Base;
 using System;
 using System.Collections.Generic;
 
 namespace DeliveryServiceEF.Domain
 {
-    public class Manufacturer : Model
+    public class Manufacturer : BaseModel
     {
         public string Name { get; set; }
         public int AddressId { get; set; }
@@ -12,23 +12,6 @@ namespace DeliveryServiceEF.Domain
         public string Description { get; set; }
         public IList<Food> Foods { get; set; }
 
-        public Manufacturer() { }
-        public Manufacturer(string name, Address address, string description)
-        {
-            Name = name;
-            Address = address;
-            Description = description;
-            Foods = new List<Food>();
-        }
-
-        public Manufacturer(int id, string name, Address address, string description) : base(id)
-        {
-            Name = name;
-            Address = address;
-            Description = description;
-            Foods = new List<Food>();
-        }
-       
         public override string ToString()
         {
             return $"{base.Id} {Name}";

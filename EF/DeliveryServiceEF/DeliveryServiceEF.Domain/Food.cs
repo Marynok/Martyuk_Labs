@@ -1,10 +1,10 @@
-﻿using DeliveryServiceEF.Domain.BaseModel;
+﻿using DeliveryServiceEF.Domain.Base;
 using System;
 using System.Collections.Generic;
 
 namespace DeliveryServiceEF.Domain
 {
-    public class Food : Model
+    public class Food : BaseModel
     {
         public int ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
@@ -14,24 +14,7 @@ namespace DeliveryServiceEF.Domain
         public decimal Price { get; set; }
         public float Weight { get; set; }
         public IList<OrderFoodData> OrderFoodDatas { get; set; }
-        public Food() { }
-       
-        public Food(string name, decimal price, float weight, FoodType type)
-        {
-            Name = name;
-            Price = price;
-            Weight = weight;
-            Type = type;
-        }
-
-        public Food(int id, string name, decimal price, float weight, FoodType type) : base(id)
-        {
-            Name = name;
-            Price = price;
-            Weight = weight;
-            Type = type;
-        }
-
+  
         public override string ToString()
         {
             return $"{base.Id} {Name} {Weight} {Price}$ {Type.Name}";

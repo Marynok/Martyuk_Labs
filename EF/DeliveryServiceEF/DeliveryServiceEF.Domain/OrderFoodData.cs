@@ -1,6 +1,7 @@
 ﻿using DeliveryServiceEF.Domain.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -14,7 +15,8 @@ namespace DeliveryServiceEF.Domain
         public int OrderId { get; set; }
         public Order Order { get; set; }
         public int Count { get; set; }
-        public decimal TotalPrice { get; }
+        [NotMapped]
+        public decimal TotalPrice { get { return Count * Food.Price; } }
   
         public override string ToString()
         {

@@ -23,7 +23,7 @@ namespace DeliveryServiceEF.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer("Data Source =.\\SQLEXPRESS03; Initial Catalog=DeliveryServiceEF; Integrated Security=True");
+            builder.UseSqlServer("Data Source =.\\SQLEXPRESS03; Initial Catalog=DeliveryServiceEFC; Integrated Security=True");
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -54,6 +54,10 @@ namespace DeliveryServiceEF.Data
                 .HasConversion(
                     v => v.ToString(),
                     v => (OrderStatus)Enum.Parse(typeof(OrderStatus), v));
+
+            builder.Entity<Order>()
+                 .Property(o => o.Date)
+                 .HasDefaultValueSql("GETDATE()"); 
         }
     }
 }

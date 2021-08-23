@@ -17,11 +17,17 @@ namespace DeliveryServiceEF.UI
             _context.Database.EnsureCreated();
             var unitOfWork = new UnitOfWork(_context);
 
-            CreateDatas(unitOfWork);
-           // DeleteDatas(unitOfWork);
-            UpdateDatas(unitOfWork);
+          //  CreateDatas(unitOfWork);
+            DeleteDatas(unitOfWork);
+           // UpdateDatas(unitOfWork);
+            //Ptint(unitOfWork);
 
+            var foods = _context.Set<Food>();
+            foreach (var f in foods)
+                Console.WriteLine(f);
         }
+
+    
 
         static void CreateDatas(IUnitOfWork unitOfWork)
         {
@@ -55,7 +61,7 @@ namespace DeliveryServiceEF.UI
 
         static void DeleteDatas(IUnitOfWork unitOfWork)
         {
-            unitOfWork.ManufacturerRepository.Delete(3);
+            unitOfWork.ManufacturerRepository.Delete(6);
             unitOfWork.Save();
         }
 
@@ -63,9 +69,15 @@ namespace DeliveryServiceEF.UI
         {
             var food = unitOfWork.FoodRepository.GetOne(3);
             food.Name = "CocaCola1111";
-            food.Type = unitOfWork.FoodTypeRepository.GetSome(ft => ft.Name == "Water").FirstOrDefault();
+            food.Type = unitOfWork.FoodTypeRepository.GetSome(ft => ft.Name == "Pizza").FirstOrDefault();
             unitOfWork.FoodRepository.Update(food);
             unitOfWork.Save();
+        }
+        static void Ptint(IUnitOfWork unitOfWork)
+        {
+            var foods = unitOfWork.FoodRepository.GetAll();
+            foreach (var f in foods)
+                Console.WriteLine(f);
         }
 
     }

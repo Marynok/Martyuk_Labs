@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeliveryServiceEF.Domain.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceEF.Data.Interfaces
 {
-    public interface IRepository<T>  where T : class
+    public interface IRepository<T>  where T : BaseModel
     {
         IEnumerable<T> GetAll();
         T GetOne(int id);

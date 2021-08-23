@@ -1,11 +1,7 @@
 ﻿using DeliveryServiceEF.Data.Interfaces;
 using DeliveryServiceEF.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DeliveryServiceEF.Data.DataWorkers
 {
@@ -47,6 +43,7 @@ namespace DeliveryServiceEF.Data.DataWorkers
         public UnitOfWork(DbContext context)
         {
             _context = context;
+            //_context.Database.Migrate();
         }
 
         public void Save()

@@ -5,4 +5,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\EF\DeliveryServiceEF\DeliveryServiceEF.Data\DeliveryServiceEF.Data.csproj" />
+    <ProjectReference Include="..\..\EF\DeliveryServiceEF\DeliveryServiceEF.Domain\DeliveryServiceEF.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

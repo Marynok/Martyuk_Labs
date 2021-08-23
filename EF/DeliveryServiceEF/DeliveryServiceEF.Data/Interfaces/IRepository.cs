@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryServiceEF.UI.Interfaces
+namespace DeliveryServiceEF.Data.Interfaces
 {
     public interface IRepository<T>  where T : class
     {

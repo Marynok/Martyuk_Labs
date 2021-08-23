@@ -1,5 +1,5 @@
-﻿using DeliveryServiceEF.Domain;
-using DeliveryServiceEF.UI.Interfaces;
+﻿using DeliveryServiceEF.Data.Interfaces;
+using DeliveryServiceEF.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryServiceEF.UI.DataWorkers
+namespace DeliveryServiceEF.Data.DataWorkers
 {
     public class UnitOfWork: IUnitOfWork
     {

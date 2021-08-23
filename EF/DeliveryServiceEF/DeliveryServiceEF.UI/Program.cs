@@ -1,7 +1,7 @@
 ﻿using DeliveryServiceEF.Data;
+using DeliveryServiceEF.Data.DataWorkers;
+using DeliveryServiceEF.Data.Interfaces;
 using DeliveryServiceEF.Domain;
-using DeliveryServiceEF.UI.DataWorkers;
-using DeliveryServiceEF.UI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace DeliveryServiceEF.UI
             var unitOfWork = new UnitOfWork(_context);
 
             CreateDatas(unitOfWork);
-            DeleteDatas(unitOfWork);
+           // DeleteDatas(unitOfWork);
             UpdateDatas(unitOfWork);
 
         }
@@ -62,7 +62,7 @@ namespace DeliveryServiceEF.UI
         static void UpdateDatas(IUnitOfWork unitOfWork)
         {
             var food = unitOfWork.FoodRepository.GetOne(3);
-            food.Name = "CocaCola";
+            food.Name = "CocaCola1111";
             food.Type = unitOfWork.FoodTypeRepository.GetSome(ft => ft.Name == "Water").FirstOrDefault();
             unitOfWork.FoodRepository.Update(food);
             unitOfWork.Save();

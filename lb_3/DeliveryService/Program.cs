@@ -18,18 +18,18 @@ namespace DeliveryService
             db.InitializeData();
             db.ReadData();
 
-            var cashe = new DeliveryCache();
-            var cashController = new CacheController(cashe);
+            var cache = new DeliveryCache();
+            var cacheController = new CacheController(cache);
 
             var logger = new DeliveryLogger("log","txt");
 
-            var clients = new DatabaseController<Client>(db, logger, cashController);
-            var manufacturers = new DatabaseController<Manufacturer>(db, logger, cashController);
-            var addresses = new DatabaseController<Address>(db, logger, cashController);
-            var foods = new DatabaseController<Food>(db, logger, cashController);
-            var foodTypes = new DatabaseController<FoodType>(db, logger, cashController);
-            var baskets = new DatabaseController<Basket>(db, logger, cashController);
-            var orders = new DatabaseController<Order>(db, logger, cashController);
+            var clients = new DatabaseController<Client>(db, logger, cacheController);
+            var manufacturers = new DatabaseController<Manufacturer>(db, logger, cacheController);
+            var addresses = new DatabaseController<Address>(db, logger, cacheController);
+            var foods = new DatabaseController<Food>(db, logger, cacheController);
+            var foodTypes = new DatabaseController<FoodType>(db, logger, cacheController);
+            var baskets = new DatabaseController<Basket>(db, logger, cacheController);
+            var orders = new DatabaseController<Order>(db, logger, cacheController);
 
             var clientController = new ClientController(clients, orders);
             var manufacturerController = new ManufacturerController(manufacturers);

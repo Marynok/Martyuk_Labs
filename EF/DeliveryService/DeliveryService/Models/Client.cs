@@ -1,7 +1,5 @@
 ﻿using Dapper.Contrib.Extensions;
-using DeliveryService.Models.BaseModel;
 using System.Collections.Generic;
-
 
 namespace DeliveryService.Models
 {
@@ -13,17 +11,6 @@ namespace DeliveryService.Models
         public Client()
         {}
  
-        public Client( string firstName, string lastName, string phoneNumber) : base(firstName, lastName, phoneNumber)
-        {
-            Orders = new List<Order>();
-        }
-
-        public Client(int clientId, string name, string secomdName, string phone) : base(name, secomdName, phone)
-        {
-            ClientId = clientId;
-            Orders = new List<Order>();
-        }
-
         public override string ToString()
         {
             return $"Id {ClientId} Name: {Name}, Last name: {SecondName}, Phone: {Phone}";

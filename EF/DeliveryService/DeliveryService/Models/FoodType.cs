@@ -1,5 +1,5 @@
 ﻿using Dapper.Contrib.Extensions;
-using DeliveryService.Models.BaseModel;
+
 
 namespace DeliveryService.Models
 {
@@ -8,13 +8,6 @@ namespace DeliveryService.Models
         [Key]
         public int FoodTypeId { get;set;}
         public string Name { get; set; }
-
-        public FoodType() { }
-
-        public FoodType( string name) 
-        {
-            Name = name;
-        }
 
         public override string ToString()
         {

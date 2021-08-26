@@ -4,10 +4,12 @@ using DeliveryService.Models.Base;
 
 namespace DeliveryService.Models
 {
-     public class Person: BaseModel
+     public class Person
      {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
+        public string Name { get; set; }
+        public string SecondName { get; set; }
+        public string Phone { get; set; }
+        public Person()
+        {}
      }
 }

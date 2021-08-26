@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Repository
 {
-    public class FoodRepositoryContrib : IFoodRepository, IFoodWithObjectsRepository
+    public class FoodRepositoryContrib : IFoodRepository
     {
         readonly private IDbConnection db;
         public FoodRepositoryContrib(string connectionString)

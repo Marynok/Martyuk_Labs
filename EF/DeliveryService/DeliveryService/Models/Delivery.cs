@@ -17,7 +17,7 @@ namespace DeliveryService.Models
 
         public override string ToString()
         {
-            return $"";
+            return $"DeliveryMan = {DeliveryMan} TimeStart ={TimeStart} TimeEnd ={TimeEnd} Price = {Price}";
         }
     }
 }

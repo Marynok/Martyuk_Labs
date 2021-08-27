@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DeliveryService.Repository
 {
-    public class FoodRepository : IFoodRepository, IFoodWithObjectsRepository
+    public class FoodRepository : IFoodRepository
     {
         readonly private IDbConnection db;
   

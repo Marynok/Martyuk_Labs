@@ -13,7 +13,7 @@ namespace DeliveryService.Models
         public string Date { get; set; }
 
         [JsonPropertyName("baseCurrencyLit")]
-        public string BaseCurrencyLit { get; set; }
+        public string BaseCurrency { get; set; }
 
         [JsonPropertyName("exchangeRate")]
         public IList<ExchangeRate> ExchangeRate { get; set; }

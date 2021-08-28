@@ -2,6 +2,7 @@
 using DeliveryService.Interfaces;
 using DeliveryService.UserInterface.Check;
 using System;
+using System.Threading.Tasks;
 
 namespace DeliveryService.UserInterface
 {
@@ -25,7 +26,7 @@ namespace DeliveryService.UserInterface
             _basketController = basketController;
             _currencyController = currencyController;
         }
-        public void Start()
+        public async Task Start()
         {
             _serviceMenu = null;
             Console.WriteLine("Press Number");
@@ -42,7 +43,7 @@ namespace DeliveryService.UserInterface
                 if (_serviceMenu is null)
                     Console.WriteLine("Input value outside the menu ");
             }
-            _serviceMenu.Start();
+           await _serviceMenu.Start();
         }
     }
 }

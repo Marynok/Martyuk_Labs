@@ -5,6 +5,7 @@ using DeliveryService.Models;
 using DeliveryService.UserInterface.Check;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DeliveryService.UserInterface
 {
@@ -23,7 +24,7 @@ namespace DeliveryService.UserInterface
             _basketController = basketController;
             _currencyController = currencyController;
         }
-        public override void PersonalArea()
+        public async Task PersonalArea()
         {
             var checkMenu = true;
             while (checkMenu)
@@ -40,7 +41,7 @@ namespace DeliveryService.UserInterface
                         ShowOrders();
                         break;
                     case 2:
-                        CreateNewOrder();
+                        await CreateNewOrder();
                         break;
                     case 3:
                         checkMenu = false;
@@ -55,13 +56,13 @@ namespace DeliveryService.UserInterface
         }
         public override void Registrate()
         {}
-        public override void SignIn()
+        public override async Task SignIn()
         {
             _clientController.SearchClient("099502352114");
             _basketController.SetBasket(_clientController.Client);
-            PersonalArea();
+            await PersonalArea();
         }
-        public void CreateNewOrder()
+        public async Task  CreateNewOrder()
         {
             Console.Clear();
             if (SelectManufacturer())
@@ -70,7 +71,7 @@ namespace DeliveryService.UserInterface
                 while (continueCheck)
                 {
                     Console.Clear();
-                    ShowOrderPrice();
+                    await ShowOrderPrice();
                     BaseConsoleFunction.ConsoleDelimiter();
                     BaseConsoleFunction.WithdrawList(_orderMenuItems);
                     BaseConsoleFunction.ConsoleDelimiter();
@@ -117,7 +118,7 @@ namespace DeliveryService.UserInterface
                 BaseConsoleFunction.GetProperty("Your basket is empty. Press enter to continue ");
         }
 
-        public async void ShowOrderPrice()
+        public async Task  ShowOrderPrice()
         {
             var searchCurrency = "EUR";
             var baseCurrency = "UAH";

@@ -9,7 +9,7 @@ namespace DeliveryService.Interfaces
 {
     public interface ICurrencyController
     {
-        public Task<Currency> GetApiDataAsync();
-        public Task<decimal> GetExchangeRate(string searchCurrency);
+        Task<Currency> GetApiDataAsync();
+        Task<decimal> GetExchangeRate(string searchCurrency);
     }
 }

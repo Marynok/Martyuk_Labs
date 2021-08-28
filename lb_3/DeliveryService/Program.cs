@@ -5,12 +5,13 @@ using DeliveryService.DataController.Logger;
 using DeliveryService.Models;
 using DeliveryService.DataSaver;
 using DeliveryService.UserInterface;
+using System.Threading.Tasks;
 
 namespace DeliveryService
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var dataSaver = new DeliveryDataSaver("datas");
             var db = new DeliveryDatabase(dataSaver);
@@ -39,7 +40,7 @@ namespace DeliveryService
 
             var mainMenu = new MainMenu(manufacturerController, clientController, addressController, foodController, basketController, currencyController);
 
-            mainMenu.Start();
+            await mainMenu.Start();
         }
     }
 }

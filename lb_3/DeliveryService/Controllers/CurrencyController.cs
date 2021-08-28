@@ -14,15 +14,10 @@ namespace DeliveryService.Controllers
     {
         private Currency _currency;
 
-        private string getDate()
-        {
-            return DateTime.Now.ToShortDateString();
-        }
-
         public async Task<Currency> GetApiDataAsync()
         {
             var client = new HttpClient();
-            var url = "https://api.privatbank.ua/p24api/exchange_rates?json&date=" + getDate();
+            var url = "https://api.privatbank.ua/p24api/exchange_rates?json&date=" + DateTime.Now.ToShortDateString();
             var request = new HttpRequestMessage(HttpMethod.Get, url); 
             var response = await client.SendAsync(request).ConfigureAwait(false);
             return JsonSerializer.Deserialize<Currency>(await response.Content.ReadAsStringAsync());
@@ -30,13 +25,13 @@ namespace DeliveryService.Controllers
 
         public async Task<decimal> GetExchangeRate(string searchCurrency)
         {
-            if ((_currency is null) || (!_currency.Date.Equals(getDate())))
+            if (_currency is null || !_currency.Date.Equals(DateTime.Now.ToShortDateString()))
             {
                 _currency = await GetApiDataAsync();
             }
             
             var exchangeRate = _currency.ExchangeRate.FirstOrDefault(rate => rate.Currency == searchCurrency);
-            return (exchangeRate is null)? 0 : exchangeRate.Sale ;
+            return exchangeRate is null ? 0 : exchangeRate.Sale ;
         }
     }
 }

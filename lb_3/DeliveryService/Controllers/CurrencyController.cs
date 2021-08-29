@@ -25,7 +25,7 @@ namespace DeliveryService.Controllers
 
         public async Task<decimal> GetExchangeRate(string searchCurrency)
         {
-            if (_currency is null || !_currency.Date.Equals(DateTime.Now.ToShortDateString()))
+            if (_currency is null || !_currency.Date.Equals(DateTime.Now))
             {
                 _currency = await GetApiDataAsync();
             }

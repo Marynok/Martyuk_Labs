@@ -1,4 +1,5 @@
-﻿using DeliveryService.Interfaces;
+﻿using DeliveryService.DataController.Cache;
+using DeliveryService.Interfaces;
 using DeliveryService.Models.BaseModel;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace DeliveryService.DataController
     {
         private readonly IDataBase _database;
         private readonly ILogger _logger;
-        public DatabaseController(IDataBase database, ILogger logger)
+        private readonly ICacheController _cache;
+        public DatabaseController(IDataBase database, ILogger logger, ICacheController cache)
         {
             _database = database;
             _logger = logger;
+            _cache = cache;
         }
 
         public void AddModel(TModel model)
@@ -28,6 +31,7 @@ namespace DeliveryService.DataController
                 _database.SaveData<TModel>();
             }
         }
+
         public void Delete(TModel model)
         {
             var models = (IList<TModel>)_database.Database[typeof(TModel)];
@@ -37,8 +41,10 @@ namespace DeliveryService.DataController
                 if (models.Remove(deletedModel)) 
                     _logger.Log(DataMessage.Delete(model));
                 _database.SaveData<TModel>();
+                _cache.ThredSafeWorkWithCache(_cache.RemoveFromCache, model);
             }
         }
+
         public void Update(TModel newModel)
         {
             var models = (IList<TModel>)_database.Database[typeof(TModel)];
@@ -52,19 +58,30 @@ namespace DeliveryService.DataController
                     models.Insert(index, newModel);
                     _logger.Log(DataMessage.Update(updatedModel, newModel));
                     _database.SaveData<TModel>();
+                    _cache.ThredSafeWorkWithCache(_cache.SetToCache, newModel);
                 }
             }
         }
+
         public TModel Search(Func<TModel, bool> func)
         {
-            var models = (IList<TModel>)_database.Database[typeof(TModel)];
-            return models.SingleOrDefault(func);
+            var model = _cache.GetFromCache(func);
+            if(model is null) 
+            {
+                var models = (IList<TModel>)_database.Database[typeof(TModel)];
+                model = models.SingleOrDefault(func);
+                if (!(model is null))
+                    _cache.ThredSafeWorkWithCache(_cache.SetToCache, model);
+            }
+           
+            return model;
         }
         
         public IEnumerable<TModel> GetAll()
         {
             return (IList<TModel>)_database.Database[typeof(TModel)];
         }
+
         private int GetId()
         {
             var models = (IList<TModel>)_database.Database[typeof(TModel)];

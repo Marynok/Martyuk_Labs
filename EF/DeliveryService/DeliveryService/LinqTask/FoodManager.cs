@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.LinqTask
 {
-   public class LINQuery
+   public class FoodManager
     {
         public IList<Food> Foods { get; set; }
         public IList<FoodType> FoodTypes { get; set; }
         public IList<Manufacturer> Manufacturers { get; set; }
 
-        public LINQuery(IList<Manufacturer> manufacturers, IList<FoodType> foodTypes, IList<Food> foods)
+        public FoodManager(IList<Manufacturer> manufacturers, IList<FoodType> foodTypes, IList<Food> foods)
         {
             Foods = foods;
             FoodTypes = foodTypes;
@@ -23,13 +23,13 @@ namespace DeliveryService.LinqTask
 
         public IEnumerable GetSortFoods()
         {
-            return (Foods?.OrderBy(f => f.Name)).ToList();
+            return Foods?.OrderBy(f => f.Name).ToList();
         }
 
         public IEnumerable GetFoodsManufacturersName()
         {
-            return (Manufacturers?.SelectMany(m => m.Foods,
-                            (m, f) => new { Manufacturer = m.Name, Food = f.Name })).ToList();
+            return Manufacturers?.SelectMany(m => m.Foods,
+                            (m, f) => new { Manufacturer = m.Name, Food = f.Name }).ToList();
         }
 
         public IEnumerable GetCountFoodInTypes()

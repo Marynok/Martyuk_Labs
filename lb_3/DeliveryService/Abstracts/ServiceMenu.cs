@@ -24,18 +24,18 @@ namespace DeliveryService.Abstracts
             _mainMenu = mainMenu;
             _manufacturerController = manufacturerController;
         }
-        public void Start()
+        public async Task Start()
         {
-            SignIn();
+            await SignIn();
         }
-        public void Exit()
+      
+        public async Task Exit()
         {
             Console.Clear();
-            _mainMenu.Start();
+            await _mainMenu.Start();
         }
-        public abstract void SignIn();
+        public abstract Task SignIn();
         public abstract void Registrate();
-        public abstract void PersonalArea();
 
     }
 }

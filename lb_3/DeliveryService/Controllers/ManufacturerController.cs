@@ -14,6 +14,7 @@ namespace DeliveryService.Controllers
         {
             _manufacturers = manufacturers;
         }
+
         public Manufacturer SearchManufacturer(string Name)
         {
             _manufacturer = _manufacturers.Search(m => m.Name == Name);

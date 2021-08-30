@@ -22,7 +22,7 @@ namespace DeliveryService.UserInterface
             _manufacturerController = manufacturerController;
             _foodController = foodController;
         }
-        public void Start()
+        public async Task Start()
         {
             var checkMenu = true;
             while (checkMenu)

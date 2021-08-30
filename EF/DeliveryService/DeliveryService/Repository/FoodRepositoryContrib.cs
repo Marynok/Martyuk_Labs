@@ -10,12 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.Repo
+namespace DeliveryService.Repository
 {
-    public class FoodRepoContrib : IFoodRepository, IFoodWithObjectsRepository
+    public class FoodRepositoryContrib : IFoodRepository
     {
         readonly private IDbConnection db;
-        public FoodRepoContrib(string connectionString)
+        public FoodRepositoryContrib(string connectionString)
         {
             db = new SqlConnection(connectionString);
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DeliveryService.Models.BaseModel;
+using DeliveryService.Models.Base;
 
 namespace DeliveryService.Models
 {
@@ -11,19 +11,5 @@ namespace DeliveryService.Models
         public string Phone { get; set; }
         public Person()
         {}
-
-        public Person(string name, string secondName, string phone) 
-        {
-            Name = name;
-            SecondName = secondName;
-            Phone = phone;
-        }
-
-        public Person(int id, string name, string secondName, string phone) 
-        {
-            Name = name;
-            SecondName = secondName;
-            Phone = phone;
-        }
      }
 }

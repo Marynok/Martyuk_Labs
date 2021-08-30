@@ -6,13 +6,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace DeliveryService.Repo
+namespace DeliveryService.Repository
 {
-    public class FoodRepo : IFoodRepository, IFoodWithObjectsRepository
+    public class FoodRepository : IFoodRepository
     {
         readonly private IDbConnection db;
   
-        public FoodRepo(string connectionString)
+        public FoodRepository(string connectionString)
         {
             db = new SqlConnection(connectionString);
         }

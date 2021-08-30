@@ -1,7 +1,9 @@
-﻿namespace DeliveryService.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace DeliveryService.Interfaces
 {
     public interface IMenu
     {
-        void Start();
+        Task Start();
     }
 }

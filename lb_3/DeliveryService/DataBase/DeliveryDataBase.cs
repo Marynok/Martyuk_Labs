@@ -6,17 +6,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using DeliveryService.Models.BaseModel;
+using DeliveryService.Abstracts;
 
 namespace DeliveryService.Database
 {
     public class DeliveryDatabase: IDataBase
     {
-        public Dictionary<Type, IList> Database { get; set; }
         private IDataSaver _dataSaver;
+        public Dictionary<Type, IList> Database { get; set; }
+
         public DeliveryDatabase(IDataSaver dataSaver)
         {
-            Database = new Dictionary<Type, IList>();
             _dataSaver = dataSaver;
+            Database = new Dictionary<Type, IList>();
         }
 
         public void InitializeData()
@@ -29,7 +31,7 @@ namespace DeliveryService.Database
             Database.Add(typeof(Order), new List<Order>());
             Database.Add(typeof(Basket), new List<Basket>());
         }
-
+       
         public void ReadData()
         {
             ((List<Manufacturer>)Database[typeof(Manufacturer)]).AddRange(_dataSaver.ReadFromFile<Manufacturer>(typeof(Manufacturer).Name));

@@ -20,10 +20,12 @@ namespace DeliveryService.Controllers
         {
             return _foodTypes.GetSome(f => f.Name == name).FirstOrDefault();
         }
+
         public Food SearchFood(int id)
         {
             return _food.GetOne(id);
         }
+
         public FoodType CreateFoodType(string name)
         {
             var foodType = SearchFoodType(name);
@@ -34,6 +36,7 @@ namespace DeliveryService.Controllers
             }
             return foodType;
         }
+
         public Food CreateFood(string name, decimal price, float weight, string type)
         {
             var foodType = CreateFoodType(type);
@@ -41,6 +44,7 @@ namespace DeliveryService.Controllers
             _food.Add(food);
             return food;
         }
+
         public Food UpdateFood(Food food, string name, decimal price, float weight, string type)
         {
             var foodType = CreateFoodType(type);

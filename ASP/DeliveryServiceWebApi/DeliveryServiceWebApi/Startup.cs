@@ -1,3 +1,4 @@
+using DeliveryService.Interfaces;
 using DeliveryServiceEF.Data;
 using DeliveryServiceEF.Data.DataWorkers;
 using DeliveryServiceEF.Data.Interfaces;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BL = DeliveryService.Controllers;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
@@ -30,8 +32,16 @@ namespace DeliveryServiceWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>();
-            services.AddControllers();
+            services.AddTransient<DbContext, DataContext>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IFoodController, BL.FoodController>();
+            services.AddTransient<IManufacturerController, BL.ManufacturerController>();
+            services.AddTransient<IFoodTypeController, BL.FoodTypeController>();
+
+            services.AddControllers().AddJsonOptions(options => {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeliveryServiceWebApi", Version = "v1" });

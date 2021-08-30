@@ -1,6 +1,7 @@
 ﻿using DeliveryService.Interfaces;
 using DeliveryService.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DeliveryService.Controllers
 {
@@ -62,6 +63,11 @@ namespace DeliveryService.Controllers
                 _baskets.Update(_basket);
                 return foodData;
             }
+        }
+
+        public decimal GetTotalPrice()
+        {
+            return _basket.SelectedItems.Sum(food => food.Count * food.TotalPrice);
         }
     }
 }

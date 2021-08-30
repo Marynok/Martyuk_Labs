@@ -24,5 +24,13 @@ namespace DeliveryService.UserInterface
         {
             Console.WriteLine("===============================================>");
         }
+        public static void ConsoleWriteOnPosition(int x, int y, string message)
+        {
+            var oldX = Console.CursorLeft;
+            var oldY = Console.CursorTop;
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine(message);
+            Console.SetCursorPosition(oldX, oldY);
+        }
     }
 }

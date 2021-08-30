@@ -1,9 +1,11 @@
 ﻿using DeliveryService.Abstracts;
 using DeliveryService.Controllers;
 using DeliveryService.Interfaces;
+using DeliveryService.Models;
 using DeliveryService.UserInterface.Check;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DeliveryService.UserInterface
 {
@@ -13,14 +15,16 @@ namespace DeliveryService.UserInterface
         private readonly string[] _orderMenuItems = new string[] { "Add product", "Create order", "Exit" };
         private readonly IClientController _clientController;
         private readonly IBasketController _basketController;
+        private readonly ICurrencyController _currencyController;
         public ClientMenu(IMenu mainMenu, IClientController clientController, IBasketController basketController,
-            IAddressController addressController, IManufacturerController manufacturerController) 
+            IAddressController addressController, IManufacturerController manufacturerController, ICurrencyController currencyController) 
             : base(mainMenu, addressController, manufacturerController)
         {
             _clientController = clientController;
             _basketController = basketController;
+            _currencyController = currencyController;
         }
-        public override void PersonalArea()
+        public async Task PersonalArea()
         {
             var checkMenu = true;
             while (checkMenu)
@@ -37,7 +41,7 @@ namespace DeliveryService.UserInterface
                         ShowOrders();
                         break;
                     case 2:
-                        CreateNewOrder();
+                        await CreateNewOrder();
                         break;
                     case 3:
                         checkMenu = false;
@@ -52,13 +56,13 @@ namespace DeliveryService.UserInterface
         }
         public override void Registrate()
         {}
-        public override void SignIn()
+        public override async Task SignIn()
         {
             _clientController.SearchClient("099502352114");
             _basketController.SetBasket(_clientController.Client);
-            PersonalArea();
+            await PersonalArea();
         }
-        public void CreateNewOrder()
+        public async Task  CreateNewOrder()
         {
             Console.Clear();
             if (SelectManufacturer())
@@ -67,6 +71,8 @@ namespace DeliveryService.UserInterface
                 while (continueCheck)
                 {
                     Console.Clear();
+                    await ShowOrderPrice();
+                    BaseConsoleFunction.ConsoleDelimiter();
                     BaseConsoleFunction.WithdrawList(_orderMenuItems);
                     BaseConsoleFunction.ConsoleDelimiter();
                     ShowMenu();
@@ -102,7 +108,7 @@ namespace DeliveryService.UserInterface
                     var street = Checker.GetPropertyStreet(BaseConsoleFunction.GetProperty("Enter street"));
                     var houseNumber = Checker.GetPropertyHome(BaseConsoleFunction.GetProperty("Enter house number"));
                     var address =AddressController.CreateAddress(street, houseNumber);
-                    _clientController.CreateOrder(phoneNumber,address, _basketController.Basket);
+                    _clientController.CreateOrder(phoneNumber, address, _basketController.Basket);
                     _basketController.ClearBasket();
                     Console.WriteLine("Order was created!");
                     Console.ReadLine();
@@ -110,6 +116,18 @@ namespace DeliveryService.UserInterface
             }
             else
                 BaseConsoleFunction.GetProperty("Your basket is empty. Press enter to continue ");
+        }
+
+        public async Task  ShowOrderPrice()
+        {
+            var searchCurrency = "EUR";
+            var baseCurrency = "UAH";
+            var totalPrice = _basketController.GetTotalPrice();
+            Console.WriteLine($"Finaly price in {baseCurrency} {totalPrice}");
+            Console.WriteLine();
+            var currency = await _currencyController.GetExchangeRate(searchCurrency);
+            if (currency != 0)
+                BaseConsoleFunction.ConsoleWriteOnPosition(0, 1, $"Finaly price in {searchCurrency} {totalPrice / currency}");
         }
 
         public void ShowOrders()

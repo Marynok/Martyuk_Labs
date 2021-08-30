@@ -15,5 +15,6 @@ namespace DeliveryService.Interfaces
         void CreateBasket(Client client);
         void ClearBasket();
         OrderFoodData AddToBasket(int id, int count);
+        decimal GetTotalPrice();
     }
 }

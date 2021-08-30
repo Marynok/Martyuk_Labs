@@ -5,6 +5,7 @@ using DeliveryService.Models;
 using DeliveryService.UserInterface.Check;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DeliveryService.UserInterface
 {
@@ -17,14 +18,14 @@ namespace DeliveryService.UserInterface
         {
             _foodMenu = foodMenu;
         }
-        public override void SignIn()
+        public override async Task SignIn()
         {
             ManufacturerController.SearchManufacturer("MacMod");
             PersonalArea();
         }
         public override void Registrate()
         { }
-        public override void PersonalArea()
+        public void PersonalArea()
         {
             var checkMenu = true;
             while (checkMenu)

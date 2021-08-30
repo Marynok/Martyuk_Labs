@@ -1,5 +1,6 @@
 ﻿using DeliveryService.Interfaces;
 using DeliveryService.Models;
+using System.Threading;
 
 namespace DeliveryService.Controllers
 {
@@ -17,10 +18,12 @@ namespace DeliveryService.Controllers
         {
             return _foodTypes.Search(f => f.Name == name);
         }
+
         public Food SearchFood(int id)
         {
             return _food.Search(f => f.Id == id); ;
         }
+
         public FoodType CreateFoodType(string name)
         {
             var foodType = SearchFoodType(name);
@@ -31,6 +34,7 @@ namespace DeliveryService.Controllers
             }
             return foodType;
         }
+
         public Food CreateFood(string name, decimal price, float weight, string type)
         {
             var foodType = CreateFoodType(type);
@@ -38,6 +42,7 @@ namespace DeliveryService.Controllers
             _food.AddModel(food);
             return food;
         }
+
         public Food UpdateFood(Food food, string name, decimal price, float weight, string type)
         {
             var foodType = CreateFoodType(type);
@@ -48,6 +53,7 @@ namespace DeliveryService.Controllers
             _food.Update(updatedFood);
             return updatedFood;
         }
+
         public void DeleteFood(Food food)
         {
             _food.Delete(food);

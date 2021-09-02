@@ -65,7 +65,7 @@ namespace DeliveryService.UserInterface
             if (BaseConsoleFunction.CheckArea("Want to confirm your actions? y/n", "y"))
             {
                 var food = _foodController.CreateFood(name, price, weight, type);
-               // _manufacturerController.AddFood(food);
+                _manufacturerController.AddFood(food);
                 Console.WriteLine($"{food} was created!");
                 Console.ReadLine();
             }
@@ -114,7 +114,7 @@ namespace DeliveryService.UserInterface
         {
             if (BaseConsoleFunction.CheckArea($"You want delete {food} ? y/n", "y"))
             {
-                //_manufacturerController.RemoveFood(food);
+                _manufacturerController.RemoveFood(food);
                 _foodController.DeleteFood(food);
                 BaseConsoleFunction.GetProperty($"This product: {food} was deleted");
             }
@@ -137,8 +137,8 @@ namespace DeliveryService.UserInterface
             if (BaseConsoleFunction.CheckArea($"You want update {food} ? y/n", "y"))
             {
                var newFood = _foodController.UpdateFood(food, name, price, weight, type);
-                //_manufacturerController.RemoveFood(food);
-               // _manufacturerController.AddFood(newFood);
+                _manufacturerController.RemoveFood(food);
+                _manufacturerController.AddFood(newFood);
                 BaseConsoleFunction.GetProperty($"This product: {newFood} was updated");
             }
         }

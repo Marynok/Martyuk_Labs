@@ -138,7 +138,7 @@ namespace DeliveryService.UserInterface
             {
                var newFood = _foodController.UpdateFood(food, name, price, weight, type);
                 //_manufacturerController.RemoveFood(food);
-               // _manufacturerController.AddFood(newFood);
+                //_manufacturerController.AddFood(newFood);
                 BaseConsoleFunction.GetProperty($"This product: {newFood} was updated");
             }
         }

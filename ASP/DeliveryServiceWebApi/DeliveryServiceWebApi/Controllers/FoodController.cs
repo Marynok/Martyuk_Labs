@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace DeliveryServiceWebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FoodController : ControllerBase
     {
         private readonly ILogger<FoodController> _logger;
@@ -33,6 +33,8 @@ namespace DeliveryServiceWebApi.Controllers
         {
             return _controller.SearchFood(id);
         }
+
+        
 
         [HttpPost]
         public ActionResult<Food> Post(Food food)

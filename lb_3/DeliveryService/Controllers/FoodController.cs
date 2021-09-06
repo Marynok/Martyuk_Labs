@@ -8,7 +8,7 @@ namespace DeliveryService.Controllers
 {
     public class FoodController: IFoodController
     {
-        private readonly IRepository<Food> _food;
+        private readonly IFullRepository<Food> _food;
         private readonly IRepository<FoodType> _foodTypes;
         private readonly IUnitOfWork _unitOfWork;
         public FoodController(IUnitOfWork unitOfWork)
@@ -61,22 +61,29 @@ namespace DeliveryService.Controllers
 
         public IEnumerable<Food> Get()
         {
-            return _food.GetAll();
+            return _food.GetAllWithObjects();
         }
 
         public Food SearchFood(int id)
         {
-            return _food.GetOne(id);
+            return _food.GetOneWithObjects(id);
         }
 
         public Food UpdateFood(Food food)
         {
-            if (food is null || SearchFood(food.Id) is null)
+            var newFood = _food.GetOne(food.Id);
+
+            if (food is null || newFood is null)
             {
                 return null;
             }
 
-            _food.Update(food);
+            newFood.Name = food.Name;
+            newFood.Price = food.Price;
+            newFood.Weight = food.Weight;
+            newFood.TypeId = food.TypeId;
+
+            _food.Update(newFood);
             _unitOfWork.Save();
 
             return food;

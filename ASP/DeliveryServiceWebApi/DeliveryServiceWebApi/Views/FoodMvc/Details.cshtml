@@ -1,0 +1,49 @@
+﻿@model DeliveryServiceEF.Domain.Food
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Food</h4>
+    <hr />
+    <dl class="row">
+        <dt >
+            @Html.DisplayNameFor(model => model.ManufacturerId) :
+            @Html.DisplayFor(model => model.ManufacturerId)
+        </dt>
+                   
+        <dt >
+            @Html.DisplayNameFor(model => model.TypeId) :
+            @Html.DisplayFor(model => model.TypeId)
+        </dt>
+        <dt >
+            @Html.DisplayNameFor(model => model.Name) :
+            @Html.DisplayFor(model => model.Name)
+        </dt>
+       
+        <dt >
+            @Html.DisplayNameFor(model => model.Price) : 
+            @Html.DisplayFor(model => model.Price)
+        </dt>
+       
+        <dt >
+            @Html.DisplayNameFor(model => model.Weight) :  
+            @Html.DisplayFor(model => model.Weight)
+        </dt>
+        
+        <dt >
+            @Html.DisplayNameFor(model => model.Id) : 
+            @Html.DisplayFor(model => model.Id)
+        </dt>
+        
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", @Model) |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@Html.Partial("_ValidationScriptsPartial")

@@ -9,7 +9,7 @@ namespace DeliveryServiceEF.Data.Interfaces
 {
     public interface IUnitOfWork
     {
-        public IRepository<Food> FoodRepository { get; }
+        public IFullRepository<Food> FoodRepository { get; }
         public IFullRepository<Manufacturer> ManufacturerRepository { get; }
         public IRepository<FoodType> FoodTypeRepository { get; }
         void Save();

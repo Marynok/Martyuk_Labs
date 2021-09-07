@@ -43,7 +43,6 @@ namespace DeliveryServiceEF.Data.DataWorkers
         public UnitOfWork(DbContext context)
         {
             _context = context;
-            //_context.Database.Migrate();
         }
 
         public void Save()

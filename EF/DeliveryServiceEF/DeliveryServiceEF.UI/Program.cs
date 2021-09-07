@@ -17,13 +17,15 @@ namespace DeliveryServiceEF.UI
             _context.Database.EnsureCreated();
             var unitOfWork = new UnitOfWork(_context);
 
-            CreateDatas(unitOfWork);
-           // DeleteDatas(unitOfWork);
-            UpdateDatas(unitOfWork);
-
+            CreateData(unitOfWork);
+            DeleteData(unitOfWork);
+            UpdateData(unitOfWork);
+          
         }
 
-        static void CreateDatas(IUnitOfWork unitOfWork)
+    
+
+        static void CreateData(IUnitOfWork unitOfWork)
         {
             var address = new Address() { StreetName = "Sokolova", HouseNumberName = "40" };
             var man1 = new Manufacturer() { Name = "SanSan11", Address = address };
@@ -53,20 +55,20 @@ namespace DeliveryServiceEF.UI
 
         }
 
-        static void DeleteDatas(IUnitOfWork unitOfWork)
+        static void DeleteData(IUnitOfWork unitOfWork)
         {
-            unitOfWork.ManufacturerRepository.Delete(3);
+            unitOfWork.ManufacturerRepository.Delete(6);
             unitOfWork.Save();
         }
 
-        static void UpdateDatas(IUnitOfWork unitOfWork)
+        static void UpdateData(IUnitOfWork unitOfWork)
         {
             var food = unitOfWork.FoodRepository.GetOne(3);
             food.Name = "CocaCola1111";
-            food.Type = unitOfWork.FoodTypeRepository.GetSome(ft => ft.Name == "Water").FirstOrDefault();
+            food.Type = unitOfWork.FoodTypeRepository.GetSome(ft => ft.Name == "Pizza").FirstOrDefault();
             unitOfWork.FoodRepository.Update(food);
             unitOfWork.Save();
         }
-
+       
     }
 }

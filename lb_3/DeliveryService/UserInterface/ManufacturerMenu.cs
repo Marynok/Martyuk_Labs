@@ -13,14 +13,14 @@ namespace DeliveryService.UserInterface
     {
         private readonly string[] _cabinetMenuItems = new string[] { "Edit products", "Exit" };
         private readonly IMenu _foodMenu;
-        public ManufacturerMenu(IMenu mainMenu, IMenu foodMenu, IManufacturerController manufacturerController,
-             IAddressController addressController) : base(mainMenu, addressController, manufacturerController)
+        public ManufacturerMenu(IMenu mainMenu, IMenu foodMenu, IManufacturerService manufacturerService,
+             IAddressController addressController) : base(mainMenu, addressController, manufacturerService)
         {
             _foodMenu = foodMenu;
         }
         public override async Task SignIn()
         {
-            ManufacturerController.SearchManufacturer("MacMod");
+            manufacturerService.SearchManufacturer("MacMod");
             PersonalArea();
         }
         public override void Registrate()
@@ -31,7 +31,7 @@ namespace DeliveryService.UserInterface
             while (checkMenu)
             {
                 Console.Clear();
-                Console.WriteLine(ManufacturerController.Manufacturer.Name);
+                Console.WriteLine(manufacturerService.Manufacturer.Name);
 
                 BaseConsoleFunction.WithdrawList(_cabinetMenuItems);
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());

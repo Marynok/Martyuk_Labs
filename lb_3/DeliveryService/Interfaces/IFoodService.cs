@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Interfaces
 {
-    public interface IFoodController
+    public interface IFoodService
     {
         FoodType SearchFoodType(string name);
         FoodType CreateFoodType(string name);

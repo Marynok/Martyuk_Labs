@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace DeliveryService.Controllers
 {
-    public class ManufacturerController: IManufacturerController
+    public class ManufacturerService: IManufacturerService
     {
         private Manufacturer _manufacturer;
         public Manufacturer Manufacturer { get => _manufacturer; }
         private readonly IFullRepository<Manufacturer> _manufacturers;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ManufacturerController(IUnitOfWork unitOfWork)
+        public ManufacturerService(IUnitOfWork unitOfWork)
         {
             _manufacturers = unitOfWork.ManufacturerRepository;
             _unitOfWork = unitOfWork;

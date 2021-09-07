@@ -14,13 +14,13 @@ namespace DeliveryService.UserInterface
     {
         private readonly string[] _foodMenuItems = new string[] { "Show products", "Create new product", "Update product", "Delete product", "Exit" };
         private readonly string[] _changeMenuItems = new string[] { "Select product", "Exit" };
-        private readonly IFoodController _foodController;
-        private readonly IManufacturerController _manufacturerController;
+        private readonly IFoodService _foodService;
+        private readonly IManufacturerService _manufacturerService;
         private delegate void ChangeFood(Food food);
-        public FoodMenu(IFoodController foodController, IManufacturerController manufacturerController)
+        public FoodMenu(IFoodService foodService, IManufacturerService manufacturerService)
         {
-            _manufacturerController = manufacturerController;
-            _foodController = foodController;
+            _manufacturerService = manufacturerService;
+            _foodService = foodService;
         }
         public async Task Start()
         {
@@ -64,8 +64,7 @@ namespace DeliveryService.UserInterface
 
             if (BaseConsoleFunction.CheckArea("Want to confirm your actions? y/n", "y"))
             {
-                var food = _foodController.CreateFood(name, price, weight, type);
-                _manufacturerController.AddFood(food);
+                var food = _foodService.CreateFood(name, price, weight, type);
                 Console.WriteLine($"{food} was created!");
                 Console.ReadLine();
             }
@@ -78,7 +77,7 @@ namespace DeliveryService.UserInterface
                 Console.Clear();
                 BaseConsoleFunction.WithdrawList(_changeMenuItems);
                 BaseConsoleFunction.ConsoleDelimiter();
-                BaseConsoleFunction.WithdrawList(_manufacturerController.Manufacturer.Foods.ToArray());
+                BaseConsoleFunction.WithdrawList(_manufacturerService.Manufacturer.Foods.ToArray());
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());
                 switch (checkItem)
                 {
@@ -99,7 +98,7 @@ namespace DeliveryService.UserInterface
         public void CheckProduct(Action action)
         {
             var id = Checker.GetPropertyInt(BaseConsoleFunction.GetProperty("Enter product number"));
-            var food = _foodController.SearchFood(id);
+            var food = _foodService.SearchFood(id);
             if (food is null)
                 BaseConsoleFunction.GetProperty("This product does not exist");
             else
@@ -114,8 +113,7 @@ namespace DeliveryService.UserInterface
         {
             if (BaseConsoleFunction.CheckArea($"You want delete {food} ? y/n", "y"))
             {
-                _manufacturerController.RemoveFood(food);
-                _foodController.DeleteFood(food);
+                _foodService.DeleteFood(food);
                 BaseConsoleFunction.GetProperty($"This product: {food} was deleted");
             }
         }
@@ -136,9 +134,7 @@ namespace DeliveryService.UserInterface
 
             if (BaseConsoleFunction.CheckArea($"You want update {food} ? y/n", "y"))
             {
-               var newFood = _foodController.UpdateFood(food, name, price, weight, type);
-                _manufacturerController.RemoveFood(food);
-                _manufacturerController.AddFood(newFood);
+               var newFood = _foodService.UpdateFood(food, name, price, weight, type);
                 BaseConsoleFunction.GetProperty($"This product: {newFood} was updated");
             }
         }
@@ -146,7 +142,7 @@ namespace DeliveryService.UserInterface
         public void ShowProducts()
         {
             Console.Clear();
-            BaseConsoleFunction.WithdrawList(_manufacturerController.Manufacturer.Foods.ToArray());
+            BaseConsoleFunction.WithdrawList(_manufacturerService.Manufacturer.Foods.ToArray());
             Console.ReadLine();
         }
     }

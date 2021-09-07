@@ -14,24 +14,24 @@ namespace DeliveryServiceWebApi.Controllers
     public class FoodController : ControllerBase
     {
         private readonly ILogger<FoodController> _logger;
-        private readonly IFoodController _controller;
+        private readonly IFoodService _service;
 
-        public FoodController(ILogger<FoodController> logger, IFoodController foodController)
+        public FoodController(ILogger<FoodController> logger, IFoodService foodService)
         {
             _logger = logger;
-            _controller = foodController;
+            _service = foodService;
         }
 
         [HttpGet]
         public IEnumerable<Food> Get()
         {
-            return _controller.Get();
+            return _service.Get();
         }
 
         [HttpGet("{id}")]
         public Food Get(int id)
         {
-            return _controller.SearchFood(id);
+            return _service.SearchFood(id);
         }
 
         
@@ -39,30 +39,30 @@ namespace DeliveryServiceWebApi.Controllers
         [HttpPost]
         public ActionResult<Food> Post(Food food)
         {
-            var newFood = _controller.CreateFood(food);
+            var newFood = _service.CreateFood(food);
             if (newFood is null)
             {
                 return BadRequest(); 
             }
 
-            return Ok(newFood);
+            return Ok();
         }
 
         [HttpPut]
         public ActionResult<Food> Put(Food food)
         {
-           if(_controller.UpdateFood(food) is null)
+           if(_service.UpdateFood(food) is null)
            {
                 return BadRequest();
            }
 
-           return Ok(food);
+           return Ok();
         }
 
         [HttpDelete("{id}")]
         public ActionResult<Food> Delete(int id)
         {
-            if (! _controller.DeleteFood(id) )
+            if (!_service.DeleteFood(id) )
             {
                 return BadRequest();
             }

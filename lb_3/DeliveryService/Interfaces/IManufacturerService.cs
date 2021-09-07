@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Interfaces
 {
-    public interface IManufacturerController
+    public interface IManufacturerService
     {
         Manufacturer Manufacturer { get; }
         Manufacturer SearchManufacturer(string Name);

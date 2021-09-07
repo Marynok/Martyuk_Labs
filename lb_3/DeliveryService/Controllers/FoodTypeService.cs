@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Controllers
 {
-    public class FoodTypeController : IFoodTypeController
+    public class FoodTypeService : IFoodTypeService
     {
         private readonly IRepository<FoodType> _foodTypes;
         private readonly IUnitOfWork _unitOfWork;
-        public FoodTypeController(IUnitOfWork unitOfWork)
+        public FoodTypeService(IUnitOfWork unitOfWork)
         {
             _foodTypes = unitOfWork.FoodTypeRepository;
             _unitOfWork = unitOfWork;

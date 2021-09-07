@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BL = DeliveryService.Controllers;
+using DeliveryService.Controllers;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
@@ -33,9 +33,9 @@ namespace DeliveryServiceWebApi
         {
             services.AddTransient<DbContext, DataContext>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IFoodController, BL.FoodController>();
-            services.AddTransient<IManufacturerController, BL.ManufacturerController>();
-            services.AddTransient<IFoodTypeController, BL.FoodTypeController>();
+            services.AddTransient<IFoodService, FoodService>();
+            services.AddTransient<IManufacturerService, ManufacturerService>();
+            services.AddTransient<IFoodTypeService, FoodTypeService>();
 
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;

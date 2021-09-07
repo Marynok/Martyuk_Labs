@@ -10,17 +10,17 @@ namespace DeliveryService.UserInterface
     {
         private readonly string[] _menuItems = new string[] { "I am manufacturer", "I am client" };
         private IMenu _serviceMenu;
-        private readonly IManufacturerController _manufacturerController;
+        private readonly IManufacturerService _manufacturerService;
         private readonly IClientController _clientController;
         private readonly IAddressController _addressController;
-        private readonly IFoodController _foodontroller;
+        private readonly IFoodService _foodontroller;
         private readonly IBasketController _basketController;
         private readonly ICurrencyController _currencyController;
-        public MainMenu(IManufacturerController manufacturerController, IClientController clientController, IAddressController addressController,
-           IFoodController foodontroller, IBasketController basketController, ICurrencyController currencyController )
+        public MainMenu(IManufacturerService manufacturerService, IClientController clientController, IAddressController addressController,
+           IFoodService foodontroller, IBasketController basketController, ICurrencyController currencyController )
         {
             _clientController = clientController;
-            _manufacturerController = manufacturerController;
+            _manufacturerService = manufacturerService;
             _addressController = addressController;
             _foodontroller = foodontroller;
             _basketController = basketController;
@@ -36,8 +36,8 @@ namespace DeliveryService.UserInterface
                 var checkItem = Checker.GetPropertyInt(Console.ReadLine());
                 _serviceMenu = checkItem switch
                 {
-                    1 => new ManufacturerMenu(this, new FoodMenu(_foodontroller, _manufacturerController), _manufacturerController, _addressController),
-                    2 => new ClientMenu(this, _clientController, _basketController, _addressController, _manufacturerController, _currencyController),
+                    1 => new ManufacturerMenu(this, new FoodMenu(_foodontroller, _manufacturerService), _manufacturerService, _addressController),
+                    2 => new ClientMenu(this, _clientController, _basketController, _addressController, _manufacturerService, _currencyController),
                     _ => null
                 };
                 if (_serviceMenu is null)

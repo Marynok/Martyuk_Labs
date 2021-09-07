@@ -12,56 +12,56 @@ namespace DeliveryServiceWebApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class ManufacturerController : ControllerBase
+    public class manufacturerService : ControllerBase
     {
-        private readonly ILogger<ManufacturerController> _logger;
-        private readonly IManufacturerController _controller;
+        private readonly ILogger<manufacturerService> _logger;
+        private readonly IManufacturerService _service;
 
-        public ManufacturerController(ILogger<ManufacturerController> logger, IManufacturerController manufacturerController)
+        public manufacturerService(ILogger<manufacturerService> logger, IManufacturerService manufacturerService)
         {
             _logger = logger;
-            _controller = manufacturerController;
+            _service = manufacturerService;
         }
 
         [HttpGet]
         public IEnumerable<Manufacturer> Get()
         {
-            return _controller.GetAll();
+            return _service.GetAll();
         }
 
         [HttpGet("{id}")]
         public Manufacturer Get(int id)
         {
-            return _controller.SearchManufacturer(id);
+            return _service.SearchManufacturer(id);
         }
 
         [HttpPost]
         public ActionResult<Manufacturer> Post(Manufacturer manufacturer)
         {
-            var newManufacturer = _controller.CreateManufacturer(manufacturer);
+            var newManufacturer = _service.CreateManufacturer(manufacturer);
             if (newManufacturer is null)
             {
                 return BadRequest();
             }
 
-            return Ok(newManufacturer);
+            return Ok();
         }
 
         [HttpPut]
         public ActionResult<Manufacturer> Put(Manufacturer manufacturer)
         {
-            if (_controller.UpdateManufacturer(manufacturer) is null)
+            if (_service.UpdateManufacturer(manufacturer) is null)
             {
                 return BadRequest();
             }
 
-            return Ok(manufacturer);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public ActionResult<Manufacturer> Delete(int id)
         {
-            if (!_controller.DeleteManufacturer(id))
+            if (!_service.DeleteManufacturer(id))
             {
                 return BadRequest();
             }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Interfaces
 {
-    public interface IFoodTypeController
+    public interface IFoodTypeService
     {
         FoodType SearchFoodType(int id);
         IEnumerable<FoodType> Get();

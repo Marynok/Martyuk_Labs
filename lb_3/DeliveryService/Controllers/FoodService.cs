@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace DeliveryService.Controllers
 {
-    public class FoodController: IFoodController
+    public class FoodService: IFoodService
     {
         private readonly IRepository<Food> _food;
         private readonly IRepository<FoodType> _foodTypes;
         private readonly IUnitOfWork _unitOfWork;
-        public FoodController(IUnitOfWork unitOfWork)
+        public FoodService(IUnitOfWork unitOfWork)
         {
             _food = unitOfWork.FoodRepository;
             _foodTypes = unitOfWork.FoodTypeRepository;

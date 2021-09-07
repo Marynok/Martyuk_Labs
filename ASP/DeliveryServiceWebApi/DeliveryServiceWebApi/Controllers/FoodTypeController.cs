@@ -14,13 +14,13 @@ namespace DeliveryServiceWebApi.Controllers
     [ApiController]
     public class FoodTypeController : ControllerBase
     {
-        private readonly ILogger<FoodController> _logger;
+        private readonly ILogger<foodService> _logger;
         private readonly IFoodTypeService _service;
 
-        public FoodTypeController(ILogger<FoodController> logger, IFoodTypeService foodService)
+        public FoodTypeController(ILogger<foodService> logger, IFoodTypeService foodTypeService)
         {
             _logger = logger;
-            _service = foodService;
+            _service = foodTypeService;
         }
 
         [HttpGet]

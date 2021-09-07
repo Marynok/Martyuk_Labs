@@ -10,22 +10,22 @@ namespace DeliveryServiceWebApi.ControllersMVC
 {
     public class FoodMvcController : Controller
     {
-        private readonly IFoodController _controller;
+        private readonly IFoodService _service;
 
-        public FoodMvcController(IFoodController foodController)
+        public FoodMvcController(IFoodService foodService)
         {
-            _controller = foodController;
+            _service = foodService;
         }
 
         public IActionResult Index()
         {
-            return View(_controller.Get());
+            return View(_service.Get());
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return View(_controller.SearchFood(id));
+            return View(_service.SearchFood(id));
         }
 
         [HttpGet]
@@ -37,7 +37,7 @@ namespace DeliveryServiceWebApi.ControllersMVC
         [HttpGet]
         public IActionResult Details(int id)
         {
-            return View(_controller.SearchFood(id));
+            return View(_service.SearchFood(id));
         }
 
         [HttpPost]
@@ -46,7 +46,7 @@ namespace DeliveryServiceWebApi.ControllersMVC
             if (!ModelState.IsValid)
                 return View(food);
 
-            return _controller.UpdateFood(food) is null ?
+            return _service.UpdateFood(food) is null ?
                 View(food) : 
                 RedirectToRoute(new { controller = "FoodMvc", action = "Index" }); 
         }
@@ -57,7 +57,7 @@ namespace DeliveryServiceWebApi.ControllersMVC
             if (!ModelState.IsValid)
                 return View(food);
 
-            return _controller.CreateFood(food) is null ?
+            return _service.CreateFood(food) is null ?
                 View(food) :
                 RedirectToRoute(new { controller = "FoodMvc", action = "Index" }); 
         }
@@ -65,7 +65,7 @@ namespace DeliveryServiceWebApi.ControllersMVC
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            if (!_controller.DeleteFood(id))
+            if (!_service.DeleteFood(id))
             {
                 BadRequest();
             }

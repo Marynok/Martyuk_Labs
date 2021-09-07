@@ -11,12 +11,12 @@ namespace DeliveryServiceWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class FoodController : ControllerBase
+    public class foodService : ControllerBase
     {
-        private readonly ILogger<FoodController> _logger;
+        private readonly ILogger<foodService> _logger;
         private readonly IFoodService _service;
 
-        public FoodController(ILogger<FoodController> logger, IFoodService foodService)
+        public foodService(ILogger<foodService> logger, IFoodService foodService)
         {
             _logger = logger;
             _service = foodService;

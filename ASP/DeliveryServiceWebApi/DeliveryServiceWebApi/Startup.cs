@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DeliveryServiceWebApi.ViewModels.ViewModelHelpers;
 
 namespace DeliveryServiceWebApi
 {
@@ -37,6 +37,7 @@ namespace DeliveryServiceWebApi
             services.AddTransient<IFoodService, FoodService>();
             services.AddTransient<IManufacturerService, ManufacturerService>();
             services.AddTransient<IFoodTypeService, FoodTypeService>();
+            services.AddTransient<FoodMapper>();
 
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
@@ -50,8 +51,6 @@ namespace DeliveryServiceWebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeliveryServiceWebApi", Version = "v1" });
             });
         }
-
-     
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -71,19 +71,7 @@ namespace DeliveryService.Controllers
 
         public Food UpdateFood(Food food)
         {
-            var newFood = _food.GetOne(food.Id);
-
-            if (food is null || newFood is null)
-            {
-                return null;
-            }
-
-            newFood.Name = food.Name;
-            newFood.Price = food.Price;
-            newFood.Weight = food.Weight;
-            newFood.TypeId = food.TypeId;
-
-            _food.Update(newFood);
+            _food.Update(food);
             _unitOfWork.Save();
 
             return food;

@@ -1,7 +1,8 @@
-﻿@model DeliveryServiceEF.Domain.Food
+﻿@model DeliveryServiceWebApi.ViewModels.FoodModel
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Details</h1>
@@ -10,35 +11,43 @@
     <h4>Food</h4>
     <hr />
     <dl class="row">
-        <dt >
+        <dt>
             @Html.DisplayNameFor(model => model.ManufacturerId) :
             @Html.DisplayFor(model => model.ManufacturerId)
         </dt>
-                   
-        <dt >
+        <dt>
+            @Html.DisplayNameFor(model => model.Manufacturer.Name) :
+            @Html.DisplayFor(model => model.Manufacturer.Name)
+        </dt>
+
+        <dt>
             @Html.DisplayNameFor(model => model.TypeId) :
             @Html.DisplayFor(model => model.TypeId)
         </dt>
-        <dt >
+        <dt>
+            @Html.DisplayNameFor(model => model.Type.Name) :
+            @Html.DisplayFor(model => model.Type.Name)
+        </dt>
+        <dt>
             @Html.DisplayNameFor(model => model.Name) :
             @Html.DisplayFor(model => model.Name)
         </dt>
-       
-        <dt >
-            @Html.DisplayNameFor(model => model.Price) : 
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price) :
             @Html.DisplayFor(model => model.Price)
         </dt>
-       
-        <dt >
-            @Html.DisplayNameFor(model => model.Weight) :  
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Weight) :
             @Html.DisplayFor(model => model.Weight)
         </dt>
-        
-        <dt >
-            @Html.DisplayNameFor(model => model.Id) : 
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id) :
             @Html.DisplayFor(model => model.Id)
         </dt>
-        
+
     </dl>
 </div>
 <div>

@@ -34,8 +34,6 @@ namespace DeliveryServiceWebApi.Controllers
             return _service.SearchFood(id);
         }
 
-        
-
         [HttpPost]
         public ActionResult<Food> Post(Food food)
         {

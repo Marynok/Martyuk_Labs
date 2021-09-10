@@ -6,24 +6,21 @@ using System.Linq;
 
 namespace DeliveryService.Controllers
 {
-    public class FoodController: IFoodController
+    public class FoodService: IFoodService
     {
         private readonly IRepository<Food> _food;
         private readonly IRepository<FoodType> _foodTypes;
-        public FoodController(IUnitOfWork unitOfWork)
+        private readonly IUnitOfWork _unitOfWork;
+        public FoodService(IUnitOfWork unitOfWork)
         {
             _food = unitOfWork.FoodRepository;
             _foodTypes = unitOfWork.FoodTypeRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public FoodType SearchFoodType(string name)
         {
             return _foodTypes.GetSome(f => f.Name == name).FirstOrDefault();
-        }
-
-        public Food SearchFood(int id)
-        {
-            return _food.GetOne(id);
         }
 
         public FoodType CreateFoodType(string name)
@@ -56,6 +53,7 @@ namespace DeliveryService.Controllers
             _food.Update(food);
             return food;
         }
+
         public void DeleteFood(Food food)
         {
             _food.Delete(food.Id);
@@ -65,5 +63,50 @@ namespace DeliveryService.Controllers
         {
             return _food.GetAll();
         }
+
+        public Food SearchFood(int id)
+        {
+            return _food.GetOne(id);
+        }
+
+        public Food UpdateFood(Food food)
+        {
+            if (food is null || SearchFood(food.Id) is null)
+            {
+                return null;
+            }
+
+            _food.Update(food);
+            _unitOfWork.Save();
+
+            return food;
+        }
+
+        public Food CreateFood(Food food)
+        {
+            if (food is null)
+            {
+                return null;
+            }
+
+            _food.Add(food);
+            _unitOfWork.Save();
+
+            return food;
+        }
+
+        public bool DeleteFood(int id)
+        {
+            if (SearchFood(id) is null)
+            {
+                return false;
+            }
+
+            _food.Delete(id);
+            _unitOfWork.Save();
+
+            return true;
+        }
+
     }
 }

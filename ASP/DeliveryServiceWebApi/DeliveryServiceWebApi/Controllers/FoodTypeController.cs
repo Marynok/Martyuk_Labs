@@ -1,66 +1,67 @@
 ﻿using DeliveryService.Interfaces;
-using DeliveryServiceEF.Data;
-using DeliveryServiceEF.Data.DataWorkers;
 using DeliveryServiceEF.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace DeliveryServiceWebApi.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class FoodController : ControllerBase
+    public class FoodTypeController : ControllerBase
     {
         private readonly ILogger<FoodController> _logger;
-        private readonly IFoodService _service;
+        private readonly IFoodTypeService _service;
 
-        public FoodController(ILogger<FoodController> logger, IFoodService foodService)
+        public FoodTypeController(ILogger<FoodController> logger, IFoodTypeService foodService)
         {
             _logger = logger;
             _service = foodService;
         }
 
         [HttpGet]
-        public IEnumerable<Food> Get()
+        public IEnumerable<FoodType> Get()
         {
             return _service.Get();
         }
 
         [HttpGet("{id}")]
-        public Food Get(int id)
+        public FoodType Get(int id)
         {
-            return _service.SearchFood(id);
+            return _service.SearchFoodType(id);
         }
 
         [HttpPost]
-        public IActionResult Post(Food food)
+        public IActionResult Post(FoodType foodType)
         {
-            var newFood = _service.CreateFood(food);
-            if (newFood is null)
+            var newFoodType = _service.CreateFoodType(foodType);
+            if (newFoodType is null)
             {
-                return BadRequest(); 
+                return BadRequest();
             }
 
             return Ok();
         }
 
         [HttpPut]
-        public IActionResult Put(Food food)
+        public IActionResult Put(FoodType foodType)
         {
-           if(_service.UpdateFood(food) is null)
-           {
+            if (_service.UpdateFoodType(foodType) is null)
+            {
                 return BadRequest();
-           }
+            }
 
-           return Ok();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (!_service.DeleteFood(id) )
+            if (!_service.DeleteFoodType(id))
             {
                 return BadRequest();
             }
@@ -69,4 +70,3 @@ namespace DeliveryServiceWebApi.Controllers
         }
     }
 }
-

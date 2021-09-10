@@ -14,15 +14,15 @@ namespace DeliveryService.Abstracts
     {
         private readonly IMenu _mainMenu;
         private readonly IAddressController _addressController;
-        private readonly IManufacturerController _manufacturerController;
+        private readonly IManufacturerService _manufacturerService;
         protected IAddressController AddressController { get => _addressController; }
-        protected IManufacturerController ManufacturerController { get => _manufacturerController; }
+        protected IManufacturerService manufacturerService { get => _manufacturerService; }
 
-        public ServiceMenu(IMenu mainMenu,IAddressController addressController, IManufacturerController manufacturerController)
+        public ServiceMenu(IMenu mainMenu,IAddressController addressController, IManufacturerService manufacturerService)
         {
             _addressController = addressController;
             _mainMenu = mainMenu;
-            _manufacturerController = manufacturerController;
+            _manufacturerService = manufacturerService;
         }
         public async Task Start()
         {

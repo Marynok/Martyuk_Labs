@@ -9,7 +9,7 @@ namespace DeliveryServiceEF.Data.DataWorkers
     {
         private protected DbContext _context;
         private IRepository<Food> _foodRepository;
-        private IRepository<Manufacturer> _manufacturerRepository;
+        private IFullRepository<Manufacturer> _manufacturerRepository;
         private IRepository<FoodType> _foodTypeRepository;
         public IRepository<Food> FoodRepository
         { get
@@ -20,12 +20,12 @@ namespace DeliveryServiceEF.Data.DataWorkers
             }
         }
 
-        public IRepository<Manufacturer> ManufacturerRepository
+        public IFullRepository<Manufacturer> ManufacturerRepository
         {
             get
             {
                 if (_manufacturerRepository == null)
-                    _manufacturerRepository = new Repository<Manufacturer>(_context);
+                    _manufacturerRepository = new ManufacturerRepository(_context);
                 return _manufacturerRepository;
             }
         }

@@ -1,4 +1,5 @@
-﻿using DeliveryService.Models;
+﻿
+using DeliveryServiceEF.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,18 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Interfaces
 {
-    public interface IManufacturerController
+    public interface IManufacturerService
     {
         Manufacturer Manufacturer { get; }
         Manufacturer SearchManufacturer(string Name);
-        Manufacturer SearchManufacturer(int id);
         Manufacturer CreateManufacturer(string name, Address address, string description);
-        IEnumerable<Manufacturer> GetAll();
         void AddFood(Food food);
         IEnumerable<Food> GetFoods();
         void RemoveFood(Food food);
+        IEnumerable<Manufacturer> GetAll();
+        Manufacturer SearchManufacturer(int id);
+        Manufacturer CreateManufacturer(Manufacturer manufacturer);
+        Manufacturer UpdateManufacturer(Manufacturer manufacturer);
+        bool DeleteManufacturer(int id);
     }
 }

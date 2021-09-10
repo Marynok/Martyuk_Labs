@@ -17,8 +17,8 @@ namespace DeliveryService.UserInterface
         private readonly IBasketController _basketController;
         private readonly ICurrencyController _currencyController;
         public ClientMenu(IMenu mainMenu, IClientController clientController, IBasketController basketController,
-            IAddressController addressController, IManufacturerController manufacturerController, ICurrencyController currencyController) 
-            : base(mainMenu, addressController, manufacturerController)
+            IAddressController addressController, IManufacturerService manufacturerService, ICurrencyController currencyController) 
+            : base(mainMenu, addressController, manufacturerService)
         {
             _clientController = clientController;
             _basketController = basketController;
@@ -138,7 +138,7 @@ namespace DeliveryService.UserInterface
         }
         public void ShowMenu()
         {
-            var foods  = (ManufacturerController.GetFoods());
+            var foods  = (manufacturerService.GetFoods());
             if (foods.Any())
                 BaseConsoleFunction.WithdrawList(foods.ToArray());
             else
@@ -147,14 +147,14 @@ namespace DeliveryService.UserInterface
 
         public bool SelectManufacturer()
         {
-            if (ManufacturerController.GetAll().Any())
+            if (manufacturerService.GetAll().Any())
             {
-                BaseConsoleFunction.WithdrawList(ManufacturerController.GetAll().ToArray());
+                BaseConsoleFunction.WithdrawList(manufacturerService.GetAll().ToArray());
                 Console.WriteLine("Select number of manufacturer");
                 while (true)
                 {
                     var id = Checker.GetPropertyInt(Console.ReadLine());
-                    if (ManufacturerController.SearchManufacturer(id) != null)
+                    if (manufacturerService.SearchManufacturer(id) != null)
                         break;
                     else
                         Console.WriteLine($"{id} manufacturer does not exist");

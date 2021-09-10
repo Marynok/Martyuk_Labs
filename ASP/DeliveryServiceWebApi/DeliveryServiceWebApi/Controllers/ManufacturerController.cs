@@ -36,7 +36,7 @@ namespace DeliveryServiceWebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Manufacturer> Post(Manufacturer manufacturer)
+        public IActionResult Post(Manufacturer manufacturer)
         {
             var newManufacturer = _service.CreateManufacturer(manufacturer);
             if (newManufacturer is null)
@@ -48,7 +48,7 @@ namespace DeliveryServiceWebApi.Controllers
         }
 
         [HttpPut]
-        public ActionResult<Manufacturer> Put(Manufacturer manufacturer)
+        public IActionResult Put(Manufacturer manufacturer)
         {
             if (_service.UpdateManufacturer(manufacturer) is null)
             {
@@ -59,7 +59,7 @@ namespace DeliveryServiceWebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Manufacturer> Delete(int id)
+        public IActionResult Delete(int id)
         {
             if (!_service.DeleteManufacturer(id))
             {

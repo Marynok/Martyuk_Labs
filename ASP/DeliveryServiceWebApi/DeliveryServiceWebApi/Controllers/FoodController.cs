@@ -35,7 +35,7 @@ namespace DeliveryServiceWebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Food> Post(Food food)
+        public IActionResult Post(Food food)
         {
             var newFood = _service.CreateFood(food);
             if (newFood is null)
@@ -47,7 +47,7 @@ namespace DeliveryServiceWebApi.Controllers
         }
 
         [HttpPut]
-        public ActionResult<Food> Put(Food food)
+        public IActionResult Put(Food food)
         {
            if(_service.UpdateFood(food) is null)
            {
@@ -58,7 +58,7 @@ namespace DeliveryServiceWebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Food> Delete(int id)
+        public IActionResult Delete(int id)
         {
             if (!_service.DeleteFood(id) )
             {

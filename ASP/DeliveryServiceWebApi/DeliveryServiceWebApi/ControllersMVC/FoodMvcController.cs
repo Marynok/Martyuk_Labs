@@ -27,6 +27,7 @@ namespace DeliveryServiceWebApi.ControllersMVC
         }
 
         [ActionFilter]
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 120)]
         public IActionResult Index()
         {
             return View(_service.Get().Select(food => _mapper.Map(food)));
@@ -64,7 +65,7 @@ namespace DeliveryServiceWebApi.ControllersMVC
 
             return _service.UpdateFood(_mapper.Map(food)) is null ?
                 View(food) : 
-                RedirectToRoute(new { controller = "FoodMvc", action = "Index" }); 
+                RedirectToRoute(new { controller = "FoodMvc", action = "Edit" , id = food.Id}); 
         }
 
         [HttpPost]
@@ -72,7 +73,7 @@ namespace DeliveryServiceWebApi.ControllersMVC
         {
             if (!ModelState.IsValid)
                 return View(food);
-
+          
             return _service.CreateFood(_mapper.Map(food)) is null ?
                 View(food) :
                 RedirectToRoute(new { controller = "FoodMvc", action = "Index" }); 

@@ -1,10 +1,12 @@
 ﻿using DeliveryServiceEF.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
+
 
 namespace DeliveryServiceEF.Data
 {
@@ -20,11 +22,8 @@ namespace DeliveryServiceEF.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderFoodData> OrderFoodDatas { get; set; }
 
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            builder.UseSqlServer("Data Source =.\\SQLEXPRESS03; Initial Catalog=DeliveryServiceEFC; Integrated Security=True");
-        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Delivery>()

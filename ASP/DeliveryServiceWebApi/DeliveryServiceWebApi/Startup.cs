@@ -34,7 +34,9 @@ namespace DeliveryServiceWebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<DbContext, DataContext>();
+            services.AddDbContext<DbContext, DataContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IFoodService, FoodService>();
             services.AddTransient<IManufacturerService, ManufacturerService>();

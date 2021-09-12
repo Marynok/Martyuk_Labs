@@ -3,20 +3,37 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace DeliveryServiceWebApi.Filters
 {
-    public class ActionFilter : Attribute, IActionFilter
+    public class ActionFilter :Attribute, IAsyncActionFilter
     {
-        public void OnActionExecuted(ActionExecutedContext filterContext)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            Console.WriteLine(filterContext.HttpContext.Request.Path.ToString());
-        }
+            ActionExecutedContext rContext = null;
+            string stringContent = string.Empty;
 
-        public void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            Console.WriteLine(filterContext.HttpContext.Request.Body);
+            try
+            {
+                context.HttpContext.Request.EnableBuffering();
+                context.HttpContext.Request.Body.Position = 0;
+
+                using (var reader = new StreamReader(context.HttpContext.Request.Body))
+                {
+                    stringContent = await reader.ReadToEndAsync();
+
+                    context.HttpContext.Request.Body.Position = 0;
+                }
+
+                rContext = await next();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+            }
+            Console.WriteLine(stringContent);
         }
     }
 }

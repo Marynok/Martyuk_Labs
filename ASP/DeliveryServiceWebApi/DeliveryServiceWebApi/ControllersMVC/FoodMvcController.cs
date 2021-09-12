@@ -4,6 +4,7 @@ using DeliveryServiceWebApi.Filters;
 using DeliveryServiceWebApi.ViewModels;
 using DeliveryServiceWebApi.ViewModels.ViewModelHelpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,6 @@ namespace DeliveryServiceWebApi.ControllersMVC
             _mapper = mapper;
         }
 
-        [ActionFilter]
         public IActionResult Index()
         {
             return View(_service.Get().Select(food => _mapper.Map(food)));
@@ -57,6 +57,7 @@ namespace DeliveryServiceWebApi.ControllersMVC
         }
 
         [HttpPost]
+        [ActionFilter]
         public IActionResult Edit(FoodModel food)
         {
             if (!ModelState.IsValid)

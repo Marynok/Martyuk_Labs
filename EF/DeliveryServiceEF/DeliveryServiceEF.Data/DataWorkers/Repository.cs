@@ -22,6 +22,11 @@ namespace DeliveryServiceEF.Data.DataWorkers
             return _context.Set<T>();
         }
 
+        public IEnumerable<T> GetAllWithoutTracking()
+        {
+            return _context.Set<T>().AsNoTracking();
+        }
+
         public T GetOne(int id)
         {
             return _context.Find<T>(id);

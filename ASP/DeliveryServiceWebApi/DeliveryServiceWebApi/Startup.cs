@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DeliveryServiceWebApi.ViewModels.ViewModelHelpers;
 
 namespace DeliveryServiceWebApi
 {
@@ -36,11 +37,15 @@ namespace DeliveryServiceWebApi
             services.AddTransient<IFoodService, FoodService>();
             services.AddTransient<IManufacturerService, ManufacturerService>();
             services.AddTransient<IFoodTypeService, FoodTypeService>();
+            services.AddTransient<FoodMapper>();
 
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
             });
-            
+
+            services.AddMvc();
+            services.AddControllersWithViews();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeliveryServiceWebApi", Version = "v1" });
@@ -60,12 +65,25 @@ namespace DeliveryServiceWebApi
 
             app.UseRouting();
 
+            app.UseStaticFiles();
+
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            _ = app.UseEndpoints(endpoints =>
+              {
+                  endpoints.MapControllers();
+
+                  endpoints.MapControllerRoute("Create", "mvc/Food/Create", new { controller = "FoodMvc", action = "Create" });
+                  endpoints.MapControllerRoute("Edit", "mvc/Food/Edit/{id}", new { controller = "FoodMvc", action = "Edit" });
+                  endpoints.MapControllerRoute("Delete", "mvc/Food/Delete/{id}", new { controller = "FoodMvc", action = "Delete" });
+                  endpoints.MapControllerRoute("Details", "mvc/Food/Details/{id}", new { controller = "FoodMvc", action = "Details" });
+                  endpoints.MapControllerRoute("Index", "mvc/Food/Index", new { controller = "FoodMvc", action = "Index" });
+
+                  endpoints.MapControllerRoute(
+                     name: "default",
+                     pattern: "{controller=FoodMvc}/{action=Index}/{id?}");
+              });
+
         }
     }
 }

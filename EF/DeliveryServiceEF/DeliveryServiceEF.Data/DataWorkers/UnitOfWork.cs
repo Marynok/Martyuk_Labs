@@ -8,14 +8,14 @@ namespace DeliveryServiceEF.Data.DataWorkers
     public class UnitOfWork: IUnitOfWork
     {
         private protected DbContext _context;
-        private IRepository<Food> _foodRepository;
+        private IFullRepository<Food> _foodRepository;
         private IFullRepository<Manufacturer> _manufacturerRepository;
         private IRepository<FoodType> _foodTypeRepository;
-        public IRepository<Food> FoodRepository
+        public IFullRepository<Food> FoodRepository
         { get
             {
                 if (_foodRepository == null)
-                    _foodRepository = new Repository<Food>(_context);
+                    _foodRepository = new FoodRepository(_context);
                 return _foodRepository;
             }
         }

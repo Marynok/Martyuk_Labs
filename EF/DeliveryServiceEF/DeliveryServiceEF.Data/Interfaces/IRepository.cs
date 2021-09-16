@@ -10,6 +10,7 @@ namespace DeliveryServiceEF.Data.Interfaces
     public interface IRepository<T>  where T : BaseModel
     {
         IEnumerable<T> GetAll();
+        IEnumerable<T> GetAllWithoutTracking();
         T GetOne(int id);
         void Add(T entity);
         void Add(IList<T> entities);

@@ -1,6 +1,7 @@
 ﻿using DeliveryServiceEF.Domain.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeliveryServiceEF.Domain
 {
@@ -8,10 +9,14 @@ namespace DeliveryServiceEF.Domain
     {
         public int ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
+
         public int TypeId { get; set; }
         public FoodType Type { get; set; }
+
         public string Name { get; set; }
+
         public decimal Price { get; set; }
+
         public float Weight { get; set; }
         public IList<OrderFoodData> OrderFoodDatas { get; set; }
   

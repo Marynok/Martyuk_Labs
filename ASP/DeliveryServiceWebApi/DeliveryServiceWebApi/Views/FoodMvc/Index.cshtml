@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DeliveryServiceWebApi.ViewModels.FoodModel >
+@{
+    ViewData["Title"] = "Food List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Foods List</h3>
+<hr />
+ <a asp-action="Create" > Create New </a>
+ <table>
+        <tr>
+            <td><h4>Name</h4></td>
+            <td>Manufacturer</td>
+            <td>Price</td>
+            <td>Weight</td>
+            <td>Type</td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var food in Model)
+        {
+            <tr>
+                <td>@food.Name </td>
+                <td>@food.Manufacturer?.Name </td>
+                <td>@food.Price </td>
+                <td>@food.Weight </td>
+                <td>@food.Type?.Name </td>
+                <td><a asp-action="Edit" asp-route-Id="@food.Id"> Edit </a></td>
+                <td><a asp-action="Details"  asp-route-Id="@food.Id" class=""> More </a></td>
+                <td>
+                    <form asp-action="Delete" asp-controller="FoodMVC" method="post">
+                            <input type="hidden" value="@food.Id" name="Id" />
+                            <input type="submit"  value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        }
+ </table>

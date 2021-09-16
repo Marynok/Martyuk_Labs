@@ -33,10 +33,10 @@ namespace DeliveryServiceWebApi.ViewModels.ViewModelHelpers
                 Price = food.Price,
                 Manufacturer = Map(food.Manufacturer),
                 Type = Map(food.Type)
-            };
+            } ;
         }
 
-        public ManufacturerModel Map(Manufacturer manufacturer ) 
+        public ManufacturerModel Map(Manufacturer manufacturer) 
         {
             return new ManufacturerModel()
             {
@@ -45,14 +45,13 @@ namespace DeliveryServiceWebApi.ViewModels.ViewModelHelpers
             };
         }
 
-        public FoodTypeModel Map(FoodType foodType ) 
+        public FoodTypeModel Map(FoodType foodType) 
         {
             return new FoodTypeModel()
             {
                 Id = foodType.Id,
                 Name = foodType.Name
             };
-
         }
     }
 }

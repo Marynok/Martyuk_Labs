@@ -1,4 +1,5 @@
 ﻿using DeliveryServiceEF.Domain;
+using DeliveryServiceWebApi.ViewModels.ViewModelHelpers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceWebApi.ViewModels.ViewModelHelpers
 {
-    public class FoodMapper
+    public class FoodMapper: IFoodMapper
     {
         public Food Map(FoodModel foodModel)
         {

@@ -1,8 +1,12 @@
 ﻿using DeliveryService.Interfaces;
 using DeliveryServiceEF.Domain;
+using DeliveryServiceWebApi.Filters;
 using DeliveryServiceWebApi.ViewModels;
 using DeliveryServiceWebApi.ViewModels.ViewModelHelpers;
+using DeliveryServiceWebApi.ViewModels.ViewModelHelpers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +14,16 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceWebApi.ControllersMVC
 {
+    [ServiceFilter(typeof(FoodExceptionFilter))]
     public class FoodMvcController : Controller
     {
         private readonly IFoodService _service;
-        private readonly FoodMapper _mapper;
+        private readonly IFoodMapper _mapper;
+        private readonly ILogger<FoodMvcController> _logger;
 
-        public FoodMvcController(IFoodService foodService, FoodMapper mapper)
+        public FoodMvcController(ILogger<FoodMvcController> logger,IFoodService foodService, IFoodMapper mapper)
         {
+            _logger = logger;
             _service = foodService;
             _mapper = mapper;
         }
@@ -44,7 +51,14 @@ namespace DeliveryServiceWebApi.ControllersMVC
             return View(_mapper.Map(_service.SearchFood(id)));
         }
 
+        [HttpGet]
+        public IActionResult DeleteView(int id)
+        {
+            return View("Delete",_mapper.Map(_service.SearchFood(id)));
+        }
+
         [HttpPost]
+        [ActionFilter]
         public IActionResult Edit(FoodModel food)
         {
             if (!ModelState.IsValid)

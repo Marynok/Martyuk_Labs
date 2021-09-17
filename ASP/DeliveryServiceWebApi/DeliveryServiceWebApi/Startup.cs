@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using DeliveryServiceWebApi.ViewModels.ViewModelHelpers;
 using DeliveryServiceWebApi.Filters;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
+using DeliveryServiceWebApi.ViewModels.ViewModelHelpers.Interfaces;
 
 namespace DeliveryServiceWebApi
 {
@@ -41,7 +43,7 @@ namespace DeliveryServiceWebApi
             services.AddTransient<IFoodService, FoodService>();
             services.AddTransient<IManufacturerService, ManufacturerService>();
             services.AddTransient<IFoodTypeService, FoodTypeService>();
-            services.AddTransient<FoodMapper>();
+            services.AddTransient<IFoodMapper,FoodMapper>();
 
 
             services.AddControllers().AddJsonOptions(options => {
@@ -49,12 +51,7 @@ namespace DeliveryServiceWebApi
             });
 
             services.AddScoped<FoodExceptionFilter>();
-
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(ActionFilter));
-            });
-
+     
             services.AddControllersWithViews();
 
             services.AddSwaggerGen(c =>
@@ -79,6 +76,12 @@ namespace DeliveryServiceWebApi
             app.UseStaticFiles();
 
             app.UseAuthorization();
+
+            app.Use(next => context =>
+            {
+                context.Request.EnableBuffering();
+                return next(context);
+            });
 
             _ = app.UseEndpoints(endpoints =>
             {

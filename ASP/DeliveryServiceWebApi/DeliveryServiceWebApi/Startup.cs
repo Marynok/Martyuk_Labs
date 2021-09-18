@@ -83,19 +83,22 @@ namespace DeliveryServiceWebApi
                 return next(context);
             });
 
+           
             _ = app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-
-                endpoints.MapControllerRoute("Create", "mvc/Food/Create", new { controller = "FoodMvc", action = "Create" });
-                endpoints.MapControllerRoute("Edit", "mvc/Food/Edit/{id}", new { controller = "FoodMvc", action = "Edit" });
-                endpoints.MapControllerRoute("DeleteView", "mvc/Food/Delete/{id}", new { controller = "FoodMvc", action = "DeleteView" });
-                endpoints.MapControllerRoute("Details", "mvc/Food/Details/{id}", new { controller = "FoodMvc", action = "Details" });
-                endpoints.MapControllerRoute("Index", "mvc/Food/Index", new { controller = "FoodMvc", action = "Index" });
+                endpoints.MapControllerRoute(
+                   name: "mvcFood",
+                   pattern: "mvc/Food",
+                   defaults: new { Controller = "FoodMvc" , action = "Index" });
 
                 endpoints.MapControllerRoute(
-                   name: "default",
-                   pattern: "{controller=FoodMvc}/{action=Index}/{id?}");
+                   name: "mvcFoodRoute",
+                   pattern: "mvc/Food/{action}/{id?}",
+                   defaults: new { Controller="FoodMvc"});
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=FoodMvc}/{action=Index}");
             });
         }
     }

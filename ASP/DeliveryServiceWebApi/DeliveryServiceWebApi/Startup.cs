@@ -87,13 +87,8 @@ namespace DeliveryServiceWebApi
             _ = app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                   name: "mvcFood",
-                   pattern: "mvc/Food",
-                   defaults: new { Controller = "FoodMvc" , action = "Index" });
-
-                endpoints.MapControllerRoute(
                    name: "mvcFoodRoute",
-                   pattern: "mvc/Food/{action}/{id?}",
+                   pattern: "mvc/Food/{action}/{id:int?}",
                    defaults: new { Controller="FoodMvc"});
 
                 endpoints.MapControllerRoute(

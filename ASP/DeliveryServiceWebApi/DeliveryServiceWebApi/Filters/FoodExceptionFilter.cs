@@ -23,20 +23,20 @@ namespace DeliveryServiceWebApi.Filters
         {
             if (_env.IsDevelopment())
             {
-                _logger.LogInformation(context.Exception.Message);
-                _logger.LogInformation(context.Exception.InnerException?.Message);
+                _logger.LogError(context.Exception.Message);
+                _logger.LogError(context.Exception.InnerException?.Message);
             }
             else
             if(_env.IsEnvironment("QA"))
             {
-                _logger.LogInformation(context.Exception.Message);
-                _logger.LogInformation(context.Exception.InnerException?.Message);
-                _logger.LogInformation(context.Exception.StackTrace);
+                _logger.LogError(context.Exception.Message);
+                _logger.LogError(context.Exception.InnerException?.Message);
+                _logger.LogError(context.Exception.StackTrace);
             }
             else
             if (_env.IsProduction())
             {
-                _logger.LogInformation(context.Exception.Message);
+                _logger.LogError(context.Exception.Message);
             }
 
             context.ExceptionHandled = true;

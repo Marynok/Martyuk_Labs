@@ -36,7 +36,9 @@ namespace DeliveryServiceWebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<DbContext, DataContext>();
+            services.AddDbContext<DbContext, DataContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IFoodService, FoodService>();
             services.AddTransient<IManufacturerService, ManufacturerService>();
@@ -81,19 +83,17 @@ namespace DeliveryServiceWebApi
                 return next(context);
             });
 
+           
             _ = app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-
-                endpoints.MapControllerRoute("Create", "mvc/Food/Create", new { controller = "FoodMvc", action = "Create" });
-                endpoints.MapControllerRoute("Edit", "mvc/Food/Edit/{id}", new { controller = "FoodMvc", action = "Edit" });
-                endpoints.MapControllerRoute("DeleteView", "mvc/Food/Delete/{id}", new { controller = "FoodMvc", action = "DeleteView" });
-                endpoints.MapControllerRoute("Details", "mvc/Food/Details/{id}", new { controller = "FoodMvc", action = "Details" });
-                endpoints.MapControllerRoute("Index", "mvc/Food/Index", new { controller = "FoodMvc", action = "Index" });
+                endpoints.MapControllerRoute(
+                   name: "mvcFoodRoute",
+                   pattern: "mvc/Food/{action}/{id:int?}",
+                   defaults: new { Controller="FoodMvc"});
 
                 endpoints.MapControllerRoute(
-                   name: "default",
-                   pattern: "{controller=FoodMvc}/{action=Index}/{id?}");
+                    name: "default",
+                    pattern: "{controller=FoodMvc}/{action=Index}");
             });
         }
     }

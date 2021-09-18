@@ -7,7 +7,7 @@ namespace DeliveryServiceWebApi.ViewModels.ViewModelHelpers.Interfaces
 {
     public interface IMapper <Type,ViewType>
     {
-        Type Map(ViewType foodModel);
-        ViewType Map(Type foodModel);
+        Type Map(ViewType modelView);
+        ViewType Map(Type model);
     }
 }
